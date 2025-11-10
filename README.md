@@ -44,7 +44,7 @@ Modern, responsive portfolio website showcasing 15+ years of software engineerin
 
 ```bash
 # Clone the repository
-git clone https://github.com/aloshy-ai/ismail-portfolio.git
+git clone https://github.com/ismail-kattakath/ismail-portfolio.git
 cd ismail-portfolio
 
 # Install dependencies

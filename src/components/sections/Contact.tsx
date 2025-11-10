@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Github, Linkedin } from 'lucide-react'
+import { Mail, MapPin, Github, Linkedin, Calendar } from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
 
 export default function Contact() {
@@ -60,27 +60,45 @@ export default function Contact() {
             </div>
 
             <div className="mt-8">
-              <h4 className="md3-title-medium mb-4">Follow Me</h4>
-              <div className="flex gap-4">
+              <h4 className="md3-title-medium mb-4">Connect With Me</h4>
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3">
+                  <motion.a
+                    href="https://github.com/ismail-kattakath"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
+                    style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
+                  >
+                    <Github size={20} />
+                    GitHub
+                  </motion.a>
+                  <motion.a
+                    href="https://linkedin.com/in/ismailkattakath"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
+                    style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
+                  >
+                    <Linkedin size={20} />
+                    LinkedIn
+                  </motion.a>
+                </div>
                 <motion.a
-                  href="https://github.com/aloshy-ai"
+                  href="https://calendly.com/ismailkattakath/google-meet"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="md3-btn-outlined"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow justify-center"
+                  style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
                 >
-                  <Github size={20} />
-                </motion.a>
-                <motion.a
-                  href="https://linkedin.com/in/ismailkattakath"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="md3-btn-outlined"
-                >
-                  <Linkedin size={20} />
+                  <Calendar size={20} />
+                  Schedule a Meeting
                 </motion.a>
               </div>
             </div>
