@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
-// Remove edge runtime since it doesn't support fs operations
-// export const runtime = 'edge'
 export const dynamic = 'force-static'
 
 export const alt = 'Ismail Kattakath - Principal Software Engineer & Technical Leader'
@@ -13,15 +13,13 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  // Use public URLs to fetch images
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-
-  const backgroundImageData = await fetch(`${baseUrl}/images/background.jpg`).then((res) =>
-    res.arrayBuffer()
+  // Read images from filesystem during build
+  const backgroundImageData = readFileSync(
+    join(process.cwd(), 'public', 'images', 'background.jpg')
   )
 
-  const profileImageData = await fetch(`${baseUrl}/images/profile.jpg`).then((res) =>
-    res.arrayBuffer()
+  const profileImageData = readFileSync(
+    join(process.cwd(), 'public', 'images', 'profile.jpg')
   )
 
   return new ImageResponse(
