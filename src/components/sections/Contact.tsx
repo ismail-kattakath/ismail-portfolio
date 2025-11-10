@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react'
+import { Mail, MapPin, Github, Linkedin } from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
 
 export default function Contact() {
@@ -48,23 +48,9 @@ export default function Contact() {
                 </div>
               </motion.a>
 
-              <motion.a
-                href={`tel:${contactInfo.phone}`}
-                whileHover={{ scale: 1.02 }}
-                className="md3-card flex items-center gap-4 p-4"
-              >
-                <div className="w-12 h-12 bg-[var(--md-sys-color-secondary-container)] rounded-lg flex items-center justify-center">
-                  <Phone className="text-[var(--md-sys-color-on-secondary-container)]" size={20} />
-                </div>
-                <div>
-                  <p className="md3-title-medium">Phone</p>
-                  <p className="md3-body-medium md3-on-surface-variant">{contactInfo.phone}</p>
-                </div>
-              </motion.a>
-
               <div className="md3-card flex items-center gap-4 p-4">
-                <div className="w-12 h-12 bg-[var(--md-sys-color-tertiary-container)] rounded-lg flex items-center justify-center">
-                  <MapPin className="text-[var(--md-sys-color-on-tertiary-container)]" size={20} />
+                <div className="w-12 h-12 bg-[var(--md-sys-color-secondary-container)] rounded-lg flex items-center justify-center">
+                  <MapPin className="text-[var(--md-sys-color-on-secondary-container)]" size={20} />
                 </div>
                 <div>
                   <p className="md3-title-medium">Location</p>

@@ -1,67 +1,92 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Heart } from 'lucide-react'
+import { Github, Linkedin, Mail, Zap, Globe } from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-[var(--md-sys-color-surface-container)] text-[var(--md-sys-color-on-surface)] py-12">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8">
+    <footer className="backdrop-blur-md bg-[var(--md-sys-color-surface-container)]/60 border-t border-[var(--md-sys-color-outline-variant)]/30">
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        {/* Main Footer Content */}
+        <div className="grid md:grid-cols-4 gap-12 mb-12">
+          {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="md:col-span-2"
           >
-            <h3 className="md3-title-large mb-4">{contactInfo.name}</h3>
-            <p className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] mb-4">
-              {contactInfo.title} with 15+ years of experience building scalable,
-              mission-critical systems.
+            <div className="flex items-center gap-2 mb-4">
+              <Zap size={32} className="text-[var(--md-sys-color-primary)]" />
+              <h3 className="md3-title-large">{contactInfo.name}</h3>
+            </div>
+            <p className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] mb-6 max-w-md">
+              {contactInfo.title} passionate about building innovative AI solutions
+              and scalable architectures. Based in {contactInfo.location}
             </p>
-            <div className="flex space-x-4">
+
+            {/* Social Links */}
+            <div className="flex gap-3">
               <motion.a
                 href={`https://${contactInfo.github}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="md3-btn-outlined"
+                className="p-3 rounded-xl bg-[var(--md-sys-color-surface-container-high)] hover:bg-[var(--md-sys-color-primary-container)] transition-all"
+                aria-label="GitHub"
               >
-                <Github size={18} />
+                <Github size={20} className="text-[var(--md-sys-color-on-surface)]" />
               </motion.a>
               <motion.a
                 href={`https://${contactInfo.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="md3-btn-outlined"
+                className="p-3 rounded-xl bg-[var(--md-sys-color-surface-container-high)] hover:bg-[var(--md-sys-color-primary-container)] transition-all"
+                aria-label="LinkedIn"
               >
-                <Linkedin size={18} />
+                <Linkedin size={20} className="text-[var(--md-sys-color-on-surface)]" />
               </motion.a>
               <motion.a
                 href={`mailto:${contactInfo.email}`}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="md3-btn-outlined"
+                className="p-3 rounded-xl bg-[var(--md-sys-color-surface-container-high)] hover:bg-[var(--md-sys-color-primary-container)] transition-all"
+                aria-label="Email"
               >
-                <Mail size={18} />
+                <Mail size={20} className="text-[var(--md-sys-color-on-surface)]" />
               </motion.a>
+              {contactInfo.website && (
+                <motion.a
+                  href={`https://${contactInfo.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 rounded-xl bg-[var(--md-sys-color-surface-container-high)] hover:bg-[var(--md-sys-color-primary-container)] transition-all"
+                  aria-label="Website"
+                >
+                  <Globe size={20} className="text-[var(--md-sys-color-on-surface)]" />
+                </motion.a>
+              )}
             </div>
           </motion.div>
 
+          {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="md3-title-medium mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+            <h4 className="md3-title-medium mb-4 text-[var(--md-sys-color-primary)]">Navigate</h4>
+            <ul className="space-y-3">
               {[
                 { name: 'About', href: '#about' },
                 { name: 'Skills', href: '#skills' },
@@ -77,8 +102,9 @@ export default function Footer() {
                         element.scrollIntoView({ behavior: 'smooth' })
                       }
                     }}
-                    className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-primary)] transition-colors"
+                    className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-primary)] transition-colors flex items-center gap-2 group"
                   >
+                    <span className="w-0 group-hover:w-2 h-0.5 bg-[var(--md-sys-color-primary)] transition-all"></span>
                     {item.name}
                   </button>
                 </li>
@@ -86,42 +112,45 @@ export default function Footer() {
             </ul>
           </motion.div>
 
+          {/* Specializations */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="md3-title-medium mb-4">Contact Info</h4>
-            <div className="space-y-2 md3-body-medium text-[var(--md-sys-color-on-surface-variant)]">
-              <p>{contactInfo.email}</p>
-              <p>{contactInfo.phone}</p>
-              <p>{contactInfo.location}</p>
-            </div>
-            
-            <div className="mt-6">
-              <h5 className="md3-title-small mb-2">Specializations</h5>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-[var(--md-sys-color-surface-container-high)] rounded-full text-xs">AI/ML</span>
-                <span className="px-3 py-1 bg-[var(--md-sys-color-surface-container-high)] rounded-full text-xs">Full-Stack</span>
-                <span className="px-3 py-1 bg-[var(--md-sys-color-surface-container-high)] rounded-full text-xs">DevOps</span>
-                <span className="px-3 py-1 bg-[var(--md-sys-color-surface-container-high)] rounded-full text-xs">Leadership</span>
-              </div>
+            <h4 className="md3-title-medium mb-4 text-[var(--md-sys-color-primary)]">Expertise</h4>
+            <div className="flex flex-wrap gap-2">
+              {['AI/ML', 'Full-Stack', 'Cloud', 'DevOps'].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-3 py-1.5 bg-[var(--md-sys-color-surface-container-high)] text-[var(--md-sys-color-on-surface-variant)] rounded-lg text-sm font-medium hover:bg-[var(--md-sys-color-primary-container)] hover:text-[var(--md-sys-color-primary)] transition-all cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
           </motion.div>
         </div>
 
+        {/* Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="border-t border-[var(--md-sys-color-outline-variant)] mt-8 pt-8 text-center"
+          className="border-t border-[var(--md-sys-color-outline-variant)]/30 pt-8"
         >
-          <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)] flex items-center justify-center gap-2">
-            © {currentYear} Ismail Kattakath. Built with Next.js and hosted on GitHub Pages
-            <Heart size={16} className="text-[var(--md-sys-color-primary)]" />
-          </p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)]">
+              © {currentYear} {contactInfo.name}. All rights reserved.
+            </p>
+            <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)] flex items-center gap-2">
+              Built with <span className="text-[var(--md-sys-color-primary)]">Next.js</span>
+              <span className="text-[var(--md-sys-color-on-surface-variant)]">•</span>
+              Hosted on <span className="text-[var(--md-sys-color-primary)]">GitHub Pages</span>
+            </p>
+          </div>
         </motion.div>
       </div>
     </footer>

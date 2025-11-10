@@ -3,8 +3,8 @@ import { ContactInfo, Experience, Skill, Project } from "@/types/portfolio";
 export const contactInfo: ContactInfo = {
   name: "Ismail Kattakath",
   title: "Principal Software Engineer",
-  location: "24-242 John Garland Blvd, Etobicoke, ON M9V 1N8",
-  phone: "+1 (647) 225-2878",
+  location: "Toronto, ON 🇨🇦",
+  phone: "",
   email: "ismail@kattakath.com",
   github: "github.com/ismail-kattakath",
   linkedin: "linkedin.com/in/ismailkattakath",

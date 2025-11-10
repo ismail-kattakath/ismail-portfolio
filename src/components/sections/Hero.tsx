@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronDown, Github, Linkedin, Mail, Phone, MapPin, Globe } from 'lucide-react'
+import { ChevronDown, Github, Linkedin, Globe } from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
 
 export default function Hero() {
@@ -41,26 +41,6 @@ export default function Hero() {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          <div className="flex items-center gap-2 px-4 py-2 md3-surface-container md3-body-medium">
-            <MapPin size={16} className="md3-primary" />
-            <span className="md3-on-surface-variant">{contactInfo.location}</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 md3-surface-container md3-body-medium">
-            <Phone size={16} className="md3-primary" />
-            <span className="md3-on-surface-variant">{contactInfo.phone}</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 md3-surface-container md3-body-medium">
-            <Mail size={16} className="md3-primary" />
-            <span className="md3-on-surface-variant">{contactInfo.email}</span>
-          </div>
-        </motion.div>
-        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
