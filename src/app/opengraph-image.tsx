@@ -13,13 +13,21 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  // Read images from filesystem during build
-  const backgroundImageData = readFileSync(
+  // Read images from filesystem during build and convert to ArrayBuffer
+  const backgroundImageBuffer = readFileSync(
     join(process.cwd(), 'public', 'images', 'background.jpg')
   )
+  const backgroundImageData = backgroundImageBuffer.buffer.slice(
+    backgroundImageBuffer.byteOffset,
+    backgroundImageBuffer.byteOffset + backgroundImageBuffer.byteLength
+  )
 
-  const profileImageData = readFileSync(
+  const profileImageBuffer = readFileSync(
     join(process.cwd(), 'public', 'images', 'profile.jpg')
+  )
+  const profileImageData = profileImageBuffer.buffer.slice(
+    profileImageBuffer.byteOffset,
+    profileImageBuffer.byteOffset + profileImageBuffer.byteLength
   )
 
   return new ImageResponse(
