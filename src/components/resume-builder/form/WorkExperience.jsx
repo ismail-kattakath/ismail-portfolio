@@ -64,7 +64,7 @@ const WorkExperience = () => {
             type="text"
             placeholder="Company"
             name="company"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={workExperience.company}
             onChange={(e) => handleWorkExperience(e, index)}
           />
@@ -72,7 +72,7 @@ const WorkExperience = () => {
             type="url"
             placeholder="Company URL"
             name="url"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={workExperience.url}
             onChange={(e) => handleWorkExperience(e, index)}
           />
@@ -80,7 +80,7 @@ const WorkExperience = () => {
             type="text"
             placeholder="Job Title"
             name="position"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={workExperience.position}
             onChange={(e) => handleWorkExperience(e, index)}
           />
@@ -88,7 +88,7 @@ const WorkExperience = () => {
             type="text"
             placeholder="Description"
             name="description"
-            className="w-full other-input h-32"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded h-32"
             value={workExperience.description}
             maxLength="250"
             onChange={(e) => handleWorkExperience(e, index)}
@@ -97,7 +97,7 @@ const WorkExperience = () => {
             type="text"
             placeholder="Key Achievements"
             name="keyAchievements"
-            className="w-full other-input h-40"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded h-40"
             value={workExperience.keyAchievements}
             onChange={(e) => handleWorkExperience(e, index)}
           />
@@ -106,7 +106,7 @@ const WorkExperience = () => {
               type="date"
               placeholder="Start Year"
               name="startYear"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={workExperience.startYear}
               onChange={(e) => handleWorkExperience(e, index)}
             />
@@ -114,7 +114,7 @@ const WorkExperience = () => {
               type="date"
               placeholder="End Year"
               name="endYear"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={workExperience.endYear}
               onChange={(e) => handleWorkExperience(e, index)}
             />

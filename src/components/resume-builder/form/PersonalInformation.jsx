@@ -12,7 +12,7 @@ const PersonalInformation = ({}) => {
           type="text"
           placeholder="Full Name"
           name="name"
-          className="pi"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm"
           value={resumeData.name}
           onChange={handleChange}
         />
@@ -20,7 +20,7 @@ const PersonalInformation = ({}) => {
           type="text"
           placeholder="Job Title"
           name="position"
-          className="pi"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm"
           value={resumeData.position}
           onChange={handleChange}
         />
@@ -28,7 +28,7 @@ const PersonalInformation = ({}) => {
           type="text"
           placeholder="Contact Information (e.g., +1 (647) 225-2878)"
           name="contactInformation"
-          className="pi"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm"
           value={resumeData.contactInformation}
           onChange={handleChange}
         />
@@ -36,7 +36,7 @@ const PersonalInformation = ({}) => {
           type="email"
           placeholder="Email"
           name="email"
-          className="pi"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm"
           value={resumeData.email}
           onChange={handleChange}
         />
@@ -44,7 +44,7 @@ const PersonalInformation = ({}) => {
           type="text"
           placeholder="Address"
           name="address"
-          className="pi"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm"
           value={resumeData.address}
           onChange={handleChange}
         />
@@ -52,7 +52,7 @@ const PersonalInformation = ({}) => {
           type="file"
           name="profileImage"
           accept="image/*"
-          className="profileInput"
+          className="px-2 py-1 bg-white text-gray-950 rounded text-sm file:border-0 file:bg-fuchsia-600 file:text-white file:rounded-sm file:px-2 file:py-1 file:mr-2"
           onChange={handleProfilePicture}
           placeholder="Profile Picture"
         />

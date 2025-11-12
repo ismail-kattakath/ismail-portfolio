@@ -38,7 +38,7 @@ const Certification = () => {
             type="text"
             placeholder={title}
             name={title}
-            className="flex-1 other-input"
+            className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
             value={skill}
             onChange={(e) => handleSkills(e, index, skillType)}
           />

@@ -44,7 +44,7 @@ const Projects = () => {
             type="text"
             placeholder="Project Name"
             name="name"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={project.name}
             onChange={(e) => handleProjects(e, index)}
           />
@@ -52,7 +52,7 @@ const Projects = () => {
             type="text"
             placeholder="Link"
             name="link"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={project.link}
             onChange={(e) => handleProjects(e, index)}
           />
@@ -60,7 +60,7 @@ const Projects = () => {
             type="text"
             placeholder="Description"
             name="description"
-            className="w-full other-input h-32"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded h-32"
             value={project.description}
             maxLength="250"
             onChange={(e) => handleProjects(e, index)}
@@ -69,7 +69,7 @@ const Projects = () => {
             type="text"
             placeholder="Key Achievements"
             name="keyAchievements"
-            className="w-full other-input h-40"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded h-40"
             value={project.keyAchievements}
             onChange={(e) => handleProjects(e, index)}
           />
@@ -78,7 +78,7 @@ const Projects = () => {
               type="date"
               placeholder="Start Year"
               name="startYear"
-              className="other-input"
+              className="px-2 py-1 bg-white text-gray-950 rounded"
               value={project.startYear}
               onChange={(e) => handleProjects(e, index)}
             />
@@ -86,7 +86,7 @@ const Projects = () => {
               type="date"
               placeholder="End Year"
               name="endYear"
-              className="other-input"
+              className="px-2 py-1 bg-white text-gray-950 rounded"
               value={project.endYear}
               onChange={(e) => handleProjects(e, index)}
             />

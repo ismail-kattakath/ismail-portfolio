@@ -31,7 +31,7 @@ const Summary = () => {
         <textarea
           placeholder="Summary"
           name="summary"
-          className="w-full other-input h-40"
+          className="w-full px-2 py-1 bg-white text-gray-950 rounded h-40"
           value={resumeData.summary}
           onChange={handleChange}
           maxLength="500"

@@ -74,7 +74,7 @@ const Education = () => {
             type="text"
             placeholder="School"
             name="school"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={education.school}
             onChange={(e) => handleEducation(e, index)}
           />
@@ -82,7 +82,7 @@ const Education = () => {
             type="url"
             placeholder="School URL (optional)"
             name="url"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={education.url}
             onChange={(e) => handleEducation(e, index)}
           />
@@ -90,7 +90,7 @@ const Education = () => {
             type="text"
             placeholder="Degree"
             name="degree"
-            className="w-full other-input"
+            className="w-full px-2 py-1 mb-2 bg-white text-gray-950 rounded"
             value={education.degree}
             onChange={(e) => handleEducation(e, index)}
           />
@@ -99,7 +99,7 @@ const Education = () => {
               type="date"
               placeholder="Start Year"
               name="startYear"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={education.startYear}
               onChange={(e) => handleEducation(e, index)}
             />
@@ -107,7 +107,7 @@ const Education = () => {
               type="date"
               placeholder="End Year"
               name="endYear"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={education.endYear}
               onChange={(e) => handleEducation(e, index)}
             />

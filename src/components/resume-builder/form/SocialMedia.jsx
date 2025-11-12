@@ -119,14 +119,14 @@ const SocialMedia = () => {
 
         return (
           <div key={index} className="flex items-center gap-2 hover:bg-blue-900/20 rounded px-2 py-1 -mx-2 -my-1 transition-colors">
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 flex items-center">
               {getStatusIcon()}
             </div>
             <input
               type="text"
               placeholder="Social Media"
               name="socialMedia"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={socialMedia.socialMedia}
               onChange={(e) => handleSocialMedia(e, index)}
             />
@@ -134,14 +134,14 @@ const SocialMedia = () => {
               type="text"
               placeholder="Link"
               name="link"
-              className="flex-1 other-input"
+              className="flex-1 min-w-0 px-2 py-1 bg-white text-gray-950 rounded"
               value={socialMedia.link}
               onChange={(e) => handleSocialMedia(e, index)}
             />
             <button
               type="button"
               onClick={() => deleteSocialMedia(index)}
-              className="flex-shrink-0 p-1 text-[deepskyblue] hover:opacity-70 rounded transition-opacity"
+              className="flex-shrink-0 p-1 text-[deepskyblue] hover:opacity-70 rounded transition-opacity flex items-center"
               title="Delete this social media"
             >
               <MdDelete className="text-xl" />
