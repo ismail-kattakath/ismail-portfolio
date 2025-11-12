@@ -14,13 +14,10 @@ export default function ResumeLayout({
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#ffffff',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+      position: 'relative',
       zIndex: 1,
-      overflow: 'auto'
+      color: '#000000',
+      fontFamily: 'sans-serif',
     }}>
       {children}
     </div>

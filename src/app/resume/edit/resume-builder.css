@@ -99,6 +99,13 @@ input:focus {
 .f-col {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .f-col {
+    flex-direction: row;
+  }
 }
 
 .grid-4 {
