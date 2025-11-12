@@ -82,8 +82,8 @@ export default function ResumeEditPage() {
           handleChange,
         }}
       >
-        <div className="flex flex-col md:flex-row md:h-screen">
-          <form className="p-4 bg-[royalblue] exclude-print md:h-screen md:overflow-y-scroll [&>*:not(:first-child)]:pt-2 [&>*:not(:first-child)]:mt-2 [&>*:not(:first-child)]:border-t [&>*:not(:first-child)]:border-white/30">
+        <div className="flex flex-col md:flex-row md:h-screen bg-black">
+          <form className="flex-1 p-4 bg-[royalblue] exclude-print md:h-screen md:overflow-y-scroll [&>*:not(:first-child)]:pt-2 [&>*:not(:first-child)]:mt-2 [&>*:not(:first-child)]:border-t [&>*:not(:first-child)]:border-white/30">
             <LoadUnload />
             <PersonalInformation />
             <SocialMedia />
