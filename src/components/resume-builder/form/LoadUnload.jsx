@@ -1,5 +1,5 @@
-import { FaCloudUploadAlt, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdPictureAsPdf } from "react-icons/md";
+import { VscJson } from "react-icons/vsc";
 import React, { useContext } from "react";
 import { ResumeContext } from "@/app/resume/edit/ResumeContext";
 
@@ -77,10 +77,10 @@ const LoadUnload = () => {
   return (
     <div className="flex flex-wrap gap-3 mb-2 justify-center">
       <label className="inline-flex items-center gap-2 px-4 py-2 text-white bg-[deepskyblue] rounded cursor-pointer hover:bg-[#00a0e3] transition-colors">
-        <FaCloudUploadAlt className="text-[1.2rem]" />
-        <span className="text-[1rem] font-medium">Load Data</span>
+        <VscJson className="text-[1.2rem]" />
+        <span className="text-[1rem] font-medium">Load</span>
         <input
-          aria-label="Load Data"
+          aria-label="Load"
           type="file"
           className="hidden"
           onChange={handleLoad}
@@ -88,7 +88,7 @@ const LoadUnload = () => {
         />
       </label>
       <button
-        aria-label="Save Data"
+        aria-label="Save"
         className="inline-flex items-center gap-2 px-4 py-2 text-white bg-[deepskyblue] rounded hover:bg-[#00a0e3] transition-colors"
         onClick={(event) =>
           handleDownload(
@@ -98,16 +98,16 @@ const LoadUnload = () => {
           )
         }
       >
-        <FaCloudDownloadAlt className="text-[1.2rem]" />
-        <span className="text-[1rem] font-medium">Save Data</span>
+        <VscJson className="text-[1.2rem]" />
+        <span className="text-[1rem] font-medium">Save</span>
       </button>
       <button
-        aria-label="Download PDF"
+        aria-label="Print"
         className="inline-flex items-center gap-2 px-4 py-2 text-white bg-[deepskyblue] rounded hover:bg-[#00a0e3] transition-colors"
         onClick={handlePrint}
       >
         <MdPictureAsPdf className="text-[1.2rem]" />
-        <span className="text-[1rem] font-medium">Download PDF</span>
+        <span className="text-[1rem] font-medium">Print</span>
       </button>
     </div>
   );
