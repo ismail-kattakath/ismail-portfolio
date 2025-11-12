@@ -49,9 +49,9 @@ const Education = () => {
   };
 
   return (
-    <div className="flex-col-gap-2">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2 mb-2">
-        <h2 className="input-title mb-0">Education</h2>
+        <h2 className="text-base text-white font-semibold mb-0">Education</h2>
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -69,7 +69,7 @@ const Education = () => {
         </div>
       </div>
       {resumeData.education.map((education, index) => (
-        <div key={index} className="f-col hover:bg-blue-900/20 rounded px-2 py-2 -mx-2 -my-2 transition-colors">
+        <div key={index} className="flex flex-col hover:bg-blue-900/20 rounded px-2 py-2 -mx-2 -my-2 transition-colors">
           <input
             type="text"
             placeholder="School"

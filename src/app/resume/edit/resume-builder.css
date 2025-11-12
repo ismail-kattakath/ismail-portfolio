@@ -29,78 +29,8 @@ input:focus {
   outline: none;
 }
 
-.ul-padding {
-  padding-inline-start: 0.9rem;
-}
-
-.ul-padding-none {
-  padding-inline-start: 0;
-}
-
 .list-disc li::marker {
   content: "⦿ ";
-}
-
-.pi {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  color: #030712;
-  background-color: white;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
-}
-
-.profileInput {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  color: #030712;
-  background-color: white;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
-}
-
-.profileInput::file-selector-button {
-  border: 0;
-  background-color: rgb(217 70 239);
-  color: white;
-  border-radius: 0.125rem;
-}
-
-.flex-col-gap-2 {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.flex-wrap-gap-2 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-
-.input-title {
-  font-size: 1rem;
-  color: white;
-  font-weight: 600;
-}
-
-.f-col {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Allow Tailwind md:flex-row to work at medium breakpoint */
-@media (min-width: 768px) {
-  .md\:flex-row.f-col {
-    flex-direction: row;
-  }
-}
-
-.grid-4 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
 }
 
 .editable {

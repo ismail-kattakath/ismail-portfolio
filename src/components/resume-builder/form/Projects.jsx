@@ -36,10 +36,10 @@ const Projects = () => {
   };
 
   return (
-    <div className="flex-col-gap-2">
-      <h2 className="input-title">Projects</h2>
+    <div className="flex flex-col gap-2">
+      <h2 className="text-base text-white font-semibold">Projects</h2>
       {resumeData.projects.map((project, index) => (
-        <div key={index} className="f-col">
+        <div key={index} className="flex flex-col">
           <input
             type="text"
             placeholder="Project Name"
@@ -73,7 +73,7 @@ const Projects = () => {
             value={project.keyAchievements}
             onChange={(e) => handleProjects(e, index)}
           />
-          <div className="flex-wrap-gap-2">
+          <div className="flex flex-wrap gap-2">
             <input
               type="date"
               placeholder="Start Year"

@@ -56,10 +56,10 @@ const WorkExperience = () => {
   };
 
   return (
-    <div className="flex-col-gap-2">
-      <h2 className="input-title">Work Experience</h2>
+    <div className="flex flex-col gap-2">
+      <h2 className="text-base text-white font-semibold">Work Experience</h2>
       {resumeData.workExperience.map((workExperience, index) => (
-        <div key={index} className="f-col hover:bg-blue-900/20 rounded px-2 py-2 -mx-2 -my-2 transition-colors">
+        <div key={index} className="flex flex-col hover:bg-blue-900/20 rounded px-2 py-2 -mx-2 -my-2 transition-colors">
           <input
             type="text"
             placeholder="Company"

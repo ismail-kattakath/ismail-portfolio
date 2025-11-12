@@ -2,7 +2,7 @@ import { MdAddCircle, MdRemoveCircle } from "react-icons/md";
 
 const FormButton = ({ size, remove, add }) => {
   return (
-    <div className="flex-wrap-gap-2 mb-2">
+    <div className="flex flex-wrap gap-2 mb-2">
       <button
         type="button"
         onClick={add}

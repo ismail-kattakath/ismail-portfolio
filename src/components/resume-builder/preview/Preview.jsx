@@ -409,7 +409,7 @@ const Preview = () => {
                               >
                                 {(provided) => (
                                   <ul
-                                    className="list-disc ul-padding content"
+                                    className="list-disc ps-3.5 content"
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                   >

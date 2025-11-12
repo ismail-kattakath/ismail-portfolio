@@ -5,9 +5,9 @@ const PersonalInformation = ({}) => {
     useContext(ResumeContext);
 
   return (
-    <div className="flex-col-gap-2">
-      <h2 className="input-title">Personal Information</h2>
-      <div className="grid-4">
+    <div className="flex flex-col gap-2">
+      <h2 className="text-base text-white font-semibold">Personal Information</h2>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
         <input
           type="text"
           placeholder="Full Name"

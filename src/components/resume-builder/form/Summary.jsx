@@ -8,9 +8,9 @@ const Summary = () => {
   };
 
   return (
-    <div className="flex-col-gap-2">
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2 mb-2">
-        <h2 className="input-title mb-0">Summary</h2>
+        <h2 className="text-base text-white font-semibold mb-0">Summary</h2>
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -27,7 +27,7 @@ const Summary = () => {
           </label>
         </div>
       </div>
-      <div className="grid-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
         <textarea
           placeholder="Summary"
           name="summary"

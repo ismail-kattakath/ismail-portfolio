@@ -99,8 +99,8 @@ const SocialMedia = () => {
   };
 
   return (
-    <div className="flex-col-gap-2">
-      <h2 className="input-title">Social Media</h2>
+    <div className="flex flex-col gap-2">
+      <h2 className="text-base text-white font-semibold">Social Media</h2>
       {resumeData.socialMedia.map((socialMedia, index) => {
         const status = validationStatus[index] || "empty";
         const getStatusIcon = () => {
