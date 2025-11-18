@@ -35,10 +35,6 @@ export default function Hero() {
             {DefaultResumeData.name}
           </h1>
 
-          <h2 className="md3-headline-small md3-on-surface-variant mb-6 max-w-2xl mx-auto font-normal">
-            {DefaultResumeData.position.split('|')[0].trim()}
-          </h2>
-
           <p className="md3-body-large md3-on-surface-variant mb-10 max-w-3xl mx-auto leading-relaxed">
             {DefaultResumeData.position}
           </p>
