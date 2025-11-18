@@ -1,6 +1,6 @@
 const DefaultResumeData = {
   name: "ISMAIL KATTAKATH",
-  position: "Principal Software Engineer | AI Infrastructure & LLMOps",
+  position: "Full Stack Developer | Tech Lead | LLMOps",
   contactInformation: "+1 (647) 225-2878",
   email: "ismail@kattakath.com",
   address: "24-242 John Garland Blvd, Etobicoke, ON M9V 1N8",
@@ -21,7 +21,7 @@ const DefaultResumeData = {
     },
   ],
   summary:
-    "Principal Software Engineer combining deep full-stack expertise with cutting-edge AI infrastructure and LLMOps—currently architecting scalable GenAI systems (vLLM, Kubernetes, multi-GPU) while reducing costs 25% and latency 40%. Previously spent 7 years transforming an abandoned healthcare MEAN stack into a 99.5% uptime platform serving nationwide users, implementing enterprise SSO/federated authentication (OAuth 2.0, SAML 2.0) across 5+ partners, and migrating AngularJS to Next.js. Track record of establishing DevOps best practices that reduce deployment time by 92% and incidents by 65% across distributed cloud architectures.",
+    "Principal Software Engineer with deep expertise in full-stack development and cloud infrastructure, delivering high-impact, scalable systems at scale. Currently architecting and operating production-grade GenAI inference platforms using vLLM, Kubernetes, and multi-GPU clusters, achieving 25% cost reduction and 40% latency improvement. Previously rescued an abandoned healthcare MEAN-stack application and transformed it into a nationally deployed platform with 99.5% uptime; led the AngularJS-to-Next.js modernization, implemented enterprise federated authentication (OAuth 2.0 + SAML 2.0) across 5+ partners, and established DevOps practices that reduced deployment time by 92% and production incidents by 65%. Proven ability to drive end-to-end architecture, performance optimization, security/compliance, and measurable business outcomes in distributed cloud environments.",
   showSummary: true,
   education: [
     {
@@ -51,7 +51,7 @@ const DefaultResumeData = {
       description:
         "Homeweb.ca: Canada's leading digital mental health provider, delivering EFAP and CBT solutions to hundreds of thousands of employees nationwide.",
       keyAchievements:
-        "Inherited and revitalized an abandoned, undocumented MEAN stack application, transforming it into a maintainable, production-ready web platform with 99.5% uptime.\nRebuilt authentication system implementing OAuth 2.0 PKCE flow for SSO integration with Microsoft Identity Platform.\nCollaborated with federated vendors to configure and troubleshoot SAML 2.0 authentication, enabling seamless user login across 5+ partner organizations.\nLed complete frontend migration from AngularJS to Next.js upon framework EOL, preserving existing UI/UX and API compatibility.\nEstablished comprehensive DevOps practices including automated testing, CI/CD pipelines (reducing deployment time from 4 hours to 20 minutes), containerization, monitoring, and backup systems.\nIntroduced development standards encompassing coding conventions, linting, code reviews, documentation, and incident management processes, reducing production incidents by 65%.",
+        "Inherited and revitalized an abandoned, undocumented MEAN stack application, transforming it into a maintainable, production-ready web platform with 99.5% uptime.\nRebuilt authentication system implementing OAuth 2.0 PKCE flow for SSO integration with Microsoft Identity Platform.\nCollaborated with federated vendors to configure and troubleshoot SAML 2.0 authentication, enabling seamless user login across 5+ partner organizations.\nLed complete frontend migration from AngularJS to Next.js upon framework EOL, preserving existing UI/UX and API compatibility.\nEstablished comprehensive DevOps practices including automated testing, CI/CD pipelines (reducing deployment time from 4 hours to 20 minutes), containerization, monitoring, and backup systems.\nLed infrastructure migration from DigitalOcean to AWS, orchestrating transition of EC2, RDS, S3, CloudFront, and VPC components using Terraform for infrastructure-as-code, achieving zero-downtime deployment.",
       startYear: "2017-10-01",
       endYear: "2024-07-01",
     },
@@ -62,7 +62,7 @@ const DefaultResumeData = {
       description:
         "Brilliant Rewards: Complete hospitality software suite—dashboard, mobile and web apps—featuring loyalty programs, marketing automation, booking integration, and analytics.",
       keyAchievements:
-        "Collaborated with stakeholders to gather requirements, create user stories, design wireframes, and develop functional prototypes.\nManaged sprint planning, daily standups, backlog prioritization, and blocker resolution to ensure continuous delivery.\nDesigned normalized database schemas, optimized SQL queries and indexing strategies, and implemented stored procedures with comprehensive test coverage.\nLed development of scalable microservices architecture with containerized, discoverable APIs following OpenAPI specifications.\nDelivered multiple client applications including AngularJS web platforms and cross-platform mobile solutions.",
+        "Collaborated with stakeholders to gather requirements, create user stories, design wireframes, and develop functional prototypes.\nManaged sprint planning, daily standups, backlog prioritization, and blocker resolution to ensure continuous delivery.\nDesigned normalized database schemas, optimized SQL queries and indexing strategies, and implemented stored procedures with comprehensive test coverage.\nLed development of scalable microservices architecture with containerized, discoverable APIs following OpenAPI specifications.\nDelivered multiple client applications including AngularJS web platforms and cross-platform mobile solutions.\nIntroduced development standards encompassing coding conventions, linting, code reviews, documentation, and incident management processes, reducing production incidents by 65%.",
       startYear: "2016-04-01",
       endYear: "2017-08-01",
     },

@@ -80,7 +80,8 @@ export default function ResumeEditPage() {
   };
 
   const handleChange = (e: any) => {
-    setResumeData({ ...resumeData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setResumeData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (

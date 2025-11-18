@@ -34,7 +34,7 @@ const Summary = () => {
           className="w-full px-2 py-1 bg-white text-gray-950 rounded h-40"
           value={resumeData.summary}
           onChange={handleChange}
-          maxLength="500"
+          maxLength="2000"
         />
       </div>
     </div>
