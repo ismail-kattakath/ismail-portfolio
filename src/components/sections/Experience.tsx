@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { experience } from '@/lib/data/portfolio'
-import { MapPin, Calendar } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 
 export default function Experience() {
   return (
@@ -40,19 +40,14 @@ export default function Experience() {
               
               <div className="ml-20 md3-card p-8">
                 <div className="mb-4">
-                  <h3 className="md3-headline-small mb-2 font-medium">{exp.title}</h3>
-                  <h4 className="md3-title-large text-[var(--md-sys-color-primary)] mb-3 font-normal">{exp.company}</h4>
-                  
-                  <div className="flex flex-wrap gap-4 text-[var(--md-sys-color-on-surface-variant)] mb-4 md3-body-medium">
-                    <div className="flex items-center gap-1">
-                      <MapPin size={16} />
-                      <span>{exp.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <h3 className="md3-headline-small font-medium">{exp.title}</h3>
+                    <div className="flex items-center gap-1 text-[var(--md-sys-color-on-surface-variant)] md3-body-medium whitespace-nowrap">
                       <Calendar size={16} />
                       <span>{exp.duration}</span>
                     </div>
                   </div>
+                  <h4 className="md3-title-large text-[var(--md-sys-color-primary)] mb-3 font-normal">{exp.company}</h4>
                 </div>
 
                 {exp.summary && (
