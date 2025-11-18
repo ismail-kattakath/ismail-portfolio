@@ -18,10 +18,6 @@ export default function Contact() {
           <h2 className="md3-headline-large mb-4">
             Get In Touch
           </h2>
-          <p className="md3-body-large md3-on-surface-variant max-w-3xl mx-auto">
-            I&apos;m always open to discussing new opportunities, interesting projects, 
-            or potential collaborations in AI/ML and software engineering.
-          </p>
         </motion.div>
 
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
