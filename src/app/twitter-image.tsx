@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { Logo } from '@/components/Logo'
 
 export const dynamic = 'force-static'
 
@@ -21,16 +22,6 @@ export default async function Image() {
     backgroundImageBuffer.byteOffset,
     backgroundImageBuffer.byteOffset + backgroundImageBuffer.byteLength
   )
-
-  // Read and parse SVG logo to extract path data
-  const logoSvg = readFileSync(
-    join(process.cwd(), 'public', 'images', 'logo.svg'),
-    'utf-8'
-  )
-
-  // Extract path d attribute from SVG
-  const pathMatch = logoSvg.match(/<path[^>]*\sd="([^"]+)"/)
-  const pathData = pathMatch ? pathMatch[1] : ''
 
   return new ImageResponse(
     (
@@ -72,17 +63,8 @@ export default async function Image() {
           }}
         />
 
-        {/* SVG Logo - Centered - dynamically loaded from logo.svg */}
-        <svg
-          width="560"
-          height="315"
-          viewBox="0 0 1280 720"
-          style={{
-            zIndex: 1,
-          }}
-        >
-          <path fill="#ffffff" d={pathData} />
-        </svg>
+        {/* SVG Logo - Centered */}
+        <Logo width={560} height={315} />
       </div>
     ),
     {
