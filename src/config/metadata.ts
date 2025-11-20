@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
  * Single source of truth for all site metadata
  */
 export function generateSiteMetadata(): Metadata {
-  const { name, position, summary, socialMedia } = DefaultResumeData
+  const { name, position, socialMedia } = DefaultResumeData
 
   // Find LinkedIn handle for Twitter creator field
   const linkedInProfile = socialMedia.find(
@@ -14,11 +14,9 @@ export function generateSiteMetadata(): Metadata {
   )
   const linkedInHandle = linkedInProfile?.link.replace('linkedin.com/in/', '')
 
-  // Generate title combining name and position
-  const siteTitle = `${name} | ${position}`
-
-  // Use summary as description (trim if too long for meta tags)
-  const siteDescription = summary
+  // Use name as title, position as description (meets 55-200 char requirement)
+  const siteTitle = name
+  const siteDescription = position
 
   return {
     metadataBase: new URL('https://ismail.kattakath.com'),
