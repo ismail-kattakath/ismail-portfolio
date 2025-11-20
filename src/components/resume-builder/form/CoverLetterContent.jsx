@@ -19,9 +19,6 @@ const CoverLetterContent = () => {
         value={resumeData.content || ""}
         onChange={handleContentChange}
       />
-      <p className="text-xs text-gray-400">
-        Your name will be automatically inserted at the beginning of the letter in the preview.
-      </p>
     </div>
   );
 };
