@@ -14,9 +14,9 @@ export function generateSiteMetadata(): Metadata {
   )
   const linkedInHandle = linkedInProfile?.link.replace('linkedin.com/in/', '')
 
-  // Use name as title, position as description (meets 55-200 char requirement)
-  const siteTitle = name
-  const siteDescription = position
+  // Use name as title, position as description with fallbacks
+  const siteTitle = name || 'Portfolio'
+  const siteDescription = position || 'Professional Portfolio'
 
   return {
     metadataBase: new URL('https://ismail.kattakath.com'),
