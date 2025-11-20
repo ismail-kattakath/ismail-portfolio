@@ -22,13 +22,6 @@ export default async function Image() {
     backgroundImageBuffer.byteOffset + backgroundImageBuffer.byteLength
   )
 
-  // Read SVG logo and convert to data URI
-  const logoSvg = readFileSync(
-    join(process.cwd(), 'public', 'images', 'logo.svg'),
-    'utf-8'
-  )
-  const logoDataUri = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`
-
   return new ImageResponse(
     (
       <div
@@ -65,20 +58,43 @@ export default async function Image() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'rgba(0, 0, 0, 0.3)',
+            background: 'rgba(0, 0, 0, 0.5)',
           }}
         />
 
-        {/* Logo - Centered */}
-        <img
-          src={logoDataUri}
-          alt="Ismail Kattakath"
+        {/* Text Logo - Centered */}
+        <div
           style={{
-            width: 560,
-            height: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             zIndex: '1',
           }}
-        />
+        >
+          <div
+            style={{
+              fontSize: 110,
+              fontWeight: 800,
+              color: '#ffffff',
+              fontFamily: 'Roboto, sans-serif',
+              letterSpacing: '-2px',
+              marginBottom: '8px',
+            }}
+          >
+            ISMAIL
+          </div>
+          <div
+            style={{
+              fontSize: 66,
+              fontWeight: 300,
+              color: '#ffffff',
+              fontFamily: 'Roboto, sans-serif',
+              letterSpacing: '8px',
+            }}
+          >
+            KATTAKATH
+          </div>
+        </div>
       </div>
     ),
     {
