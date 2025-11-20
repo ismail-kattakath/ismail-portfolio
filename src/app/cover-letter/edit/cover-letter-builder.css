@@ -1,0 +1,129 @@
+:root {
+  --md-sys-color-surface: white;
+}
+
+* {
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+::-webkit-scrollbar {
+  width: 0.625rem; /* 10px = 0.625rem */
+  height: 0.625rem; /* 10px = 0.625rem */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e5e7eb;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: deepskyblue;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: deepskyblue;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.list-disc li::marker {
+  content: "⦿ ";
+}
+
+.editable {
+  outline: none;
+}
+
+.editable:hover {
+  background-color: #f3f4f6;
+  cursor: text;
+}
+
+.name {
+  font-size: 2rem; /* 32px = 2rem */
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.profession {
+  font-size: 1.5rem; /* 24px = 1.5rem */
+  text-transform: capitalize;
+}
+
+.contact {
+  font-size: 0.875rem; /* 14px = 0.875rem (text-sm) */
+  font-weight: 400;
+}
+
+.social-media {
+  font-size: 0.75rem; /* 12px = 0.75rem (text-xs) */
+  font-weight: 400;
+}
+
+.section-title {
+  font-size: 1rem; /* 16px = 1rem (text-base) */
+  font-weight: 700;
+}
+
+.content {
+  font-size: 0.875rem; /* 14px = 0.875rem (text-sm) */
+  font-weight: 400;
+}
+
+.sub-content {
+  font-size: 0.75rem; /* 12px = 0.75rem (text-xs) */
+  font-weight: 400;
+}
+
+.i-bold {
+  font-weight: 700 !important;
+}
+
+@media print {
+  .exclude-print {
+    display: none;
+  }
+
+  .rm-padding-print {
+    padding: 0;
+  }
+
+  @page {
+    size: letter;
+    margin: 10mm;
+  }
+
+  .preview {
+    overflow-y: visible !important;
+  }
+
+  .preview::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    opacity: 0.2;
+    font-size: small;
+    text-align: center;
+    z-index: -1;
+  }
+
+  /* Prevent breaking individual skill sections */
+  .col-span-1 > div > div > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Prevent breaking language and certification sections */
+  .col-span-1 > div > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
