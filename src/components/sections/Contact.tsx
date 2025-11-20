@@ -85,7 +85,7 @@ export default function Contact() {
                   </motion.a>
                 </div>
                 <motion.a
-                  href="https://calendly.com/ismailkattakath/google-meet"
+                  href="https://calendar.app.google/yqSPTMV9VXkMvpAL6"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
