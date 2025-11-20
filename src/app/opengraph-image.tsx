@@ -22,13 +22,12 @@ export default async function Image() {
     backgroundImageBuffer.byteOffset + backgroundImageBuffer.byteLength
   )
 
-  const profileImageBuffer = readFileSync(
-    join(process.cwd(), 'public', 'images', 'profile.jpg')
+  // Read SVG logo and convert to data URI
+  const logoSvg = readFileSync(
+    join(process.cwd(), 'public', 'images', 'logo.svg'),
+    'utf-8'
   )
-  const profileImageData = profileImageBuffer.buffer.slice(
-    profileImageBuffer.byteOffset,
-    profileImageBuffer.byteOffset + profileImageBuffer.byteLength
-  )
+  const logoDataUri = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`
 
   return new ImageResponse(
     (
@@ -70,18 +69,13 @@ export default async function Image() {
           }}
         />
 
-        {/* Profile Image - Centered */}
+        {/* Logo - Centered */}
         <img
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          src={profileImageData as any}
+          src={logoDataUri}
           alt="Ismail Kattakath"
           style={{
-            width: 300,
-            height: 300,
-            borderRadius: '50%',
-            objectFit: 'cover',
-            border: '6px solid #0a66c2',
-            boxShadow: '0 8px 32px rgba(10, 102, 194, 0.4)',
+            width: 600,
+            height: 'auto',
             zIndex: '1',
           }}
         />
