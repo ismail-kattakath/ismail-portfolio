@@ -17,7 +17,8 @@ const startServer = () => {
     console.log('📦 Starting Next.js server...');
     const server = spawn('npx', ['next', 'dev', '-p', PORT], {
       cwd: join(__dirname, '..'),
-      stdio: 'pipe'
+      stdio: 'pipe',
+      detached: true
     });
 
     server.stdout.on('data', (data) => {
@@ -90,9 +91,36 @@ const generatePDF = async () => {
     console.error('❌ Error generating PDF:', error);
     process.exit(1);
   } finally {
-    if (server) {
+    if (server && server.pid) {
       console.log('🛑 Stopping server...');
-      server.kill();
+
+      try {
+        // Kill the process group to ensure all child processes are terminated
+        process.kill(-server.pid, 'SIGTERM');
+      } catch (e) {
+        // Fallback to killing just the main process
+        try {
+          server.kill('SIGTERM');
+        } catch (err) {
+          // Already dead
+        }
+      }
+
+      // Wait a bit for graceful shutdown
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Force kill if still running
+      try {
+        process.kill(-server.pid, 'SIGKILL');
+      } catch (e) {
+        try {
+          server.kill('SIGKILL');
+        } catch (err) {
+          // Already dead
+        }
+      }
+
+      console.log('✅ Server stopped');
     }
   }
 };
