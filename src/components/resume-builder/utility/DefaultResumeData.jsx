@@ -1,5 +1,5 @@
 const DefaultResumeData = {
-  name: "ISMAIL KATTAKATH",
+  name: "Ismail Kattakath",
   position: "Full Stack Developer | Tech Lead | LLMOps",
   contactInformation: "+1 (647) 225-2878",
   email: "ismail@kattakath.com",

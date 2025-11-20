@@ -17,6 +17,14 @@ import { ResumeContext } from "@/app/resume/edit/ResumeContext";
 const CoverLetterPreview = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext);
 
+  // Capitalize name for signature (First Letter Of Each Word)
+  const capitalizedName = resumeData.name
+    ? resumeData.name
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
+    : '';
+
   const icons = [
     { name: "github", icon: <FaGithub /> },
     { name: "linkedin", icon: <FaLinkedin /> },
@@ -98,7 +106,7 @@ const CoverLetterPreview = () => {
         </p>
         <div className="content mt-4">
           <p>Thanks and regards,</p>
-          <p>{resumeData.name}</p>
+          <p>{capitalizedName}</p>
         </div>
       </div>
     </div>
