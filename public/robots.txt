@@ -1,0 +1,12 @@
+# robots.txt for ismail.kattakath.com
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://ismail.kattakath.com/sitemap.xml
+
+# Disallow admin/edit pages from search results
+Disallow: /resume/edit/
+Disallow: /cover-letter/edit/

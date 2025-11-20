@@ -77,8 +77,7 @@ export function generateSiteMetadata(): Metadata {
         'max-snippet': -1,
       },
     },
-    verification: {
-      google: 'your-google-verification-code',
-    },
+    // Google Search Console verification handled via DNS (Domain name provider method)
+    // No meta tag needed
   }
 }
