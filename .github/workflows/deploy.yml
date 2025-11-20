@@ -33,9 +33,36 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
-      
+
+      - name: Install Puppeteer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libnspr4 \
+            libatk1.0-0 \
+            libatk-bridge2.0-0 \
+            libcups2 \
+            libdrm2 \
+            libxkbcommon0 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libasound2
+
       - name: Build with Next.js
         run: npm run build
+        continue-on-error: false
+
+      - name: Verify PDF was generated
+        run: |
+          if [ -f "public/resume.pdf" ]; then
+            echo "✅ PDF generated successfully ($(ls -lh public/resume.pdf | awk '{print $5}'))"
+          else
+            echo "⚠️  Warning: PDF was not generated, but continuing build"
+          fi
       
       - name: Add .nojekyll to output
         run: touch out/.nojekyll
