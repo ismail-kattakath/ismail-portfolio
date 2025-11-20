@@ -123,6 +123,27 @@ The `prebuild` script automatically generates a PDF from the resume editor:
 
 This runs automatically before every production build.
 
+### SEO & Sitemap Generation
+
+SEO files are **automatically generated** using the `next-sitemap` package:
+
+- **next-sitemap.config.js** → Configuration for sitemap and robots.txt generation
+- Runs automatically via `postbuild` script after every build
+- Auto-discovers all routes - **zero manual maintenance**
+- Outputs to `out/` directory for static export
+- Automatically excludes edit pages, API endpoints, and image routes
+
+**Sitemap includes:**
+- Homepage (priority: 1.0, monthly updates)
+- Resume page (priority: 0.8, monthly updates)
+- Book page (priority: 0.5, yearly updates)
+
+**Robots.txt blocks:**
+- `/resume/edit/` and `/cover-letter/edit/` (admin interfaces)
+- `/resume.json/` (API endpoint)
+
+**Important**: Don't create manual `src/app/sitemap.ts` or `src/app/robots.ts` files - next-sitemap handles everything automatically.
+
 ### TypeScript Configuration
 
 - Path alias: `@/*` maps to `./src/*`
@@ -162,6 +183,7 @@ Manual deployment: `npm run deploy` (uses `gh-pages` package)
 - **Drag & Drop**: @hello-pangea/dnd 18.0.1
 - **PDF Generation**: Puppeteer 24.31.0
 - **Image Processing**: Sharp 0.34.3
+- **SEO**: next-sitemap (automatic sitemap/robots.txt generation)
 
 ## Important Notes
 
