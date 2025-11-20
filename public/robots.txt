@@ -7,6 +7,7 @@ Allow: /
 # Sitemap location
 Sitemap: https://ismail.kattakath.com/sitemap.xml
 
-# Disallow admin/edit pages from search results
+# Disallow admin/edit pages and API endpoints from search results
 Disallow: /resume/edit/
 Disallow: /cover-letter/edit/
+Disallow: /resume.json/
