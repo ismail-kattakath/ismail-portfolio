@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Generate metadata from DefaultResumeData (single source of truth)
+// Generate metadata from resumeData (single source of truth)
 export const metadata: Metadata = generateSiteMetadata();
 
 export default function RootLayout({

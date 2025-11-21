@@ -6,7 +6,7 @@ import "./cover-letter-builder.css";
 // Import ORIGINAL resume components
 import LoadUnload from "@/components/resume-builder/form/LoadUnload";
 import CoverLetterPreview from "@/components/resume-builder/preview/CoverLetterPreview";
-import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import defaultResumeData from "@/data/resumeData";
 import SocialMedia from "@/components/resume-builder/form/SocialMedia";
 import PersonalInformation from "@/components/resume-builder/form/PersonalInformation";
 import CoverLetterContent from "@/components/resume-builder/form/CoverLetterContent";
@@ -19,7 +19,7 @@ const DEFAULT_COVER_LETTER_CONTENT = "I'm a Toronto-based Principal Software Eng
 export default function CoverLetterEditPage() {
   // Use resume data as base, just add content and hide unwanted sections
   const [coverLetterData, setCoverLetterData] = useState({
-    ...DefaultResumeData,
+    ...defaultResumeData,
     content: DEFAULT_COVER_LETTER_CONTENT,
     // Hide sections not needed for cover letter
     summary: "",

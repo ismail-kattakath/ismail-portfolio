@@ -1,9 +1,9 @@
-import DefaultResumeData from '@/components/resume-builder/utility/DefaultResumeData'
+import resumeData from '@/data/resumeData'
 import { generateOgImage } from '@/utils/generateOgImage'
 
 export const dynamic = 'force-static'
 
-export const alt = (DefaultResumeData.name || 'Portfolio').toUpperCase()
+export const alt = (resumeData.name || 'Portfolio').toUpperCase()
 export const size = {
   width: 1200,
   height: 600,

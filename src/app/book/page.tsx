@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import resumeData from "@/data/resumeData";
 
 export default function BookPage() {
-  const calendarLink = DefaultResumeData.calendarLink;
+  const calendarLink = resumeData.calendarLink;
 
   useEffect(() => {
     if (calendarLink) {

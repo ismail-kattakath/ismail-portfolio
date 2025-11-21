@@ -2,19 +2,19 @@
 
 import { motion } from 'framer-motion'
 import { ChevronDown, Linkedin, Github, Mail, Calendar, Download, Sparkles } from 'lucide-react'
-import DefaultResumeData from '@/components/resume-builder/utility/DefaultResumeData'
+import resumeData from '@/data/resumeData'
 import { contactInfo } from '@/lib/data/portfolio'
 
 export default function Hero() {
-  const linkedInProfile = DefaultResumeData.socialMedia.find(s => s.socialMedia === "LinkedIn");
-  const githubProfile = DefaultResumeData.socialMedia.find(s => s.socialMedia === "Github");
+  const linkedInProfile = resumeData.socialMedia.find(s => s.socialMedia === "LinkedIn");
+  const githubProfile = resumeData.socialMedia.find(s => s.socialMedia === "Github");
   const linkedInUrl = linkedInProfile?.link.startsWith("http")
     ? linkedInProfile.link
     : `https://${linkedInProfile?.link}`;
   const githubUrl = githubProfile?.link.startsWith("http")
     ? githubProfile.link
     : `https://${githubProfile?.link}`;
-  const profileImage = DefaultResumeData.profilePicture || "./images/profile.jpg";
+  const profileImage = resumeData.profilePicture || "./images/profile.jpg";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -72,7 +72,7 @@ export default function Hero() {
               {/* Profile image */}
               <motion.img
                 src={profileImage}
-                alt={`${DefaultResumeData.name} - ${DefaultResumeData.position}`}
+                alt={`${resumeData.name} - ${resumeData.position}`}
                 className="relative w-40 h-40 rounded-full object-cover shadow-2xl"
                 style={{
                   border: '6px solid var(--md-sys-color-surface)',
@@ -99,7 +99,7 @@ export default function Hero() {
             variants={itemVariants}
             className="md3-display-large mb-4 font-bold bg-gradient-to-r from-[var(--md-sys-color-primary)] via-[var(--md-sys-color-secondary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent"
           >
-            {DefaultResumeData.name}
+            {resumeData.name}
           </motion.h1>
 
           {/* Position with icon */}
@@ -109,7 +109,7 @@ export default function Hero() {
           >
             <Sparkles className="text-[var(--md-sys-color-primary)]" size={20} />
             <p className="md3-headline-small text-[var(--md-sys-color-on-surface)] font-medium">
-              {DefaultResumeData.position}
+              {resumeData.position}
             </p>
           </motion.div>
 
@@ -118,7 +118,7 @@ export default function Hero() {
             variants={itemVariants}
             className="md3-body-large md3-on-surface-variant mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            {DefaultResumeData.summary.split('.')[0]}.
+            {resumeData.summary.split('.')[0]}.
           </motion.p>
 
           {/* Primary CTAs */}

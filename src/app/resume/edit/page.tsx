@@ -7,7 +7,7 @@ import "./resume-builder.css";
 import Language from "@/components/resume-builder/form/Language";
 import LoadUnload from "@/components/resume-builder/form/LoadUnload";
 import Preview from "@/components/resume-builder/preview/Preview";
-import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import defaultResumeData from "@/data/resumeData";
 import SocialMedia from "@/components/resume-builder/form/SocialMedia";
 import WorkExperience from "@/components/resume-builder/form/WorkExperience";
 import Skill from "@/components/resume-builder/form/Skill";
@@ -20,7 +20,7 @@ import { Toaster } from "sonner";
 
 export default function ResumeEditPage() {
   // Resume data
-  const [resumeData, setResumeData] = useState(DefaultResumeData);
+  const [resumeData, setResumeData] = useState(defaultResumeData);
 
   // Migrate skills data on mount if needed
   useEffect(() => {

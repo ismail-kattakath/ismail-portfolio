@@ -1,4 +1,4 @@
-const DefaultResumeData = {
+const resumeData = {
   name: "Ismail Kattakath",
   position: "Full Stack Developer | Tech Lead | LLMOps",
   contactInformation: "+1 (647) 225-2878",
@@ -221,4 +221,4 @@ const DefaultResumeData = {
   certifications: [],
 };
 
-export default DefaultResumeData;
+export default resumeData;

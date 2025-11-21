@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Mail, Globe, Heart, Sparkles, ArrowUp } from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
-import DefaultResumeData from '@/components/resume-builder/utility/DefaultResumeData'
+import resumeData from '@/data/resumeData'
 import { Logo } from '@/components/Logo'
 import { navItems } from '@/config/navigation'
 
@@ -11,7 +11,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   // Extract first sentence from summary
-  const firstSentence = DefaultResumeData.summary.split('.')[0] + '.'
+  const firstSentence = resumeData.summary.split('.')[0] + '.'
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -43,7 +43,7 @@ export default function Footer() {
                 <Logo width={192} height={108} fill="var(--md-sys-color-primary)" />
               </motion.div>
               <h3 className="md3-title-large font-semibold mb-2 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent">
-                {DefaultResumeData.position}
+                {resumeData.position}
               </h3>
             </div>
             <p className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] mb-6 max-w-md leading-relaxed">

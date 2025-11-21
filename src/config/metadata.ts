@@ -1,13 +1,13 @@
-import DefaultResumeData from '@/components/resume-builder/utility/DefaultResumeData'
+import resumeData from '@/data/resumeData'
 import { SITE_URL } from '@/config/site'
 import type { Metadata } from 'next'
 
 /**
- * Generate metadata from DefaultResumeData
+ * Generate metadata from resumeData
  * Single source of truth for all site metadata
  */
 export function generateSiteMetadata(): Metadata {
-  const { name, position, summary, socialMedia, skills } = DefaultResumeData
+  const { name, position, summary, socialMedia, skills } = resumeData
 
   // Find LinkedIn handle for Twitter creator field
   const linkedInProfile = socialMedia.find(

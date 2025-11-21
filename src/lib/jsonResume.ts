@@ -1,12 +1,12 @@
-import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import resumeData from "@/data/resumeData";
 import { validateJSONResume } from "./jsonResumeSchema";
 
 /**
- * Converts our DefaultResumeData format to JSON Resume standard format
+ * Converts our resumeData format to JSON Resume standard format
  * Schema: https://jsonresume.org/schema/
  */
 export function convertToJSONResume(customData?: any) {
-  const data = customData || DefaultResumeData;
+  const data = customData || resumeData;
 
   // Parse social media links
   const profiles = data.socialMedia.map((social) => ({
@@ -95,7 +95,7 @@ export function convertToJSONResume(customData?: any) {
 }
 
 /**
- * Converts JSON Resume format back to our internal DefaultResumeData format
+ * Converts JSON Resume format back to our internal resumeData format
  * Returns null if conversion fails
  */
 export function convertFromJSONResume(jsonResume: any): any | null {

@@ -1,10 +1,10 @@
 import { ContactInfo, Experience, Skill, Project } from "@/types/portfolio";
-import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import resumeData from "@/data/resumeData";
 
-// Derive contact info from DefaultResumeData
-const linkedInProfile = DefaultResumeData.socialMedia.find(s => s.socialMedia === "LinkedIn");
-const githubProfile = DefaultResumeData.socialMedia.find(s => s.socialMedia === "Github");
-const websiteProfile = DefaultResumeData.socialMedia.find(s => s.socialMedia === "Website");
+// Derive contact info from resumeData
+const linkedInProfile = resumeData.socialMedia.find(s => s.socialMedia === "LinkedIn");
+const githubProfile = resumeData.socialMedia.find(s => s.socialMedia === "Github");
+const websiteProfile = resumeData.socialMedia.find(s => s.socialMedia === "Website");
 
 // Extract location from address (e.g., "24-242 John Garland Blvd, Toronto, ON M9V 1N8" -> "Toronto, ON 🇨🇦")
 const extractLocation = (address: string): string => {
@@ -18,22 +18,22 @@ const extractLocation = (address: string): string => {
 };
 
 export const contactInfo: ContactInfo = {
-  name: DefaultResumeData.name,
-  title: DefaultResumeData.position,
-  location: extractLocation(DefaultResumeData.address),
-  phone: DefaultResumeData.contactInformation,
-  email: DefaultResumeData.email,
+  name: resumeData.name,
+  title: resumeData.position,
+  location: extractLocation(resumeData.address),
+  phone: resumeData.contactInformation,
+  email: resumeData.email,
   github: githubProfile?.link || "",
   linkedin: linkedInProfile?.link || "",
   website: websiteProfile?.link || "",
-  calendar: DefaultResumeData.calendarLink || ""
+  calendar: resumeData.calendarLink || ""
 };
 
-// Use summary from DefaultResumeData
-export const summary = DefaultResumeData.summary;
+// Use summary from resumeData
+export const summary = resumeData.summary;
 
-// Convert skills from DefaultResumeData format to portfolio format
-export const skills: Skill[] = DefaultResumeData.skills.map(skillGroup => ({
+// Convert skills from resumeData format to portfolio format
+export const skills: Skill[] = resumeData.skills.map(skillGroup => ({
   category: skillGroup.title,
   items: skillGroup.skills.map(s => s.text)
 }));
@@ -51,8 +51,8 @@ function formatDateRange(startDate: string, endDate: string): string {
   return `${start} - ${end}`;
 }
 
-// Convert work experience from DefaultResumeData
-export const experience: Experience[] = DefaultResumeData.workExperience.map(job => ({
+// Convert work experience from resumeData
+export const experience: Experience[] = resumeData.workExperience.map(job => ({
   title: job.position,
   company: job.company,
   location: "", // Not displayed on main website
