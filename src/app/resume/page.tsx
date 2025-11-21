@@ -33,7 +33,7 @@ export default function ResumeDownloadPage() {
         handleChange: () => {},
       }}
     >
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--md-sys-color-surface-container-lowest)]">
         {/* Mobile message */}
         <div className="md:hidden flex items-center justify-center min-h-screen p-6">
           <a
