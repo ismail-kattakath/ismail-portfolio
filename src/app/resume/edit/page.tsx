@@ -68,7 +68,7 @@ export default function ResumeEditPage() {
 
   return (
     <>
-      <Toaster position="top-center" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton />
       <ResumeContext.Provider
         value={{
           resumeData,

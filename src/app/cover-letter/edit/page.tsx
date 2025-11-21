@@ -51,7 +51,7 @@ export default function CoverLetterEditPage() {
 
   return (
     <>
-      <Toaster position="top-center" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton />
       {/* Use ResumeContext so original components work unchanged */}
       <ResumeContext.Provider
         value={{
