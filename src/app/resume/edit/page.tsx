@@ -16,6 +16,7 @@ import Summary from "@/components/resume-builder/form/Summary";
 import Education from "@/components/resume-builder/form/Education";
 import Certification from "@/components/resume-builder/form/certification";
 import { ResumeContext } from "./ResumeContext";
+import { Toaster } from "sonner";
 
 export default function ResumeEditPage() {
   // Resume data
@@ -86,6 +87,7 @@ export default function ResumeEditPage() {
 
   return (
     <>
+      <Toaster position="top-center" richColors closeButton />
       <ResumeContext.Provider
         value={{
           resumeData,

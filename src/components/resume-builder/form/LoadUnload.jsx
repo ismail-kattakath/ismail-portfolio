@@ -2,7 +2,8 @@ import { MdPictureAsPdf } from "react-icons/md";
 import { VscJson } from "react-icons/vsc";
 import React, { useContext } from "react";
 import { ResumeContext } from "@/app/resume/edit/ResumeContext";
-import { convertToJSONResume } from "@/lib/jsonResume";
+import { convertToJSONResume, convertFromJSONResume, validateJSONResume } from "@/lib/jsonResume";
+import { toast } from "sonner";
 
 const LoadUnload = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext);
@@ -28,28 +29,86 @@ const LoadUnload = () => {
     return migratedData;
   };
 
-  // load backup resume data
+  // load backup resume data - supports both internal format and JSON Resume format
   const handleLoad = (event) => {
     const file = event.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (event) => {
-      const loadedData = JSON.parse(event.target.result);
-      const migratedData = migrateSkillsData(loadedData);
-      setResumeData(migratedData);
+      try {
+        toast.loading("Processing resume data...", { id: "load-resume" });
+
+        const loadedData = JSON.parse(event.target.result);
+
+        // Check if it's JSON Resume format (has $schema or basics field)
+        const isJSONResume = loadedData.$schema?.includes("jsonresume") || loadedData.basics;
+
+        if (isJSONResume) {
+          // Validate JSON Resume format
+          const validation = validateJSONResume(loadedData);
+
+          if (!validation.valid) {
+            toast.error(
+              `Invalid JSON Resume format:\n${validation.errors.join("\n")}`,
+              { id: "load-resume", duration: 5000 }
+            );
+            return;
+          }
+
+          // Convert from JSON Resume to internal format
+          const convertedData = convertFromJSONResume(loadedData);
+
+          if (!convertedData) {
+            toast.error("Failed to convert JSON Resume format", { id: "load-resume" });
+            return;
+          }
+
+          setResumeData(convertedData);
+          toast.success("JSON Resume loaded successfully!", { id: "load-resume" });
+        } else {
+          // Handle internal format (legacy)
+          const migratedData = migrateSkillsData(loadedData);
+          setResumeData(migratedData);
+          toast.success("Resume data loaded successfully!", { id: "load-resume" });
+        }
+      } catch (error) {
+        toast.error(`Failed to load resume: ${error.message}`, {
+          id: "load-resume",
+          duration: 5000
+        });
+      }
     };
+
+    reader.onerror = () => {
+      toast.error("Failed to read file", { id: "load-resume" });
+    };
+
     reader.readAsText(file);
   };
 
   // download resume data in JSON Resume format
   const handleDownload = (data, filename, event) => {
     event.preventDefault();
-    const jsonResumeData = convertToJSONResume(data);
-    const jsonData = JSON.stringify(jsonResumeData, null, 2);
-    const blob = new Blob([jsonData], { type: "application/json" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
+
+    try {
+      toast.loading("Generating JSON Resume...", { id: "save-resume" });
+
+      const jsonResumeData = convertToJSONResume(data);
+      const jsonData = JSON.stringify(jsonResumeData, null, 2);
+      const blob = new Blob([jsonData], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+
+      toast.success("JSON Resume saved successfully!", { id: "save-resume" });
+    } catch (error) {
+      toast.error(`Failed to save resume: ${error.message}`, {
+        id: "save-resume",
+        duration: 5000
+      });
+    }
   };
 
   // Generate consistent filename for JSON download matching PDF title format

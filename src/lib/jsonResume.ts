@@ -92,3 +92,131 @@ export function convertToJSONResume(customData?: any) {
 
   return jsonResume;
 }
+
+/**
+ * Validates if the provided data matches JSON Resume schema
+ * Returns validation result with any errors
+ */
+export function validateJSONResume(data: any): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+
+  // Check required top-level structure
+  if (!data.basics) {
+    errors.push("Missing 'basics' section");
+  } else {
+    if (!data.basics.name) errors.push("Missing 'basics.name'");
+    if (!data.basics.label) errors.push("Missing 'basics.label'");
+  }
+
+  // Validate work array structure if present
+  if (data.work && !Array.isArray(data.work)) {
+    errors.push("'work' must be an array");
+  }
+
+  // Validate education array structure if present
+  if (data.education && !Array.isArray(data.education)) {
+    errors.push("'education' must be an array");
+  }
+
+  // Validate skills array structure if present
+  if (data.skills && !Array.isArray(data.skills)) {
+    errors.push("'skills' must be an array");
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
+
+/**
+ * Converts JSON Resume format back to our internal DefaultResumeData format
+ * Returns null if conversion fails
+ */
+export function convertFromJSONResume(jsonResume: any): any | null {
+  try {
+    // Validate first
+    const validation = validateJSONResume(jsonResume);
+    if (!validation.valid) {
+      console.error("Validation errors:", validation.errors);
+      return null;
+    }
+
+    const basics = jsonResume.basics || {};
+
+    // Convert profiles back to social media format
+    const profiles = basics.profiles || [];
+    const socialMedia = profiles.map((profile: any) => ({
+      socialMedia: profile.network || "",
+      link: profile.url?.replace(/^https?:\/\//, "") || "",
+    }));
+
+    // Convert work experience back
+    const workExperience = (jsonResume.work || []).map((job: any) => ({
+      company: job.name || "",
+      url: job.url?.replace(/^https?:\/\//, "") || "",
+      position: job.position || "",
+      description: job.summary || "",
+      keyAchievements: (job.highlights || []).join("\n"),
+      startYear: job.startDate || "",
+      endYear: job.endDate || "Present",
+      technologies: job.keywords || [],
+    }));
+
+    // Convert education back
+    const education = (jsonResume.education || []).map((edu: any) => ({
+      school: edu.institution || "",
+      url: edu.url?.replace(/^https?:\/\//, "") || "",
+      degree: edu.studyType || "",
+      startYear: edu.startDate || "",
+      endYear: edu.endDate || "",
+    }));
+
+    // Convert skills back - merge all skill keywords into categories
+    const skills = (jsonResume.skills || []).map((skillGroup: any) => ({
+      title: skillGroup.name || "Skills",
+      skills: (skillGroup.keywords || []).map((keyword: string) => ({
+        text: keyword,
+        highlight: false,
+      })),
+    }));
+
+    // Convert languages back
+    const languages = (jsonResume.languages || []).map((lang: any) => lang.language || lang);
+
+    // Convert certifications back
+    const certifications = jsonResume.certificates || [];
+
+    // Reconstruct location
+    const location = basics.location || {};
+    const address = [
+      location.address,
+      location.city,
+      [location.region, location.postalCode].filter(Boolean).join(" "),
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    return {
+      name: basics.name || "",
+      position: basics.label || "",
+      contactInformation: basics.phone || "",
+      email: basics.email || "",
+      address: address || "",
+      profilePicture: basics.image || "",
+      socialMedia,
+      summary: basics.summary || "",
+      showSummary: true,
+      education,
+      showEducationDates: true,
+      workExperience,
+      skills: skills.length > 0 ? skills : [{ title: "Skills", skills: [] }],
+      languages,
+      showLanguages: true,
+      certifications,
+    };
+  } catch (error) {
+    console.error("Error converting JSON Resume:", error);
+    return null;
+  }
+}
