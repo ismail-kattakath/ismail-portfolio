@@ -4,6 +4,8 @@ import type {
   OpenAIResponse,
   OpenAIError,
   StoredCredentials,
+  StreamCallback,
+  OpenAIStreamChunk,
 } from "@/types/openai";
 import type { ResumeData } from "@/types";
 import {
@@ -104,12 +106,124 @@ async function makeOpenAIRequest(
 }
 
 /**
- * Generates a cover letter using OpenAI API
+ * Makes a streaming request to OpenAI-compatible API
+ */
+async function makeOpenAIStreamRequest(
+  config: OpenAIConfig,
+  request: OpenAIRequest,
+  onProgress: StreamCallback
+): Promise<string> {
+  try {
+    const response = await fetch(`${config.baseURL}/v1/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${config.apiKey}`,
+      },
+      body: JSON.stringify({ ...request, stream: true }),
+    });
+
+    if (!response.ok) {
+      let errorMessage = `API request failed with status ${response.status}`;
+      try {
+        const errorData: OpenAIError = await response.json();
+        errorMessage = errorData.error.message || errorMessage;
+        throw new OpenAIAPIError(
+          errorMessage,
+          errorData.error.code,
+          errorData.error.type
+        );
+      } catch (parseError) {
+        if (parseError instanceof OpenAIAPIError) {
+          throw parseError;
+        }
+        throw new OpenAIAPIError(errorMessage);
+      }
+    }
+
+    if (!response.body) {
+      throw new OpenAIAPIError("No response body received", "no_body");
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullContent = "";
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) {
+        onProgress({ done: true });
+        break;
+      }
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || ""; // Keep incomplete line in buffer
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed === "data: [DONE]") continue;
+
+        if (trimmed.startsWith("data: ")) {
+          const jsonStr = trimmed.slice(6);
+          try {
+            const chunk: OpenAIStreamChunk = JSON.parse(jsonStr);
+            const delta = chunk.choices[0]?.delta;
+
+            if (delta?.content) {
+              fullContent += delta.content;
+
+              // Send progress update
+              onProgress({
+                content: delta.content,
+                done: false,
+              });
+            }
+          } catch (parseError) {
+            console.warn("Failed to parse SSE chunk:", jsonStr);
+          }
+        }
+      }
+    }
+
+    if (!fullContent || fullContent.trim().length === 0) {
+      throw new OpenAIAPIError(
+        "AI generated an empty response. Please try again.",
+        "empty_response"
+      );
+    }
+
+    return fullContent;
+  } catch (error) {
+    if (error instanceof OpenAIAPIError) {
+      throw error;
+    }
+
+    if (error instanceof Error) {
+      if (error.message.includes("fetch")) {
+        throw new OpenAIAPIError(
+          "Unable to connect to AI server. Please check the URL and ensure the server is running.",
+          "network_error"
+        );
+      }
+
+      throw new OpenAIAPIError(error.message);
+    }
+
+    throw new OpenAIAPIError("An unexpected error occurred");
+  }
+}
+
+/**
+ * Generates a cover letter using OpenAI API with streaming support
  */
 export async function generateCoverLetter(
   config: OpenAIConfig,
   resumeData: ResumeData,
-  jobDescription: string
+  jobDescription: string,
+  onProgress?: StreamCallback
 ): Promise<string> {
   // Build the prompt
   const prompt = buildCoverLetterPrompt(resumeData, jobDescription);
@@ -133,24 +247,31 @@ export async function generateCoverLetter(
     top_p: 0.9,
   };
 
-  // Make the API request
-  const response = await makeOpenAIRequest(config, request);
+  // Use streaming if callback provided, otherwise use regular request
+  let generatedContent: string;
 
-  // Extract the generated text
-  if (!response.choices || response.choices.length === 0) {
-    throw new OpenAIAPIError(
-      "AI generated an empty response. Please try again.",
-      "empty_response"
-    );
-  }
+  if (onProgress) {
+    generatedContent = await makeOpenAIStreamRequest(config, request, onProgress);
+  } else {
+    // Make the API request (non-streaming for backward compatibility)
+    const response = await makeOpenAIRequest(config, request);
 
-  const generatedContent = response.choices[0].message.content;
+    // Extract the generated text
+    if (!response.choices || response.choices.length === 0) {
+      throw new OpenAIAPIError(
+        "AI generated an empty response. Please try again.",
+        "empty_response"
+      );
+    }
 
-  if (!generatedContent || generatedContent.trim().length === 0) {
-    throw new OpenAIAPIError(
-      "AI generated an empty response. Please try rephrasing the job description.",
-      "empty_content"
-    );
+    generatedContent = response.choices[0].message.content;
+
+    if (!generatedContent || generatedContent.trim().length === 0) {
+      throw new OpenAIAPIError(
+        "AI generated an empty response. Please try rephrasing the job description.",
+        "empty_content"
+      );
+    }
   }
 
   // Post-process the content

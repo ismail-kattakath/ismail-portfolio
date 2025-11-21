@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "@/components/ui/Modal";
 import { Sparkles, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -38,6 +38,8 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
   // UI state
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [streamedContent, setStreamedContent] = useState("");
+  const streamContainerRef = useRef<HTMLDivElement>(null);
 
   // Load saved credentials and job description on mount
   useEffect(() => {
@@ -63,8 +65,16 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
       setJobDescription("");
       setError(null);
       setIsGenerating(false);
+      setStreamedContent("");
     }
   }, [isOpen]);
+
+  // Auto-scroll to bottom when streaming content updates
+  useEffect(() => {
+    if (streamContainerRef.current) {
+      streamContainerRef.current.scrollTop = streamContainerRef.current.scrollHeight;
+    }
+  }, [streamedContent]);
 
   // Validate form
   const isFormValid =
@@ -81,6 +91,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
 
     setIsGenerating(true);
     setError(null);
+    setStreamedContent("");
 
     try {
       // Save credentials and job description
@@ -91,7 +102,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
         lastJobDescription: jobDescription,
       });
 
-      // Generate the cover letter
+      // Generate the cover letter with streaming
       const content = await generateCoverLetter(
         {
           baseURL: apiUrl,
@@ -99,7 +110,13 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
           model: DEFAULT_MODEL,
         },
         resumeData,
-        jobDescription
+        jobDescription,
+        (chunk) => {
+          // Update streamed content in real-time
+          if (chunk.content) {
+            setStreamedContent((prev) => prev + chunk.content);
+          }
+        }
       );
 
       // Success!
@@ -354,13 +371,28 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
           )}
 
           {isGenerating && (
-            <div className="text-center space-y-2">
-              <p className="text-xs text-blue-300">
-                ✨ AI is analyzing the job and crafting your cover letter...
-              </p>
-              <p className="text-xs text-white/40">
-                This usually takes 5-15 seconds (thinking models may take up to 2 minutes)
-              </p>
+            <div className="space-y-3">
+              <div className="text-center space-y-2">
+                <p className="text-xs text-blue-300">
+                  ✨ AI is crafting your cover letter...
+                </p>
+              </div>
+
+              {/* Streaming content display */}
+              {streamedContent && (
+                <div
+                  ref={streamContainerRef}
+                  className="bg-white/5 border border-white/10 rounded-lg p-4 max-h-64 overflow-y-auto scroll-smooth"
+                >
+                  <p className="text-xs text-white/90 whitespace-pre-wrap leading-relaxed">
+                    {streamedContent}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-xs text-blue-400">
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                    <span>Generating...</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

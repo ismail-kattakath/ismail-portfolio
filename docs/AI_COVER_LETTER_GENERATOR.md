@@ -17,7 +17,8 @@ The AI Cover Letter Generator is a client-side feature that allows users to auto
 - 🎯 **Smart Prompting**: Intelligent prompt engineering that combines resume data with job requirements
 - ✅ **Accuracy Guarantee**: AI is strictly instructed to ONLY use qualifications and experiences from your actual resume data - no fabrication allowed
 - 🛡️ **Validation**: Built-in checks to detect and warn about potential unverified claims
-- ⚡ **Fast & Responsive**: Typical generation time: 3-10 seconds
+- 🌊 **Real-Time Streaming**: See AI generate your cover letter in real-time with live content streaming
+- ⚡ **No Timeouts**: Streaming eliminates arbitrary timeouts - works with thinking models that need minutes
 - 🔐 **Secure**: Credentials stored locally in browser, never sent to external servers (except your configured API)
 - ♿ **Accessible**: Full keyboard support and screen reader compatibility
 
@@ -61,7 +62,7 @@ When clicked, opens a modal with:
    - Job Description
 4. Optionally checks "Remember credentials"
 5. Clicks "Generate Cover Letter"
-6. AI processes request (3-10 seconds)
+6. AI streams response in real-time (you see content as it's generated!)
 7. Generated cover letter replaces textarea content
 8. Modal closes automatically
 
@@ -74,16 +75,38 @@ Combine with Resume Data (resume.json)
     ↓
 Build Prompt (Prompt Engineering)
     ↓
-Send to OpenAI-Compatible API
+Send to OpenAI-Compatible API (stream: true)
     ↓
-Receive Generated Content
+Receive Streaming Chunks (Server-Sent Events)
+    ↓
+Update UI in Real-Time (word-by-word)
+    ↓
+Complete Response Received
     ↓
 Post-Process & Validate
     ↓
 Insert into Cover Letter Textarea
 ```
 
-### 3. Prompt Engineering
+### 3. Streaming Architecture
+
+The application uses **Server-Sent Events (SSE)** for real-time streaming:
+
+1. **Request**: Sets `stream: true` in OpenAI API request
+2. **Response**: Receives `text/event-stream` with `data:` prefixed JSON chunks
+3. **Parsing**: Extracts `delta.content` from each chunk
+4. **UI Update**: Appends content to display in real-time
+5. **Auto-Scroll**: Automatically scrolls to show latest content
+6. **Completion**: Detects `[DONE]` message to finalize
+
+**Benefits over non-streaming:**
+- ✅ **No arbitrary timeouts** - works as long as server responds
+- ✅ **Real-time feedback** - user sees progress immediately
+- ✅ **Better UX** - engaging visual feedback during generation
+- ✅ **Thinking model support** - perfect for models that reason before answering
+- ✅ **Network resilience** - progressive delivery vs. all-or-nothing
+
+### 4. Prompt Engineering
 
 The system builds a comprehensive prompt that includes:
 
@@ -133,11 +156,11 @@ background is explicitly stated in the candidate information above.
 
 **This ensures the AI never fabricates qualifications or experiences not in your resume!**
 
-### 4. API Integration
+### 5. API Integration
 
 Compatible with any OpenAI-compatible API:
 
-**Request Format:**
+**Streaming Request Format:**
 ```json
 POST {baseURL}/v1/chat/completions
 {
@@ -153,21 +176,24 @@ POST {baseURL}/v1/chat/completions
     }
   ],
   "temperature": 0.7,
-  "max_tokens": 800
+  "max_tokens": 800,
+  "stream": true
 }
 ```
 
-**Response:**
-```json
-{
-  "choices": [
-    {
-      "message": {
-        "content": "[Generated cover letter text]"
-      }
-    }
-  ]
-}
+**Streaming Response (Server-Sent Events):**
+```
+data: {"id":"chatcmpl-123","choices":[{"index":0,"delta":{"role":"assistant"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-123","choices":[{"index":0,"delta":{"content":"I"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-123","choices":[{"index":0,"delta":{"content":"'m"},"finish_reason":null}]}
+
+data: {"id":"chatcmpl-123","choices":[{"index":0,"delta":{"content":" a"},"finish_reason":null}]}
+
+...
+
+data: [DONE]
 ```
 
 ## Setup & Configuration
@@ -230,8 +256,9 @@ POST {baseURL}/v1/chat/completions
 - ✅ No API costs
 - ✅ Full data privacy
 - ✅ Works offline
+- ✅ Real-time streaming feedback shows progress
 - ⚠️ Requires powerful hardware (8GB+ RAM, GPU recommended)
-- ⚠️ Slower generation (5-30 seconds for standard models, up to 2 minutes for thinking models)
+- ⚠️ Variable generation time (streaming shows progress regardless of duration)
 
 ### Using the Feature
 
@@ -395,9 +422,9 @@ npm test -- coverLetter.test
 ## Performance
 
 - **API Call**: 3-10 seconds for standard models (OpenAI GPT-4, GPT-3.5)
-- **Thinking Models**: Up to 2 minutes for models with reasoning (e.g., OLMo-3-32B-Think, DeepSeek R1)
-- **Timeout**: 120 seconds (2 minutes) to support thinking models
-- **Bundle Size**: ~15KB (gzipped, including dependencies)
+- **Thinking Models**: Variable time for models with reasoning (e.g., OLMo-3-32B-Think, DeepSeek R1)
+- **Streaming**: Real-time content delivery with no arbitrary timeouts - works with any model speed
+- **Bundle Size**: ~17KB (gzipped, including streaming support)
 - **No Server Load**: All processing client-side
 
 ## Future Enhancements

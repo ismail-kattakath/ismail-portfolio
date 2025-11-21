@@ -23,6 +23,7 @@ export interface OpenAIRequest {
   frequency_penalty?: number;
   presence_penalty?: number;
   stop?: string[];
+  stream?: boolean;
 }
 
 export interface OpenAIChoice {
@@ -60,3 +61,30 @@ export interface StoredCredentials {
   rememberCredentials: boolean;
   lastJobDescription?: string;
 }
+
+// Streaming types
+export interface OpenAIStreamDelta {
+  role?: "system" | "user" | "assistant";
+  content?: string;
+}
+
+export interface OpenAIStreamChoice {
+  index: number;
+  delta: OpenAIStreamDelta;
+  finish_reason: string | null;
+}
+
+export interface OpenAIStreamChunk {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: OpenAIStreamChoice[];
+}
+
+// Callback for streaming progress
+export type StreamCallback = (chunk: {
+  reasoning?: string;
+  content?: string;
+  done: boolean;
+}) => void;
