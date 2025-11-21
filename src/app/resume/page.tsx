@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Preview from "@/components/resume-builder/preview/Preview";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import defaultResumeData from "@/lib/resumeAdapter";
 import PrintButton from "@/components/resume-builder/PrintButton";
-import "@/app/resume/edit/resume-builder.css";
+import "@/styles/document-builder.css";
+import "@/styles/resume-preview.css";
 
 export default function ResumeDownloadPage() {
   const [resumeData, setResumeData] = useState(defaultResumeData);

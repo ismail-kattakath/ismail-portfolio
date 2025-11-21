@@ -25,7 +25,7 @@ import { formatUrl } from "@/components/resume-builder/utility/formatUrl";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import dynamic from "next/dynamic";
 import Language from "@/components/resume-builder/preview/Language";
 import Certification from "@/components/resume-builder/preview/Certification";

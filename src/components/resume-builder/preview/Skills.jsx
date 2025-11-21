@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 
 const Skills = ({ title, skills }) => {
   const { resumeData, setResumeData } = useContext(ResumeContext);

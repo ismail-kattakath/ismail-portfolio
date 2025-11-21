@@ -1,6 +1,6 @@
 import FormButton from "@/components/resume-builder/form/FormButton";
 import React, { useContext } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import { MdDelete } from "react-icons/md";
 
 const Education = () => {

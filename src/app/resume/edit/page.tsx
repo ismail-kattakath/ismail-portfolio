@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import "./resume-builder.css";
+import "@/styles/document-builder.css";
+import "@/styles/resume-preview.css";
 
 // Import components
 import Language from "@/components/resume-builder/form/Language";
@@ -16,12 +17,14 @@ import Summary from "@/components/resume-builder/form/Summary";
 import Education from "@/components/resume-builder/form/Education";
 import Certification from "@/components/resume-builder/form/certification";
 import PrintButton from "@/components/resume-builder/PrintButton";
-import { ResumeContext } from "./ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import { Toaster } from "sonner";
+import { useDocumentHandlers } from "@/lib/hooks/useDocumentHandlers";
 
 export default function ResumeEditPage() {
   // Resume data
   const [resumeData, setResumeData] = useState(defaultResumeData);
+  const { handleProfilePicture, handleChange } = useDocumentHandlers(resumeData, setResumeData);
 
   // Migrate skills data on mount if needed
   useEffect(() => {
@@ -62,29 +65,6 @@ export default function ResumeEditPage() {
       }
     }
   }, []);
-
-  // Profile picture
-  const handleProfilePicture = (e: any) => {
-    const file = e.target.files[0];
-
-    if (file instanceof Blob) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setResumeData({
-          ...resumeData,
-          profilePicture: event.target?.result as string,
-        });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      console.error("Invalid file type");
-    }
-  };
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setResumeData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   return (
     <>

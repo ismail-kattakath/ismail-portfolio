@@ -1,6 +1,6 @@
 import { VscJson } from "react-icons/vsc";
 import React, { useContext } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import { convertToJSONResume, convertFromJSONResume } from "@/lib/jsonResume";
 import { validateJSONResume } from "@/lib/jsonResumeSchema";
 import { toast } from "sonner";

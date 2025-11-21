@@ -12,7 +12,7 @@ import ContactInfo from "@/components/resume-builder/preview/ContactInfo";
 import { formatUrl } from "@/components/resume-builder/utility/formatUrl";
 import Image from "next/image";
 import React, { useContext } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 
 const CoverLetterPreview = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext);

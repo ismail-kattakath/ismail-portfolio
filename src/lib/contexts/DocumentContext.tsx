@@ -3,16 +3,19 @@
 import { createContext } from "react";
 import resumeData from "@/lib/resumeAdapter";
 
-type ResumeContextType = {
+type DocumentContextType = {
   resumeData: typeof resumeData;
   setResumeData: (data: typeof resumeData) => void;
   handleProfilePicture: (e: any) => void;
   handleChange: (e: any) => void;
 };
 
-export const ResumeContext = createContext<ResumeContextType>({
+export const DocumentContext = createContext<DocumentContextType>({
   resumeData: resumeData,
   setResumeData: () => {},
   handleProfilePicture: () => {},
   handleChange: () => {},
 });
+
+// Export alias for backward compatibility during migration
+export const ResumeContext = DocumentContext;

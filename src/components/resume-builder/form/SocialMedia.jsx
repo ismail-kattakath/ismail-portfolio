@@ -1,6 +1,6 @@
 import FormButton from "@/components/resume-builder/form/FormButton";
 import React, { useContext, useState, useEffect } from "react";
-import { ResumeContext } from "@/app/resume/edit/ResumeContext";
+import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import {
   MdDelete,
   MdCheckCircle,
