@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { ResumeContext } from "@/lib/contexts/DocumentContext";
-import { Sparkles } from "lucide-react";
 import AIGenerateModal from "./AIGenerateModal";
+import AITextAreaWithButton from "@/components/document-builder/shared-forms/AITextAreaWithButton";
 
 const CoverLetterContent = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleContentChange = (e) => {
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setResumeData({ ...resumeData, content: e.target.value });
   };
 
@@ -21,33 +21,19 @@ const CoverLetterContent = () => {
         <div className="w-1 h-6 bg-gradient-to-b from-amber-500 to-orange-500 rounded-full"></div>
         <h2 className="text-lg text-white font-semibold">Cover Letter Content</h2>
       </div>
-      <div className="flex flex-col">
-        <div className="relative">
-          <textarea
-            placeholder="Write your compelling cover letter here...
+
+      <AITextAreaWithButton
+        value={resumeData.content || ""}
+        onChange={handleContentChange}
+        onGenerateClick={() => setIsModalOpen(true)}
+        placeholder="Write your compelling cover letter here...
 
 Tip: Highlight your relevant experience, explain why you're excited about this opportunity, and show how your skills align with the role."
-            name="content"
-            rows={18}
-            className="w-full px-4 py-3 bg-white/10 text-white rounded-t-lg rounded-b-none text-sm border border-white/20 border-b-0 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 outline-none transition-all resize-y min-h-[300px] placeholder:text-white/30 leading-relaxed block"
-            value={resumeData.content || ""}
-            onChange={handleContentChange}
-          />
-          <div className="absolute top-3 right-3 px-3 py-1 bg-white/5 rounded-lg text-xs text-white/50 pointer-events-none">
-            {(resumeData.content || "").length} characters
-          </div>
-        </div>
-
-        {/* Generate with AI Button - Connected to textarea bottom */}
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-t-none rounded-b-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl group border border-white/20 border-t-0"
-        >
-          <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-          <span>Generate with AI</span>
-        </button>
-      </div>
+        name="content"
+        rows={18}
+        minHeight="300px"
+        showCharacterCount={true}
+      />
 
       {/* AI Generation Modal */}
       <AIGenerateModal
