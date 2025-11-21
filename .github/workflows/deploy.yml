@@ -34,6 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run tests
+        run: npm test
+        continue-on-error: false
+
       - name: Build with Next.js
         run: npm run build
         continue-on-error: false
