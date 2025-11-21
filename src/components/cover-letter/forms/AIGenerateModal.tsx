@@ -1,4 +1,4 @@
-import AIGenerateModal from "@/components/document-builder/shared-forms/AIGenerateModal";
+import AIDocumentGeneratorModal from "@/components/document-builder/shared-forms/AIDocumentGeneratorModal";
 import type { ResumeData } from "@/types";
 
 interface AIGenerateCoverLetterModalProps {
@@ -11,7 +11,7 @@ interface AIGenerateCoverLetterModalProps {
 const AIGenerateCoverLetterModal: React.FC<AIGenerateCoverLetterModalProps> = (
   props
 ) => {
-  return <AIGenerateModal {...props} mode="coverLetter" />;
+  return <AIDocumentGeneratorModal {...props} mode="coverLetter" />;
 };
 
 export default AIGenerateCoverLetterModal;

@@ -10,7 +10,7 @@ import {
   saveCredentials,
   loadCredentials,
   OpenAIAPIError,
-} from "@/lib/services/openai";
+} from "@/lib/ai/openai-client";
 import type { ResumeData } from "@/types";
 
 interface AIGenerateModalProps {

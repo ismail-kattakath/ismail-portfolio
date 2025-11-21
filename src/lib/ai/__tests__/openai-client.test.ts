@@ -4,7 +4,7 @@ import {
   loadCredentials,
   clearCredentials,
   OpenAIAPIError,
-} from "../openai";
+} from "../openai-client";
 import type { ResumeData, StoredCredentials } from "@/types";
 
 // Mock fetch

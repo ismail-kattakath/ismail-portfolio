@@ -1,4 +1,4 @@
-import AIGenerateModal from "@/components/document-builder/shared-forms/AIGenerateModal";
+import AIDocumentGeneratorModal from "@/components/document-builder/shared-forms/AIDocumentGeneratorModal";
 import type { ResumeData } from "@/types";
 
 interface AIGenerateSummaryModalProps {
@@ -11,7 +11,7 @@ interface AIGenerateSummaryModalProps {
 const AIGenerateSummaryModal: React.FC<AIGenerateSummaryModalProps> = (
   props
 ) => {
-  return <AIGenerateModal {...props} mode="summary" />;
+  return <AIDocumentGeneratorModal {...props} mode="summary" />;
 };
 
 export default AIGenerateSummaryModal;

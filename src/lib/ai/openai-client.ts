@@ -14,7 +14,7 @@ import {
   postProcessCoverLetter,
   buildSummaryPrompt,
   validateSummary,
-} from "@/lib/prompts/coverLetter";
+} from "@/lib/ai/document-prompts";
 
 const STORAGE_KEY = "ai_cover_letter_credentials";
 const REQUEST_TIMEOUT = 120000; // 120 seconds (2 minutes) - increased for thinking models like OLMo-3

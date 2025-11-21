@@ -2,7 +2,7 @@ import {
   buildCoverLetterPrompt,
   validateCoverLetter,
   postProcessCoverLetter,
-} from "../coverLetter";
+} from "../document-prompts";
 import type { ResumeData } from "@/types";
 
 const mockResumeData: ResumeData = {
