@@ -124,7 +124,7 @@ const Skill = ({ title }) => {
             <button
               type="button"
               onClick={() => deleteSkill(title, index)}
-              className="flex-shrink-0 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all"
+              className="flex-shrink-0 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all cursor-pointer"
               title="Delete this skill"
             >
               <MdDelete className="text-xl" />

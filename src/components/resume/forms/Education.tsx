@@ -131,7 +131,7 @@ const Education = () => {
               <button
                 type="button"
                 onClick={() => deleteEducation(index)}
-                className="flex-shrink-0 px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all"
+                className="flex-shrink-0 px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all cursor-pointer"
                 title="Delete this education"
               >
                 <MdDelete className="text-xl" />

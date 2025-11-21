@@ -58,7 +58,7 @@ const Certification = () => {
             <button
               type="button"
               onClick={() => deleteSkill(index)}
-              className="flex-shrink-0 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all"
+              className="flex-shrink-0 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all cursor-pointer"
               title="Delete this certification"
             >
               <MdDelete className="text-xl" />
