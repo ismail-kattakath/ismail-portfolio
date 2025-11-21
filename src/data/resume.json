@@ -1,0 +1,323 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Ismail Kattakath",
+    "label": "Full Stack Developer | Tech Lead | LLMOps",
+    "image": "",
+    "email": "ismail@kattakath.com",
+    "phone": "+1 (647) 225-2878",
+    "url": "https://ismail.kattakath.com",
+    "summary": "Principal Software Engineer with deep expertise in full-stack development and cloud infrastructure, delivering high-impact, scalable systems at scale. Currently architecting and operating production-grade GenAI inference platforms using vLLM, Kubernetes, and multi-GPU clusters, achieving 25% cost reduction and 40% latency improvement. Previously rescued an abandoned healthcare MEAN-stack application and transformed it into a nationally deployed platform with 99.5% uptime; led the AngularJS-to-Next.js modernization, implemented enterprise federated authentication (OAuth 2.0 + SAML 2.0) across 5+ partners, and established DevOps practices that reduced deployment time by 92% and production incidents by 65%. Proven ability to drive end-to-end architecture, performance optimization, security/compliance, and measurable business outcomes in distributed cloud environments.",
+    "location": {
+      "address": "24-242 John Garland Blvd",
+      "postalCode": "M9V 1N8",
+      "city": "Toronto",
+      "countryCode": "CA",
+      "region": "ON"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "ismailkattakath",
+        "url": "https://linkedin.com/in/ismailkattakath"
+      },
+      {
+        "network": "Github",
+        "username": "ismail-kattakath",
+        "url": "https://github.com/ismail-kattakath"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Silver Creek Insights Inc.",
+      "position": "Principal Software Engineer",
+      "url": "https://silvercreek.ai",
+      "startDate": "2024-08-01",
+      "endDate": "",
+      "summary": "Aloshy.ai: AI-as-a-Service platform providing B2B APIs for media manipulation and custom-trained generative AI pipelines tailored to specific business needs.",
+      "highlights": [
+        "Architected scalable GenAI inference infrastructure using Kubernetes/Containerization, vLLM etc. supporting multiple Diffusion and LLM models, and deployed on GCP/GKE and AWS/EKS for production.",
+        "Implemented advanced techniques such as KV-cache, Distributed Inference, Multi-GPU/Node Scaling, CUDA optimization and memory/load management to reduce inference latency by 40%, and cutting operational costs by 25%.",
+        "Designed and documented GPU cluster management playbooks including model versioning/rollbacks, utilization monitoring, failure recovery, and load balancing strategies.",
+        "Built enterprise-grade secured API architecture using centralized gateway/aggregator for serving internal and curated third-party MCP servers/tools."
+      ],
+      "keywords": [
+        "Google Vertex AI",
+        "GKE",
+        "Docker",
+        "Kubernetes",
+        "vLLM",
+        "TGI",
+        "Triton Inference Server",
+        "CUDA Optimization",
+        "OAuth2.0",
+        "MCP Protocol",
+        "Python",
+        "Node.js"
+      ]
+    },
+    {
+      "name": "Homewood Health Inc.",
+      "position": "Senior Software Engineer",
+      "url": "https://homewoodhealth.com",
+      "startDate": "2017-10-01",
+      "endDate": "2024-07-01",
+      "summary": "Homeweb.ca: Canada's leading digital mental health provider, delivering EFAP and CBT solutions to hundreds of thousands of employees nationwide.",
+      "highlights": [
+        "Inherited and revitalized an abandoned, undocumented MEAN stack application, transforming it into a maintainable, production-ready web platform with 99.5% uptime.",
+        "Rebuilt authentication system implementing OAuth 2.0 PKCE flow for SSO integration with Microsoft Identity Platform.",
+        "Collaborated with 15+ federated vendors to configure and troubleshoot SAML 2.0 authentication, enabling seamless user login.",
+        "Led complete frontend migration from AngularJS to Next.js upon framework EOL, preserving existing UI/UX and API compatibility.",
+        "Established comprehensive DevOps practices including automated testing, CI/CD pipelines (reducing deployment time from 4 hours to 20 minutes), containerization, monitoring, and backup systems.",
+        "Led infrastructure migration from DigitalOcean to AWS, orchestrating transition of EC2, RDS, S3, CloudFront, and VPC components using Terraform for infrastructure-as-code, achieving zero-downtime deployment."
+      ],
+      "keywords": [
+        "Next.js",
+        "ReactJS",
+        "Node.js",
+        "MongoDB",
+        "AngularJS",
+        "Express",
+        "SAML 2.0",
+        "OAuth 2.0",
+        "PKCE",
+        "Microsoft Identity",
+        "Docker",
+        "AWS",
+        "CI/CD",
+        "Terraform"
+      ]
+    },
+    {
+      "name": "Etuper Technologies Pvt. Ltd.",
+      "position": "Lead Software Engineer",
+      "url": "https://facebook.com/com.etuper",
+      "startDate": "2016-04-01",
+      "endDate": "2017-08-01",
+      "summary": "Brilliant Rewards: Complete hospitality software suite—dashboard, mobile and web apps—featuring loyalty programs, marketing automation, booking integration, and analytics.",
+      "highlights": [
+        "Collaborated with stakeholders to gather requirements, create user stories, design wireframes, and develop functional prototypes.",
+        "Managed sprint planning, daily standups, backlog prioritization, and blocker resolution to ensure continuous delivery.",
+        "Designed normalized database schemas, optimized SQL queries and indexing strategies, and implemented stored procedures with comprehensive test coverage.",
+        "Led development of scalable microservices architecture with containerized, discoverable APIs following OpenAPI specifications.",
+        "Delivered multiple client applications including AngularJS web platforms and cross-platform mobile solutions.",
+        "Introduced development standards encompassing coding conventions, linting, code reviews, documentation, and incident management processes, reducing production incidents by 65%."
+      ],
+      "keywords": [
+        "AngularJS",
+        "Node.js",
+        "Express",
+        "MySQL",
+        "MongoDB",
+        "Docker",
+        "Microservices",
+        "OpenAPI",
+        "Ionic",
+        "React Native"
+      ]
+    },
+    {
+      "name": "RM plc.",
+      "position": "Software Engineer",
+      "url": "https://rmplc.com",
+      "startDate": "2011-06-01",
+      "endDate": "2016-03-01",
+      "summary": "RM Integris: School MIS system featuring student management, grade tracking, attendance monitoring, parent portals, and performance analytics.",
+      "highlights": [
+        "Implemented OpenAPI/Swagger bridging layer to modernize legacy SOAP APIs for RESTful client consumption.",
+        "Prototyped AngularJS interface to decouple presentation layer from legacy Struts JSP architecture.",
+        "Maintained load-balanced Linux VM clusters hosting distributed web, application, and database tiers.",
+        "Mentored interns and onboarded new team members through technical guidance and knowledge transfer."
+      ],
+      "keywords": [
+        "Java",
+        "Struts",
+        "JSP",
+        "AngularJS",
+        "SOAP",
+        "REST",
+        "OpenAPI",
+        "MySQL",
+        "Linux",
+        "Tomcat",
+        "Apache"
+      ]
+    },
+    {
+      "name": "Posibolt Solutions Pvt. Ltd.",
+      "position": "Junior Software Engineer",
+      "url": "https://posibolt.com",
+      "startDate": "2010-07-01",
+      "endDate": "2011-01-01",
+      "summary": "Posibolt: Adaptable cloud ERP solution serving key retail businesses across global industry segments.",
+      "highlights": [
+        "Created UI mockups based on SRS specifications and converted approved designs into responsive HTML/CSS templates.",
+        "Developed integration test cases and implemented browser automation using Selenium WebDriver.",
+        "Authored user documentation including help articles, user guides, FAQs, and product website content."
+      ],
+      "keywords": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "jQuery",
+        "Selenium WebDriver",
+        "Java",
+        "JSP"
+      ]
+    }
+  ],
+  "volunteer": [],
+  "education": [
+    {
+      "institution": "Mahatma Gandhi University",
+      "url": "https://mgu.ac.in",
+      "area": "Bachelor's Degree in Computer Science and Engineering",
+      "studyType": "Bachelor's Degree",
+      "startDate": "2006-07-01",
+      "endDate": "2010-04-01"
+    }
+  ],
+  "awards": [],
+  "certificates": [],
+  "publications": [],
+  "skills": [
+    {
+      "name": "AI/ML Stack",
+      "level": "",
+      "keywords": [
+        "Generative AI Pipelines",
+        "RAG Systems",
+        "Multi-Agent LLM Workflows",
+        "MCP Server Gateways",
+        "Kubernetes/Containerization",
+        "vLLM",
+        "TGI",
+        "Triton Inference Server",
+        "CUDA Optimization",
+        "TensorRT",
+        "ONNX",
+        "Google Vertex AI",
+        "Hugging Face Transformers",
+        "Knowledge Graphs",
+        "NER Models",
+        "Claude Code",
+        "Gemini CLI",
+        "Cursor"
+      ]
+    },
+    {
+      "name": "Cloud Services",
+      "level": "",
+      "keywords": [
+        "Google Cloud (Vertex AI, GKE)",
+        "AWS (EKS, SageMaker, EC2 P4/P5, Inferentia, Lambda, S3)",
+        "Vercel",
+        "DigitalOcean",
+        "MongoDB Atlas",
+        "Cloudflare Workers/R2"
+      ]
+    },
+    {
+      "name": "Authentication & Security",
+      "level": "",
+      "keywords": [
+        "OAuth 2.0",
+        "PKCE",
+        "SAML 2.0",
+        "OpenID Connect (OIDC)",
+        "JWT",
+        "Bearer Token",
+        "Auth0",
+        "Keycloak",
+        "Basic Auth"
+      ]
+    },
+    {
+      "name": "DevOps & CI/CD",
+      "level": "",
+      "keywords": [
+        "Kubernetes",
+        "Docker",
+        "Docker Compose",
+        "GitHub Actions",
+        "GitLab CI",
+        "Terraform",
+        "Grafana",
+        "Ansible",
+        "Vagrant",
+        "Act"
+      ]
+    },
+    {
+      "name": "Backend & APIs",
+      "level": "",
+      "keywords": [
+        "Node.js",
+        "Express",
+        "RESTful APIs",
+        "Microservices",
+        "Swagger/OpenAPI",
+        "GraphQL",
+        "SOAP/XML"
+      ]
+    },
+    {
+      "name": "Programming / Scripting",
+      "level": "",
+      "keywords": [
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "Bash"
+      ]
+    },
+    {
+      "name": "Databases",
+      "level": "",
+      "keywords": [
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL",
+        "MS SQL",
+        "Redis",
+        "Supabase",
+        "Qdrant",
+        "Chroma",
+        "Neo4j"
+      ]
+    },
+    {
+      "name": "Protocols",
+      "level": "",
+      "keywords": [
+        "HTTP/HTTPS",
+        "WebSocket",
+        "Server-Sent Events",
+        "WebRTC"
+      ]
+    },
+    {
+      "name": "Web & Mobile UI",
+      "level": "",
+      "keywords": [
+        "Next.js",
+        "ReactJS",
+        "Angular",
+        "TailwindCSS",
+        "React Native",
+        "Expo",
+        "Flutter"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native speaker"
+    }
+  ],
+  "interests": [],
+  "references": [],
+  "projects": []
+}
