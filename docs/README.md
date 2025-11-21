@@ -12,11 +12,23 @@ This directory contains comprehensive documentation for the portfolio project.
 - Step-by-step customization guide
 - Common customizations and best practices
 
-## Password Protection Feature
+## Features Documentation
 
+### AI Cover Letter Generator
+📄 **[AI_COVER_LETTER_GENERATOR.md](./AI_COVER_LETTER_GENERATOR.md)**
+- **NEW FEATURE** - AI-powered cover letter generation
+- **Requires**: OpenAI API key or compatible API endpoint
+- Client-side integration with OpenAI-compatible APIs
+- Support for OpenAI, Azure OpenAI, or local LLM servers (LM Studio, etc.)
+- Setup guide for OpenAI API and local AI servers
+- Prompt engineering details
+- API configuration and troubleshooting
+- Credential storage and security
+
+### Password Protection Feature
 Documentation for the password protection system implemented for edit pages:
 
-### Setup & Usage
+#### Setup & Usage
 📄 **[PASSWORD_PROTECTION_SETUP.md](./PASSWORD_PROTECTION_SETUP.md)**
 - Complete setup guide for local and production environments
 - How to generate password hashes
@@ -25,7 +37,7 @@ Documentation for the password protection system implemented for edit pages:
 - Troubleshooting guide
 - Security considerations
 
-### Testing
+#### Testing
 📄 **[PASSWORD_PROTECTION_TESTS.md](./PASSWORD_PROTECTION_TESTS.md)**
 - Comprehensive test suite documentation
 - **125 tests total** (112 passing, 13 failing)
@@ -40,7 +52,8 @@ Documentation for the password protection system implemented for edit pages:
 ### First Time Setup
 1. **[Customize Your Data](./DEFAULT_DATA_SETUP.md)** - Update personal info, experience, skills
 2. **[Setup Password Protection](./PASSWORD_PROTECTION_SETUP.md)** - Secure your edit pages
-3. **Build & Deploy** - See main [README.md](../README.md)
+3. **[Configure AI Generator](./AI_COVER_LETTER_GENERATOR.md)** - Optional: Setup local AI for cover letters
+4. **Build & Deploy** - See main [README.md](../README.md)
 
 ### For Developers
 - **Setup Password Protection**: [PASSWORD_PROTECTION_SETUP.md](./PASSWORD_PROTECTION_SETUP.md)
@@ -52,6 +65,7 @@ Documentation for the password protection system implemented for edit pages:
 - **Access Protected Pages**: Navigate to `/resume/edit` or `/cover-letter/edit`
 - **Default Password**: Configured during setup (see SETUP guide)
 - **Session Duration**: 24 hours
+- **AI Cover Letters**: Click "Generate with AI" button in cover letter editor (requires OpenAI API key or compatible endpoint)
 
 ## Project Structure
 

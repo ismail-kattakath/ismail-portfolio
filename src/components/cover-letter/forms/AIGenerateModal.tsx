@@ -1,0 +1,372 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Modal from "@/components/ui/Modal";
+import { Sparkles, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
+import {
+  generateCoverLetter,
+  saveCredentials,
+  loadCredentials,
+  OpenAIAPIError,
+} from "@/lib/services/openai";
+import type { ResumeData } from "@/types";
+
+interface AIGenerateModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onGenerate: (content: string) => void;
+  resumeData: ResumeData;
+}
+
+const DEFAULT_API_URL = "https://api.openai.com";
+const DEFAULT_MODEL = "gpt-4o-mini";
+
+const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
+  isOpen,
+  onClose,
+  onGenerate,
+  resumeData,
+}) => {
+  // Form state
+  const [apiUrl, setApiUrl] = useState(DEFAULT_API_URL);
+  const [apiKey, setApiKey] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [rememberCredentials, setRememberCredentials] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
+
+  // UI state
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Load saved credentials and job description on mount
+  useEffect(() => {
+    if (isOpen) {
+      const saved = loadCredentials();
+      if (saved) {
+        if (saved.rememberCredentials) {
+          setApiUrl(saved.apiUrl);
+          setApiKey(saved.apiKey);
+          setRememberCredentials(true);
+        }
+        // Always load last job description if available
+        if (saved.lastJobDescription) {
+          setJobDescription(saved.lastJobDescription);
+        }
+      }
+    }
+  }, [isOpen]);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setJobDescription("");
+      setError(null);
+      setIsGenerating(false);
+    }
+  }, [isOpen]);
+
+  // Validate form
+  const isFormValid =
+    apiUrl.trim() !== "" &&
+    apiKey.trim() !== "" &&
+    jobDescription.trim() !== "";
+
+  // Handle form submission
+  const handleGenerate = async () => {
+    if (!isFormValid) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      // Save credentials and job description
+      saveCredentials({
+        apiUrl,
+        apiKey,
+        rememberCredentials,
+        lastJobDescription: jobDescription,
+      });
+
+      // Generate the cover letter
+      const content = await generateCoverLetter(
+        {
+          baseURL: apiUrl,
+          apiKey: apiKey,
+          model: DEFAULT_MODEL,
+        },
+        resumeData,
+        jobDescription
+      );
+
+      // Success!
+      toast.success("Cover letter generated successfully!", {
+        description: "The AI has crafted your personalized cover letter.",
+      });
+
+      onGenerate(content);
+      onClose();
+    } catch (err) {
+      console.error("Cover letter generation error:", err);
+
+      let errorMessage = "Failed to generate cover letter";
+
+      if (err instanceof OpenAIAPIError) {
+        errorMessage = err.message;
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      setError(errorMessage);
+      toast.error("Generation failed", {
+        description: errorMessage,
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Handle Enter key in textarea (Ctrl/Cmd+Enter to submit)
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey) && isFormValid) {
+      e.preventDefault();
+      handleGenerate();
+    }
+  };
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="🤖 AI Cover Letter Generator"
+      maxWidth="lg"
+    >
+      <div className="space-y-5">
+        {/* Combined info banner with progressive disclosure */}
+        <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm text-blue-300 font-medium mb-1">
+                How it works
+              </p>
+              <p className="text-xs text-blue-200/80 leading-relaxed">
+                Paste any job description below, and AI will craft a personalized cover letter using <strong>only</strong> your actual resume data—no fabrication, just your real experience and skills.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Collapsible API Settings */}
+        <details className="group" open={!rememberCredentials || !apiKey}>
+          <summary className="cursor-pointer list-none">
+            <div className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/10">
+              <div className="flex items-center gap-2">
+                <div className="text-white/80 text-sm font-medium">
+                  🔑 API Configuration
+                </div>
+                {apiKey && rememberCredentials && (
+                  <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded-full">
+                    Saved
+                  </span>
+                )}
+              </div>
+              <svg
+                className="w-5 h-5 text-white/60 transition-transform group-open:rotate-180"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </summary>
+
+          <div className="mt-4 space-y-4 p-4 bg-white/5 rounded-lg border border-white/10">
+            {/* API URL */}
+            <div className="space-y-2">
+              <label
+                htmlFor="api-url"
+                className="block text-sm font-medium text-white flex items-center gap-2"
+              >
+                API URL
+                <span className="text-xs text-white/50 font-normal">(OpenAI or compatible)</span>
+              </label>
+              <input
+                id="api-url"
+                type="text"
+                value={apiUrl}
+                onChange={(e) => setApiUrl(e.target.value)}
+                placeholder="https://api.openai.com"
+                className="w-full px-4 py-2.5 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all placeholder:text-white/30"
+                disabled={isGenerating}
+              />
+            </div>
+
+            {/* API Key */}
+            <div className="space-y-2">
+              <label
+                htmlFor="api-key"
+                className="block text-sm font-medium text-white flex items-center gap-2"
+              >
+                API Key
+                <a
+                  href="https://platform.openai.com/api-keys"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-blue-400 hover:text-blue-300 underline"
+                >
+                  Get key
+                </a>
+              </label>
+              <div className="relative">
+                <input
+                  id="api-key"
+                  type={showApiKey ? "text" : "password"}
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="sk-proj-..."
+                  className="w-full px-4 py-2.5 pr-12 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all placeholder:text-white/30"
+                  disabled={isGenerating}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                  aria-label={showApiKey ? "Hide API key" : "Show API key"}
+                >
+                  {showApiKey ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember credentials checkbox */}
+            <div className="flex items-start gap-2 pt-2">
+              <input
+                id="remember-credentials"
+                type="checkbox"
+                checked={rememberCredentials}
+                onChange={(e) => setRememberCredentials(e.target.checked)}
+                className="w-4 h-4 mt-0.5 rounded border-white/20 bg-white/10 text-blue-500 focus:ring-2 focus:ring-blue-400/20"
+                disabled={isGenerating}
+              />
+              <label
+                htmlFor="remember-credentials"
+                className="text-sm text-white/80 cursor-pointer leading-snug"
+              >
+                Remember my API credentials
+                <span className="block text-xs text-white/50 mt-0.5">
+                  Stored securely in your browser. Job description always saved separately.
+                </span>
+              </label>
+            </div>
+          </div>
+        </details>
+
+        {/* Job Description - Primary focus */}
+        <div className="space-y-2">
+          <label
+            htmlFor="job-description"
+            className="block text-sm font-medium text-white flex items-center justify-between"
+          >
+            <span className="flex items-center gap-2">
+              📄 Job Description
+              <span className="text-xs font-normal text-white/50">(required)</span>
+            </span>
+            {jobDescription && (
+              <span className="text-xs text-green-400">
+                {jobDescription.length} characters
+              </span>
+            )}
+          </label>
+          <textarea
+            id="job-description"
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Paste the job posting here...
+
+✓ Job title and requirements
+✓ Responsibilities and qualifications
+✓ Company info and benefits
+✓ Any specific skills or experience needed"
+            rows={12}
+            className="w-full px-4 py-3 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all resize-y min-h-[240px] placeholder:text-white/30 leading-relaxed"
+            disabled={isGenerating}
+            autoFocus
+          />
+          <div className="flex items-center justify-between text-xs text-white/50">
+            <span>💡 Tip: More details = better cover letter</span>
+            <kbd className="px-2 py-1 bg-white/10 rounded text-white/60 font-mono">
+              {navigator.platform.includes("Mac") ? "⌘" : "Ctrl"}+Enter to generate
+            </kbd>
+          </div>
+        </div>
+
+        {/* Error message */}
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-300">Error</p>
+              <p className="text-sm text-red-200 mt-1">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Generate button with progress indicator */}
+        <div className="space-y-3 pt-2">
+          <button
+            onClick={handleGenerate}
+            disabled={!isFormValid || isGenerating}
+            className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 group"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Generating your cover letter...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                <span>Generate Cover Letter</span>
+              </>
+            )}
+          </button>
+
+          {/* Helper text */}
+          {!isFormValid && !isGenerating && (
+            <p className="text-xs text-center text-white/50">
+              {!apiKey
+                ? "⚠️ API key required"
+                : !jobDescription
+                ? "⚠️ Job description required"
+                : "Fill all fields to continue"}
+            </p>
+          )}
+
+          {isGenerating && (
+            <div className="text-center space-y-2">
+              <p className="text-xs text-blue-300">
+                ✨ AI is analyzing the job and crafting your cover letter...
+              </p>
+              <p className="text-xs text-white/40">
+                This usually takes 5-15 seconds
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export default AIGenerateModal;

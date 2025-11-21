@@ -325,15 +325,17 @@ Interactive resume editor with live preview:
 
 ### Cover Letter Generator
 
-Interactive cover letter editor:
+Interactive cover letter editor with AI generation:
 
 - **Location**: `/cover-letter/edit` (password-protected)
 - **Features**:
+  - **AI-Powered Generation**: "Generate with AI" button creates tailored cover letters using OpenAI-compatible APIs
   - Reuses personal information from resume.json
   - Custom content editor
   - Live preview panel
   - Save/Load functionality (localStorage)
   - Print functionality
+- **AI Integration**: Client-side AI generation using OpenAI API or compatible servers (requires API key, see `docs/AI_COVER_LETTER_GENERATOR.md`)
 
 ### Calendar Booking Integration
 

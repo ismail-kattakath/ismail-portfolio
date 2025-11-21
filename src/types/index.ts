@@ -35,3 +35,13 @@ export type {
 
 // Cover letter types
 export type { CoverLetterData } from './cover-letter';
+
+// OpenAI API types
+export type {
+  OpenAIConfig,
+  OpenAIMessage,
+  OpenAIRequest,
+  OpenAIResponse,
+  OpenAIError,
+  StoredCredentials,
+} from './openai';

@@ -1,11 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ResumeContext } from "@/lib/contexts/DocumentContext";
+import { Sparkles } from "lucide-react";
+import AIGenerateModal from "./AIGenerateModal";
 
 const CoverLetterContent = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleContentChange = (e) => {
     setResumeData({ ...resumeData, content: e.target.value });
+  };
+
+  const handleGenerate = (generatedContent: string) => {
+    setResumeData({ ...resumeData, content: generatedContent });
   };
 
   return (
@@ -30,6 +37,25 @@ Tip: Highlight your relevant experience, explain why you're excited about this o
           {(resumeData.content || "").length} characters
         </div>
       </div>
+
+      {/* Generate with AI Button */}
+      <button
+        type="button"
+        onClick={() => setIsModalOpen(true)}
+        className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl group"
+      >
+        <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+        <span>Generate with AI</span>
+        <span className="text-xs opacity-75">Let AI craft your cover letter</span>
+      </button>
+
+      {/* AI Generation Modal */}
+      <AIGenerateModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onGenerate={handleGenerate}
+        resumeData={resumeData}
+      />
     </div>
   );
 };
