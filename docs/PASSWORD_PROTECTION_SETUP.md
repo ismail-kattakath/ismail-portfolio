@@ -120,13 +120,13 @@ A "Logout" button appears in the top-right corner when authenticated. Click it t
 ### Files Modified
 
 - `src/components/auth/PasswordProtection.tsx` - Password UI and logic
-- `src/config/password.ts` - Password hash configuration (local dev)
-- `src/config/password.example.ts` - Template for password config
+- `src/config/password.ts` - Password hash configuration (reads from env var)
 - `src/app/resume/edit/page.tsx` - Wrapped with PasswordProtection
 - `src/app/cover-letter/edit/page.tsx` - Wrapped with PasswordProtection
 - `.github/workflows/deploy.yml` - Uses GitHub secret during build
 - `scripts/generate-password-hash.js` - Hash generation utility
-- `.gitignore` - Excludes password.ts from version control
+- `.env.example` - Example environment variables
+- `.gitignore` - Excludes .env files and password.ts from version control
 
 ### Dependencies Added
 
@@ -161,20 +161,25 @@ To change the password:
 
 ## ❓ Troubleshooting
 
-### "Password protection is not configured" Error
+### Password Protection Not Working
 
-**Causes**:
-- Local development: `password.ts` file not created or hash not set
-- Production: Environment variable not set during build
+**Issue**: Edit pages show password prompt but you want them publicly accessible.
 
-**Solutions**:
+**Solution**:
+- Remove `NEXT_PUBLIC_EDIT_PASSWORD_HASH` from `.env.local`
+- Or comment it out with `#`
+- Restart dev server
+- Edit pages will now be publicly accessible
+
+**Issue**: Password prompt not showing when you want protection enabled.
+
+**Solution**:
 1. **Local Development**:
-   - Copy template: `cp src/config/password.example.ts src/config/password.ts`
-   - Edit `password.ts` and replace `YOUR_BCRYPT_HASH_HERE` with your hash
-   - Restart dev server: kill and run `npm run dev`
+   - Create `.env.local` with: `NEXT_PUBLIC_EDIT_PASSWORD_HASH=your-hash`
+   - Restart dev server: `npm run dev`
 
 2. **Production**:
-   - Verify secret exists: GitHub Settings → Secrets → Actions
+   - Verify GitHub Secret exists: Settings → Secrets → Actions
    - Check secret name is exactly: `NEXT_PUBLIC_EDIT_PASSWORD_HASH`
    - Redeploy to trigger new build with secret
 

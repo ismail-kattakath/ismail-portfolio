@@ -213,8 +213,7 @@ src/
 │   ├── site.ts                      # Site configuration
 │   ├── navigation.ts                # Navigation config
 │   ├── background.ts                # Background image config
-│   ├── password.ts                  # Password hash config
-│   ├── password.example.ts          # Password config template
+│   ├── password.ts                  # Password hash config (optional, generated)
 │   └── __tests__/                   # Config tests
 │
 └── utils/

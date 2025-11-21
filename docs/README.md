@@ -67,8 +67,7 @@ ismail-portfolio/
 │   │       ├── PasswordProtection.tsx           # Main component
 │   │       └── __tests__/                       # Unit tests
 │   ├── config/
-│   │   ├── password.ts                          # Password config
-│   │   ├── password.example.ts                  # Template
+│   │   ├── password.ts                          # Password config (optional)
 │   │   └── __tests__/                           # Config tests
 │   ├── app/
 │   │   ├── resume/edit/
