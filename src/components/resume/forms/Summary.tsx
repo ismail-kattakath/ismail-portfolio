@@ -34,16 +34,15 @@ const Summary = () => {
         </label>
       </div>
       <div className="flex flex-col">
-        <div className="floating-label-group">
+        <div className="relative">
           <textarea
             placeholder="Write a compelling professional summary highlighting your key strengths, experience, and career objectives..."
             name="summary"
-            className="w-full px-4 py-3 bg-white/10 text-white rounded-t-lg rounded-b-none text-sm border border-white/20 border-b-0 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 outline-none transition-all resize-y min-h-[160px] placeholder:text-white/30 leading-relaxed"
+            className="w-full px-4 py-3 bg-white/10 text-white rounded-t-lg rounded-b-none text-sm border border-white/20 border-b-0 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 outline-none transition-all resize-y min-h-[160px] placeholder:text-white/30 leading-relaxed block"
             value={resumeData.summary}
             onChange={handleChange}
             maxLength="2000"
           />
-          <label className="floating-label">Professional Summary</label>
           <div className="absolute top-3 right-3 px-3 py-1 bg-white/5 rounded-lg text-xs text-white/50 pointer-events-none">
             {resumeData.summary.length}/2000
           </div>
