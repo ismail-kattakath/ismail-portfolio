@@ -82,11 +82,12 @@ describe('Resume Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Personal Information')).toBeInTheDocument();
-        expect(screen.getByText('Social Media')).toBeInTheDocument();
-        expect(screen.getByText('Summary')).toBeInTheDocument();
-        expect(screen.getByText('Education')).toBeInTheDocument();
-        expect(screen.getByText('Work Experience')).toBeInTheDocument();
+        // Use getAllByText since these texts appear in both forms and preview
+        expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Social Media').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Summary').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Education').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Work Experience').length).toBeGreaterThan(0);
       }, { timeout: 3000 });
     });
 
@@ -213,18 +214,18 @@ describe('Resume Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Personal Information')).toBeInTheDocument();
+        expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
       }, { timeout: 3000 });
     });
 
     it('should allow editing personal information', () => {
-      // Form is already rendered, we just verify section headers exist
-      expect(screen.getByText('Personal Information')).toBeInTheDocument();
+      // Form is already rendered, we just verify section headers exist (use getAllByText)
+      expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
     });
 
     it('should allow editing work experience', () => {
-      // Work experience section should be visible
-      expect(screen.getByText('Work Experience')).toBeInTheDocument();
+      // Work experience section should be visible (use getAllByText)
+      expect(screen.getAllByText('Work Experience').length).toBeGreaterThan(0);
     });
 
     it('should show preview updates', () => {
@@ -314,9 +315,9 @@ describe('Resume Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        // Verify editor sections are loaded
-        expect(screen.getByText('Personal Information')).toBeInTheDocument();
-        expect(screen.getByText('Work Experience')).toBeInTheDocument();
+        // Verify editor sections are loaded (use getAllByText since these appear in forms and preview)
+        expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Work Experience').length).toBeGreaterThan(0);
       }, { timeout: 3000 });
     });
   });

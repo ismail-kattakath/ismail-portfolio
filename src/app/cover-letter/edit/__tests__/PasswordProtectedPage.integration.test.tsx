@@ -82,9 +82,10 @@ describe('Cover Letter Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Personal Information')).toBeInTheDocument();
-        expect(screen.getByText('Social Media')).toBeInTheDocument();
-        expect(screen.getByText('Cover Letter Content')).toBeInTheDocument();
+        // Use getAllByText since these texts appear in both forms and preview
+        expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Social Media').length).toBeGreaterThan(0);
+        expect(screen.getAllByText('Cover Letter Content').length).toBeGreaterThan(0);
       }, { timeout: 3000 });
     });
 
@@ -97,7 +98,7 @@ describe('Cover Letter Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        const preview = container.querySelector('.cover-letter-preview');
+        const preview = container.querySelector('.preview');
         expect(preview).toBeInTheDocument();
       }, { timeout: 3000 });
     });
@@ -211,18 +212,18 @@ describe('Cover Letter Edit Page - Password Protection Integration', () => {
       fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
 
       await waitFor(() => {
-        expect(screen.getByText('Personal Information')).toBeInTheDocument();
+        expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
       }, { timeout: 3000 });
     });
 
     it('should allow editing personal information', () => {
-      // Form is already rendered, we just verify section headers exist
-      expect(screen.getByText('Personal Information')).toBeInTheDocument();
+      // Form is already rendered, we just verify section headers exist (use getAllByText)
+      expect(screen.getAllByText('Personal Information').length).toBeGreaterThan(0);
     });
 
     it('should allow editing cover letter content', () => {
-      // Cover letter content section should be visible
-      expect(screen.getByText('Cover Letter Content')).toBeInTheDocument();
+      // Cover letter content section should be visible (use getAllByText)
+      expect(screen.getAllByText('Cover Letter Content').length).toBeGreaterThan(0);
     });
 
     it('should show preview updates', () => {
