@@ -8,6 +8,9 @@ out/
 .env*
 !.env.example
 
+# Test coverage
+coverage/
+
 # Temporary files
 /tmp/
 
