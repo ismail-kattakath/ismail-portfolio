@@ -115,7 +115,7 @@ const Skill = ({ title }) => {
                 type="text"
                 placeholder={`Enter ${title.toLowerCase()}`}
                 name={title}
-                className="flex-1 px-3 py-2 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 outline-none transition-all placeholder:text-white/40"
+                className="w-full px-3 py-2 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 outline-none transition-all placeholder:text-white/40"
                 value={skill.text}
                 onChange={(e) => handleSkill(e, index, title)}
               />

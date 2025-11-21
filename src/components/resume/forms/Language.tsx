@@ -66,7 +66,7 @@ const Language = () => {
                 type="text"
                 placeholder={placeholder}
                 name="skill"
-                className="flex-1 px-3 py-2 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all placeholder:text-white/40"
+                className="w-full px-3 py-2 bg-white/10 text-white rounded-lg text-sm border border-white/20 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all placeholder:text-white/40"
                 value={skill}
                 onChange={(e) => handleSkills(e, index, skillType)}
               />
