@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import Preview from "@/components/resume-builder/preview/Preview";
 import { ResumeContext } from "@/app/resume/edit/ResumeContext";
-import resumeData from "@/lib/resumeAdapter";
+import defaultResumeData from "@/lib/resumeAdapter";
 import "@/app/resume/edit/resume-builder.css";
 
 export default function ResumeDownloadPage() {
-  const [resumeData, setResumeData] = useState(resumeData);
+  const [resumeData, setResumeData] = useState(defaultResumeData);
 
   useEffect(() => {
     // Load resume data from localStorage if available
