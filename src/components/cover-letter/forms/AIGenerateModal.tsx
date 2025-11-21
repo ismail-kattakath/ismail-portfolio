@@ -320,10 +320,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
 
         {/* Streaming content display - Fixed height above button */}
         {isGenerating && (
-          <div className="space-y-2">
-            <p className="text-xs text-center text-blue-300">
-              ✨ AI is crafting your cover letter...
-            </p>
+          <div>
             <div
               ref={streamContainerRef}
               className="bg-white/5 border border-white/10 rounded-lg p-3 h-32 overflow-y-auto scroll-smooth"
