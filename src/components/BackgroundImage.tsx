@@ -1,20 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { BACKGROUND_IMAGE_PATH } from '@/config/background'
 
-export default function BackgroundImage() {
+interface BackgroundImageProps {
+  withBlur?: boolean
+  withOverlay?: boolean
+}
+
+export default function BackgroundImage({
+  withBlur = false,
+  withOverlay = false,
+}: BackgroundImageProps = {}) {
   const [isLoaded, setIsLoaded] = useState(false)
-  const pathname = usePathname()
-
-  // Don't show background on resume routes
-  const isResumeRoute = pathname?.startsWith('/resume')
 
   useEffect(() => {
-    if (isResumeRoute) return
-
     const img = new Image()
-    img.src = '/images/background.jpg'
+    img.src = BACKGROUND_IMAGE_PATH
 
     img.onload = () => {
       setIsLoaded(true)
@@ -24,21 +26,33 @@ export default function BackgroundImage() {
     if (img.complete) {
       setIsLoaded(true)
     }
-  }, [isResumeRoute])
-
-  if (isResumeRoute) return null
+  }, [])
 
   return (
-    <div
-      className="fixed inset-0 -z-10 transition-opacity duration-1000 ease-in-out"
-      style={{
-        backgroundImage: 'url(/images/background.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        opacity: isLoaded ? 1 : 0,
-      }}
-    />
+    <>
+      {/* Background Image */}
+      <div
+        className={`fixed inset-0 transition-opacity duration-1000 ease-in-out print:hidden ${
+          withBlur ? 'blur-sm' : ''
+        }`}
+        style={{
+          backgroundImage: `url(${BACKGROUND_IMAGE_PATH})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          opacity: isLoaded ? 1 : 0,
+          zIndex: withOverlay ? -2 : -1,
+        }}
+      />
+
+      {/* Optional Dark Overlay */}
+      {withOverlay && (
+        <div
+          className="fixed inset-0 bg-black/50 print:hidden"
+          style={{ zIndex: -1 }}
+        />
+      )}
+    </>
   )
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Preview from "@/components/resume-builder/preview/Preview";
 import { ResumeContext } from "@/app/resume/edit/ResumeContext";
 import DefaultResumeData from "@/components/resume-builder/utility/DefaultResumeData";
+import BackgroundImage from "@/components/BackgroundImage";
 import "@/app/resume/edit/resume-builder.css";
 
 export default function ResumeDownloadPage() {
@@ -25,8 +26,16 @@ export default function ResumeDownloadPage() {
   }, []);
 
   return (
-    <ResumeContext.Provider value={{ resumeData, setResumeData }}>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <ResumeContext.Provider
+      value={{
+        resumeData,
+        setResumeData,
+        handleProfilePicture: () => {},
+        handleChange: () => {},
+      }}
+    >
+      <BackgroundImage withBlur withOverlay />
+      <div className="min-h-screen flex items-center justify-center">
         <Preview />
       </div>
     </ResumeContext.Provider>

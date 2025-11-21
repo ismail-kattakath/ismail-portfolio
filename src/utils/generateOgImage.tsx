@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { Logo } from '@/components/Logo'
+import { BACKGROUND_IMAGE_FILE_PATH } from '@/config/background'
 
 interface OgImageConfig {
   width: number
@@ -19,7 +20,7 @@ export async function generateOgImage(config: OgImageConfig) {
 
   // Read background image from filesystem during build
   const backgroundImageBuffer = readFileSync(
-    join(process.cwd(), 'public', 'images', 'background.jpg')
+    join(process.cwd(), BACKGROUND_IMAGE_FILE_PATH)
   )
   const backgroundImageData = backgroundImageBuffer.buffer.slice(
     backgroundImageBuffer.byteOffset,
