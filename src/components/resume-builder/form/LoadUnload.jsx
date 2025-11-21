@@ -86,7 +86,7 @@ const LoadUnload = () => {
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 max-w-3xl mx-auto">
       <label className="group inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl cursor-pointer hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-medium">
         <VscJson className="text-lg group-hover:rotate-12 transition-transform" />
-        <span>Load Data</span>
+        <span>Load Json Resume</span>
         <input
           aria-label="Load"
           type="file"
