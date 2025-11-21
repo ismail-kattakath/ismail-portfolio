@@ -34,7 +34,20 @@ export default function ResumeDownloadPage() {
       }}
     >
       <div className="min-h-screen flex items-center justify-center">
-        <Preview />
+        {/* Mobile message */}
+        <div className="md:hidden flex items-center justify-center min-h-screen p-6">
+          <a
+            href="/"
+            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Back to Home
+          </a>
+        </div>
+
+        {/* Desktop preview */}
+        <div className="hidden md:flex items-center justify-center">
+          <Preview />
+        </div>
       </div>
     </ResumeContext.Provider>
   );
