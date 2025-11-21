@@ -28,7 +28,7 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <h3 className="md3-headline-medium mb-6">Contact Information</h3>
-            
+
             <div className="space-y-4">
               <motion.a
                 href={`mailto:${contactInfo.email}`}
@@ -54,50 +54,6 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-
-            <div className="mt-8">
-              <h4 className="md3-title-medium mb-4">Connect With Me</h4>
-              <div className="flex flex-col gap-3">
-                <div className="flex gap-3">
-                  <motion.a
-                    href="https://github.com/ismail-kattakath"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
-                    style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
-                  >
-                    <Github size={20} />
-                    GitHub
-                  </motion.a>
-                  <motion.a
-                    href="https://linkedin.com/in/ismailkattakath"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
-                    style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
-                  >
-                    <Linkedin size={20} />
-                    LinkedIn
-                  </motion.a>
-                </div>
-                <motion.a
-                  href="https://calendar.app.google/yqSPTMV9VXkMvpAL6"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow justify-center"
-                  style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
-                >
-                  <Calendar size={20} />
-                  Schedule a Meeting
-                </motion.a>
-              </div>
-            </div>
           </motion.div>
 
           <motion.div
@@ -105,41 +61,47 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md3-card p-8"
           >
-            <h3 className="md3-headline-medium mb-6">Professional Focus</h3>
-            
-            <div className="space-y-6">
-              <div>
-                <h4 className="md3-title-medium mb-2">AI/ML Engineering</h4>
-                <p className="md3-body-medium md3-on-surface-variant">
-                  Specializing in production-ready AI infrastructure, model deployment, 
-                  and MLOps pipelines with a focus on scalability and performance.
-                </p>
+            <h3 className="md3-headline-medium mb-6">Connect With Me</h3>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <motion.a
+                  href="https://github.com/ismail-kattakath"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
+                  style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
+                >
+                  <Github size={20} />
+                  GitHub
+                </motion.a>
+                <motion.a
+                  href="https://linkedin.com/in/ismailkattakath"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow flex-1"
+                  style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
+                >
+                  <Linkedin size={20} />
+                  LinkedIn
+                </motion.a>
               </div>
-              
-              <div>
-                <h4 className="md3-title-medium mb-2">Full-Stack Architecture</h4>
-                <p className="md3-body-medium md3-on-surface-variant">
-                  Designing and implementing robust, scalable web applications 
-                  with modern frameworks and cloud-native architectures.
-                </p>
-              </div>
-              
-              <div>
-                <h4 className="md3-title-medium mb-2">Technical Leadership</h4>
-                <p className="md3-body-medium md3-on-surface-variant">
-                  Leading cross-functional teams, mentoring engineers, and driving 
-                  technical strategy for complex, mission-critical systems.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 p-4 bg-[var(--md-sys-color-surface-container-high)] rounded-lg border border-[var(--md-sys-color-outline-variant)]">
-              <p className="md3-body-medium text-center">
-                <strong>Currently open to:</strong> Senior engineering roles, AI/ML consulting, 
-                and strategic technical advisory positions.
-              </p>
+              <motion.a
+                href="https://calendar.app.google/yqSPTMV9VXkMvpAL6"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full md3-label-large shadow-md hover:shadow-lg transition-shadow justify-center"
+                style={{ backgroundColor: '#0a66c2', color: '#ffffff' }}
+              >
+                <Calendar size={20} />
+                Schedule a Meeting
+              </motion.a>
             </div>
           </motion.div>
         </div>

@@ -8,8 +8,9 @@ const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
+  { name: 'Resume', href: '/resume' },
+  { name: 'Book Meeting', href: '/book' },
 ]
 
 export default function Header() {
@@ -25,10 +26,16 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('#')) {
+      // Anchor link - scroll to section
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      // Full page navigation
+      window.location.href = href
     }
     setIsMobileMenuOpen(false)
   }
@@ -69,7 +76,7 @@ export default function Header() {
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="relative px-4 py-2 text-[var(--md-sys-color-on-surface)] md3-label-large transition-colors group cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -113,7 +120,7 @@ export default function Header() {
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavigation(item.href)}
                   className="md3-btn-filled w-full text-left"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
