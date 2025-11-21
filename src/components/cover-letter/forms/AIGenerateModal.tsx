@@ -162,21 +162,6 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
       maxWidth="lg"
     >
       <div className="space-y-5">
-        {/* Combined info banner with progressive disclosure */}
-        <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <p className="text-sm text-blue-300 font-medium mb-1">
-                How it works
-              </p>
-              <p className="text-xs text-blue-200/80 leading-relaxed">
-                Paste any job description below, and AI will craft a personalized cover letter using <strong>only</strong> your actual resume data—no fabrication, just your real experience and skills.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Collapsible API Settings */}
         <details className="group" open={!rememberCredentials || !apiKey}>
           <summary className="cursor-pointer list-none">
