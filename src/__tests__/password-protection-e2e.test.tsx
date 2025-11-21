@@ -7,7 +7,8 @@ import bcrypt from 'bcryptjs';
 
 // Mock the password config
 jest.mock('@/config/password', () => ({
-  getPasswordHash: jest.fn(() => '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS')
+  getPasswordHash: jest.fn(() => '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'),
+  isPasswordProtectionEnabled: jest.fn(() => true)
 }));
 
 // Mock bcryptjs
