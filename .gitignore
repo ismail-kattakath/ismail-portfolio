@@ -13,6 +13,3 @@ coverage/
 
 # Temporary files
 /tmp/
-
-# Password config (ignore actual, keep example)
-src/config/password.ts
