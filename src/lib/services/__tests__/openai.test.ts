@@ -196,7 +196,7 @@ describe("OpenAI Service", () => {
           mockResumeData,
           "Job description"
         )
-      ).rejects.toThrow("Request timed out");
+      ).rejects.toThrow("Request timed out after 2 minutes");
     });
 
     it("includes resume data in prompt", async () => {

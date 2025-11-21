@@ -13,7 +13,7 @@ import {
 } from "@/lib/prompts/coverLetter";
 
 const STORAGE_KEY = "ai_cover_letter_credentials";
-const REQUEST_TIMEOUT = 30000; // 30 seconds
+const REQUEST_TIMEOUT = 120000; // 120 seconds (2 minutes) - increased for thinking models like OLMo-3
 
 /**
  * Custom error class for OpenAI API errors
@@ -84,7 +84,7 @@ async function makeOpenAIRequest(
     if (error instanceof Error) {
       if (error.name === "AbortError") {
         throw new OpenAIAPIError(
-          "Request timed out. The server may be overloaded or unreachable.",
+          "Request timed out after 2 minutes. The model may be too slow or the server is overloaded. Try using a faster model or check your server status.",
           "timeout"
         );
       }

@@ -210,7 +210,8 @@ POST {baseURL}/v1/chat/completions
    - Or use alternatives: Ollama, LocalAI, etc.
 
 2. **Start Server** with model loaded
-   - Model example: `openai/gpt-oss-20b`
+   - Standard models: `openai/gpt-oss-20b`, `meta-llama-3.1-8b-instruct`
+   - Thinking models: `allenai/olmo-3-32b-think`, `deepseek-r1` (slower but more thorough)
    - Ensure server runs on accessible port (e.g., `1234`)
 
 3. **Configure CORS** - Ensure server allows browser requests:
@@ -230,7 +231,7 @@ POST {baseURL}/v1/chat/completions
 - ✅ Full data privacy
 - ✅ Works offline
 - ⚠️ Requires powerful hardware (8GB+ RAM, GPU recommended)
-- ⚠️ Slower generation (5-30 seconds depending on hardware)
+- ⚠️ Slower generation (5-30 seconds for standard models, up to 2 minutes for thinking models)
 
 ### Using the Feature
 
@@ -393,8 +394,9 @@ npm test -- coverLetter.test
 
 ## Performance
 
-- **API Call**: 3-10 seconds (depends on model speed)
-- **Timeout**: 30 seconds (configurable)
+- **API Call**: 3-10 seconds for standard models (OpenAI GPT-4, GPT-3.5)
+- **Thinking Models**: Up to 2 minutes for models with reasoning (e.g., OLMo-3-32B-Think, DeepSeek R1)
+- **Timeout**: 120 seconds (2 minutes) to support thinking models
 - **Bundle Size**: ~15KB (gzipped, including dependencies)
 - **No Server Load**: All processing client-side
 

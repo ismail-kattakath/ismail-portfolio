@@ -359,7 +359,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
                 ✨ AI is analyzing the job and crafting your cover letter...
               </p>
               <p className="text-xs text-white/40">
-                This usually takes 5-15 seconds
+                This usually takes 5-15 seconds (thinking models may take up to 2 minutes)
               </p>
             </div>
           )}
