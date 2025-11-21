@@ -66,7 +66,7 @@ const PersonalInformation = ({}) => {
           />
           <label className="floating-label">Address</label>
         </div>
-        <div className="relative group md:col-span-2">
+        <div className="floating-label-group md:col-span-2">
           <input
             type="file"
             name="profileImage"
@@ -75,6 +75,7 @@ const PersonalInformation = ({}) => {
             onChange={handleProfilePicture}
             placeholder="Profile Picture"
           />
+          <label className="floating-label">Photo</label>
         </div>
       </div>
     </div>
