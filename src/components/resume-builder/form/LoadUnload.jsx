@@ -6,7 +6,7 @@ import { convertToJSONResume, convertFromJSONResume } from "@/lib/jsonResume";
 import { validateJSONResume } from "@/lib/jsonResumeSchema";
 import { toast } from "sonner";
 
-const LoadUnload = ({ hideSaveButton = false }) => {
+const LoadUnload = ({ hideExportButton = false }) => {
   const { resumeData, setResumeData } = useContext(ResumeContext);
 
   // migrate old skills format to new format
@@ -30,15 +30,15 @@ const LoadUnload = ({ hideSaveButton = false }) => {
     return migratedData;
   };
 
-  // load backup resume data - supports both internal format and JSON Resume format
-  const handleLoad = (event) => {
+  // import resume data - supports both internal format and JSON Resume format
+  const handleImport = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        toast.loading("Processing resume data...", { id: "load-resume" });
+        toast.loading("Processing resume data...", { id: "import-resume" });
 
         const loadedData = JSON.parse(event.target.result);
 
@@ -52,7 +52,7 @@ const LoadUnload = ({ hideSaveButton = false }) => {
           if (!validation.valid) {
             toast.error(
               `Invalid JSON Resume format:\n${validation.errors.join("\n")}`,
-              { id: "load-resume", duration: 5000 }
+              { id: "import-resume", duration: 5000 }
             );
             return;
           }
@@ -61,39 +61,39 @@ const LoadUnload = ({ hideSaveButton = false }) => {
           const convertedData = convertFromJSONResume(loadedData);
 
           if (!convertedData) {
-            toast.error("Failed to convert JSON Resume format", { id: "load-resume" });
+            toast.error("Failed to convert JSON Resume format", { id: "import-resume" });
             return;
           }
 
           setResumeData(convertedData);
-          toast.success("JSON Resume loaded successfully!", { id: "load-resume" });
+          toast.success("JSON Resume imported successfully!", { id: "import-resume" });
         } else {
           // Handle internal format (legacy)
           const migratedData = migrateSkillsData(loadedData);
           setResumeData(migratedData);
-          toast.success("Resume data loaded successfully!", { id: "load-resume" });
+          toast.success("Resume data imported successfully!", { id: "import-resume" });
         }
       } catch (error) {
-        toast.error(`Failed to load resume: ${error.message}`, {
-          id: "load-resume",
+        toast.error(`Failed to import resume: ${error.message}`, {
+          id: "import-resume",
           duration: 5000
         });
       }
     };
 
     reader.onerror = () => {
-      toast.error("Failed to read file", { id: "load-resume" });
+      toast.error("Failed to read file", { id: "import-resume" });
     };
 
     reader.readAsText(file);
   };
 
-  // download resume data in JSON Resume format
-  const handleDownload = (data, filename, event) => {
+  // export resume data in JSON Resume format
+  const handleExport = (data, filename, event) => {
     event.preventDefault();
 
     try {
-      toast.loading("Generating JSON Resume...", { id: "save-resume" });
+      toast.loading("Generating JSON Resume...", { id: "export-resume" });
 
       const jsonResumeData = convertToJSONResume(data);
       const jsonData = JSON.stringify(jsonResumeData, null, 2);
@@ -103,10 +103,10 @@ const LoadUnload = ({ hideSaveButton = false }) => {
       link.download = filename;
       link.click();
 
-      toast.success("JSON Resume saved successfully!", { id: "save-resume" });
+      toast.success("JSON Resume exported successfully!", { id: "export-resume" });
     } catch (error) {
-      toast.error(`Failed to save resume: ${error.message}`, {
-        id: "save-resume",
+      toast.error(`Failed to export resume: ${error.message}`, {
+        id: "export-resume",
         duration: 5000
       });
     }
@@ -145,32 +145,32 @@ const LoadUnload = ({ hideSaveButton = false }) => {
   };
 
   return (
-    <div className={`grid gap-3 mb-4 max-w-3xl mx-auto ${hideSaveButton ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-3'}`}>
+    <div className={`grid gap-3 mb-4 max-w-3xl mx-auto ${hideExportButton ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-3'}`}>
       <label className="group inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl cursor-pointer hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-medium">
         <VscJson className="text-lg group-hover:rotate-12 transition-transform" />
-        <span>Load Json Resume</span>
+        <span>Import Json Resume</span>
         <input
-          aria-label="Load"
+          aria-label="Import Json Resume"
           type="file"
           className="hidden"
-          onChange={handleLoad}
+          onChange={handleImport}
           accept=".json"
         />
       </label>
-      {!hideSaveButton && (
+      {!hideExportButton && (
         <button
-          aria-label="Save"
+          aria-label="Export Json Resume"
           className="group inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-medium cursor-pointer"
           onClick={(event) =>
-            handleDownload(resumeData, generateFilename(), event)
+            handleExport(resumeData, generateFilename(), event)
           }
         >
           <VscJson className="text-lg group-hover:rotate-12 transition-transform" />
-          <span>Save Json Resume</span>
+          <span>Export Json Resume</span>
         </button>
       )}
       <button
-        aria-label="Print"
+        aria-label="Print PDF"
         className="group inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all text-sm font-medium cursor-pointer"
         onClick={handlePrint}
       >

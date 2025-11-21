@@ -93,7 +93,7 @@ export default function CoverLetterEditPage() {
               </div>
             </div>
 
-            <LoadUnload hideSaveButton={true} />
+            <LoadUnload hideExportButton={true} />
             <PersonalInformation />
             <SocialMedia />
             <CoverLetterContent />
