@@ -1,7 +1,9 @@
-import type { IConfig } from 'next-sitemap'
+/** @type {import('next-sitemap').IConfig} */
 
-const config: IConfig = {
-  siteUrl: 'https://ismail.kattakath.com',
+const SITE_URL = 'https://ismail.kattakath.com'
+
+module.exports = {
+  siteUrl: SITE_URL,
   generateRobotsTxt: true,
   generateIndexSitemap: false, // Single sitemap (not index + multiple)
   outDir: 'out', // Output to 'out' directory for static export
@@ -36,7 +38,7 @@ const config: IConfig = {
   transform: async (config, path) => {
     // Custom priority for different routes
     let priority = 0.7
-    let changefreq: 'monthly' | 'yearly' = 'monthly'
+    let changefreq = 'monthly'
 
     if (path === '/') {
       priority = 1.0
@@ -55,5 +57,3 @@ const config: IConfig = {
     }
   },
 }
-
-export default config
