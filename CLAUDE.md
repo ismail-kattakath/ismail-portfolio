@@ -557,6 +557,143 @@ Comprehensive documentation is available in the `docs/` directory:
 4. **Build**: `npm run build` (generates static site + sitemap)
 5. **Deploy**: Push to main branch (GitHub Actions handles deployment)
 
+## Tool Usage & Intelligence Maximization
+
+### Core Tools - Use These Extensively
+
+Claude Code has access to powerful tools that should be leveraged for maximum efficiency and intelligence:
+
+#### **File Operations**
+- **Read**: Use for reading ANY file. Can handle images (PNG, JPG), PDFs, Jupyter notebooks (.ipynb), and all text files
+- **Write**: Create new files (prefer Edit for existing files)
+- **Edit**: Make precise changes to existing files using exact string replacement
+- **Glob**: Find files by pattern (e.g., `**/*.test.tsx`, `src/components/**/*.ts`)
+- **Grep**: Search file contents with regex support. Use for finding code patterns, TODOs, function definitions
+  - Supports context lines (-A, -B, -C), case insensitive (-i), line numbers (-n)
+  - Use `output_mode: "content"` to see matching lines
+  - Use `output_mode: "files_with_matches"` to just get file paths
+
+#### **Code Search & Exploration**
+- **Task tool with Explore agent**: Use for exploring codebases, finding patterns, answering "how does X work?" questions
+  - Specify thoroughness: "quick", "medium", or "very thorough"
+  - Example: "Find all API endpoints" or "How does authentication work?"
+- **Grep + Glob combination**: Use both in parallel for comprehensive searches
+  - Glob to find candidate files
+  - Grep to search within those files
+
+#### **Testing & Background Processes**
+- **Bash**: Run terminal commands (git, npm, docker, etc.)
+  - Use `run_in_background: true` for long-running processes
+  - Chain commands with `&&` for sequential operations
+  - Run independent commands in parallel with multiple Bash calls in one message
+- **BashOutput**: Monitor output from background processes
+- **KillShell**: Terminate background processes when done
+
+#### **Task Planning & Tracking**
+- **TodoWrite**: ALWAYS use for multi-step tasks (3+ steps) or non-trivial work
+  - Track progress, demonstrate thoroughness
+  - Mark todos as in_progress BEFORE starting work
+  - Mark completed IMMEDIATELY after finishing (don't batch)
+  - Only ONE task should be in_progress at a time
+  - Provide both "content" (imperative) and "activeForm" (present continuous) for each task
+
+#### **User Interaction**
+- **AskUserQuestion**: Ask questions during execution for clarification, preferences, implementation choices
+  - Support single or multiple selection
+  - Use when requirements are ambiguous or multiple approaches are valid
+
+#### **Web Access** (Use When Available)
+- **WebFetch**: Fetch and analyze web content (converted HTML to markdown)
+- **WebSearch**: Search the web for current information beyond knowledge cutoff
+  - Use for latest documentation, recent changes, current events
+  - Support domain filtering (allowed_domains, blocked_domains)
+
+#### **MCP Resources** (If Configured)
+- **ListMcpResourcesTool**: List resources from configured MCP servers
+- **ReadMcpResourceTool**: Read specific resources from MCP servers
+- **Note**: MCP tools start with `mcp__` prefix when available
+
+### Best Practices for Tool Usage
+
+1. **Parallel Operations**: Call multiple independent tools in a single message
+   ```
+   Example: Read 3 different files in parallel, not sequentially
+   Example: Run git status, git diff, and git log simultaneously
+   ```
+
+2. **Avoid Redundant Commands**:
+   - DON'T use bash for: find (use Glob), grep (use Grep), cat (use Read), echo for communication
+   - DO use specialized tools: they're faster, more reliable, and better integrated
+
+3. **Plan Before Execute**:
+   - For complex tasks, use Task tool with Plan agent first
+   - Create TodoWrite list to track multi-step operations
+   - Ask questions early (AskUserQuestion) rather than making assumptions
+
+4. **Background Processes**:
+   - Use `run_in_background: true` for dev servers, long builds, watching processes
+   - Monitor with BashOutput periodically
+   - Clean up with KillShell when done
+
+5. **Search Strategy**:
+   - Start with Glob for file patterns
+   - Use Grep for content search
+   - Use Task/Explore agent for open-ended exploration
+   - Run searches in parallel when possible
+
+6. **Git Operations**:
+   - Run multiple git commands in parallel: `git status`, `git diff`, `git log`
+   - Use single bash command with `&&` for dependent operations: `git add . && git commit -m "..." && git push`
+   - NEVER skip hooks (--no-verify) unless explicitly requested
+   - NEVER force push to main/master without explicit user request
+
+7. **Testing Workflow**:
+   - Run tests in parallel with code exploration
+   - Use background mode for watch mode: `npm test:watch`
+   - Check BashOutput periodically for test results
+
+### Tool Selection Decision Tree
+
+```
+Question: "What files contain X?"
+→ Use Grep with output_mode: "files_with_matches"
+
+Question: "Show me the implementation of X"
+→ Use Grep with output_mode: "content" OR Read if you know the file
+
+Question: "How does feature X work?"
+→ Use Task tool with Explore agent (medium thoroughness)
+
+Task: "Add feature X"
+→ Use TodoWrite to plan, then execute with Read/Edit/Write
+
+Task: "Run tests and fix failures"
+→ Use Bash to run tests, TodoWrite to track fixes, Read/Edit to fix code
+
+Task: "Search web for latest docs"
+→ Use WebSearch (if available) or WebFetch
+
+Need clarification?
+→ Use AskUserQuestion before proceeding
+```
+
+### Memory & Context Management
+
+- **File Reading**: Always Read files before editing to understand context
+- **Comprehensive Search**: Use parallel Grep/Glob to gather complete information
+- **Task Tracking**: TodoWrite provides persistent memory across conversation
+- **Background Monitoring**: BashOutput gives awareness of long-running processes
+- **Web Access**: WebSearch/WebFetch extends knowledge beyond training data
+
+### When to Use Task Tool (Specialized Agents)
+
+- **Explore agent**: "Find all error handlers", "How is authentication implemented?"
+- **Plan agent**: Complex feature planning before implementation
+- **General-purpose agent**: Multi-step autonomous tasks requiring multiple tool calls
+- **claude-code-guide agent**: Questions about Claude Code features, SDK, or usage
+
+**Remember**: Using the right tool for the job makes Claude Code more intelligent, efficient, and aware!
+
 ## Security
 
 - Password hashing using bcrypt (cost factor: 10)
