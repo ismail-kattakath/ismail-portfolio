@@ -8,7 +8,7 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
-import ContactInfo from "@/components/resume-builder/preview/ContactInfo";
+import ContactInfo from "@/components/document-builder/shared-preview/ContactInfo";
 import { formatUrl } from "@/components/resume-builder/utility/formatUrl";
 import Image from "next/image";
 import { useContext } from "react";

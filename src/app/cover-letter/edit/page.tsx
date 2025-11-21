@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react";
 import "@/styles/document-builder.css";
 
 // Import ORIGINAL resume components
-import LoadUnload from "@/components/resume-builder/form/LoadUnload";
-import CoverLetterPreview from "@/components/resume-builder/preview/CoverLetterPreview";
+import LoadUnload from "@/components/document-builder/shared-forms/LoadUnload";
+import CoverLetterPreview from "@/components/cover-letter/preview/CoverLetterPreview";
 import defaultResumeData from "@/lib/resumeAdapter";
-import SocialMedia from "@/components/resume-builder/form/SocialMedia";
-import PersonalInformation from "@/components/resume-builder/form/PersonalInformation";
-import CoverLetterContent from "@/components/resume-builder/form/CoverLetterContent";
-import PrintButton from "@/components/resume-builder/PrintButton";
+import SocialMedia from "@/components/document-builder/shared-forms/SocialMedia";
+import PersonalInformation from "@/components/document-builder/shared-forms/PersonalInformation";
+import CoverLetterContent from "@/components/cover-letter/forms/CoverLetterContent";
+import PrintButton from "@/components/document-builder/ui/PrintButton";
 import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import { Toaster } from "sonner";
 import { useDocumentHandlers } from "@/lib/hooks/useDocumentHandlers";

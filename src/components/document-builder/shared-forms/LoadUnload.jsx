@@ -4,7 +4,7 @@ import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import { convertToJSONResume, convertFromJSONResume } from "@/lib/jsonResume";
 import { validateJSONResume } from "@/lib/jsonResumeSchema";
 import { toast } from "sonner";
-import PrintButton from "@/components/resume-builder/PrintButton";
+import PrintButton from "@/components/document-builder/ui/PrintButton";
 
 const LoadUnload = ({ hideExportButton = false, preserveContent = false, hidePrintButton = false }) => {
   const { resumeData, setResumeData } = useContext(ResumeContext);

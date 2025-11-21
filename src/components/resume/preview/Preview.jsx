@@ -18,9 +18,9 @@ import {
 } from "react-icons/fa";
 import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
-import Skills from "@/components/resume-builder/preview/Skills";
+import Skills from "@/components/resume/preview/Skills";
 import DateRange from "@/components/resume-builder/utility/DateRange";
-import ContactInfo from "@/components/resume-builder/preview/ContactInfo";
+import ContactInfo from "@/components/document-builder/shared-preview/ContactInfo";
 import { formatUrl } from "@/components/resume-builder/utility/formatUrl";
 import Image from "next/image";
 import Link from "next/link";

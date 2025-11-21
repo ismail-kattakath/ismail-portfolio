@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Preview from "@/components/resume-builder/preview/Preview";
+import Preview from "@/components/resume/preview/Preview";
 import { ResumeContext } from "@/lib/contexts/DocumentContext";
 import defaultResumeData from "@/lib/resumeAdapter";
-import PrintButton from "@/components/resume-builder/PrintButton";
+import PrintButton from "@/components/document-builder/ui/PrintButton";
 import "@/styles/document-builder.css";
 import "@/styles/resume-preview.css";
 
