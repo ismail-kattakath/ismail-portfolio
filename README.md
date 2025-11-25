@@ -206,17 +206,18 @@ echo "NEXT_PUBLIC_EDIT_PASSWORD_HASH=<your-hash>" > .env.local
 
 ### Single Source of Truth
 
-```
-src/data/resume.json (JSON Resume v1.0.0)
-    ↓
-Automatic Data Flow
-    ↓
-    ├── Homepage (all sections)
-    ├── Resume Editor (/resume/edit)
-    ├── Cover Letter Editor (/cover-letter/edit)
-    ├── SEO Metadata (title, description)
-    ├── OpenGraph Images (social sharing)
-    └── Sitemap (auto-generated)
+```mermaid
+graph TD
+    A[src/data/resume.json<br/>JSON Resume v1.0.0] --> B[Automatic Data Flow]
+    B --> C[Homepage<br/>all sections]
+    B --> D[Resume Editor<br/>/resume/edit]
+    B --> E[Cover Letter Editor<br/>/cover-letter/edit]
+    B --> F[SEO Metadata<br/>title, description]
+    B --> G[OpenGraph Images<br/>social sharing]
+    B --> H[Sitemap<br/>auto-generated]
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 **Key Point**: Edit `resume.json` once, changes appear everywhere!

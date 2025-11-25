@@ -60,18 +60,19 @@ git push origin main # Auto-deploy via GitHub Actions
 The entire portfolio is driven by **`src/data/resume.json`**, which follows the [JSON Resume](https://jsonresume.org) v1.0.0 standard format.
 
 **Data Flow:**
-```
-src/data/resume.json (JSON Resume v1.0.0)
-    ↓
-src/lib/resumeAdapter.ts → convertFromJSONResume()
-    ↓
-Internal ResumeData format (TypeScript interfaces)
-    ↓
-    ├── src/lib/data/portfolio.ts → Homepage
-    ├── src/app/resume/edit/page.tsx → Resume editor
-    ├── src/app/cover-letter/edit/page.tsx → Cover letter
-    ├── src/config/metadata.ts → SEO metadata
-    └── src/app/opengraph-image.tsx → OG images
+```mermaid
+flowchart TD
+    A[src/data/resume.json<br/>JSON Resume v1.0.0] --> B[src/lib/resumeAdapter.ts<br/>convertFromJSONResume]
+    B --> C[Internal ResumeData Format<br/>TypeScript Interfaces]
+    C --> D[src/lib/data/portfolio.ts<br/>Homepage]
+    C --> E[src/app/resume/edit/page.tsx<br/>Resume Editor]
+    C --> F[src/app/cover-letter/edit/page.tsx<br/>Cover Letter]
+    C --> G[src/config/metadata.ts<br/>SEO Metadata]
+    C --> H[src/app/opengraph-image.tsx<br/>OG Images]
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style B fill:#bbf,stroke:#333,stroke-width:3px
+    style C fill:#bfb,stroke:#333,stroke-width:3px
 ```
 
 **⚠️ CRITICAL:** When updating content, ALWAYS edit `src/data/resume.json` only. Changes automatically propagate throughout the site.

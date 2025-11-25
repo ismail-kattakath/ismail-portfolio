@@ -83,24 +83,23 @@ When clicked, opens a modal with:
 
 ### 2. Technical Flow
 
-```
-User Input (Context: Job Description or Career Highlights)
-    ↓
-Combine with Resume Data (resume.json)
-    ↓
-Build Prompt (Content-Type Specific Prompt Engineering)
-    ↓
-Send to OpenAI-Compatible API (stream: true)
-    ↓
-Receive Streaming Chunks (Server-Sent Events)
-    ↓
-Update UI in Real-Time (word-by-word)
-    ↓
-Complete Response Received
-    ↓
-Post-Process & Validate
-    ↓
-Insert into Textarea (Cover Letter or Summary)
+```mermaid
+flowchart TD
+    A[User Input<br/>Job Description or Career Highlights] --> B[Combine with Resume Data<br/>resume.json]
+    B --> C[Build Prompt<br/>Content-Type Specific]
+    C --> D[Send to OpenAI-Compatible API<br/>stream: true]
+    D --> E[Receive Streaming Chunks<br/>Server-Sent Events]
+    E --> F[Update UI in Real-Time<br/>word-by-word]
+    F --> G[Complete Response Received]
+    G --> H[Post-Process & Validate]
+    H --> I[Insert into Textarea<br/>Cover Letter or Summary]
+
+    style A fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style C fill:#fff4e6,stroke:#333,stroke-width:2px
+    style D fill:#ffe6f0,stroke:#333,stroke-width:2px
+    style E fill:#e6f7ff,stroke:#333,stroke-width:2px
+    style F fill:#f0ffe6,stroke:#333,stroke-width:2px
+    style I fill:#e6ffe6,stroke:#333,stroke-width:3px
 ```
 
 ### 3. Streaming Architecture
