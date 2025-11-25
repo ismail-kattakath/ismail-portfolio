@@ -171,7 +171,7 @@ Update `src/data/resume.json`:
 
 ```bash
 # 1. Generate password hash
-node scripts/generate-password-hash.js "your-password"
+node scripts/generate-password-hash.mjs "your-password"
 
 # 2. Add to .env.local
 echo "NEXT_PUBLIC_EDIT_PASSWORD_HASH=<your-hash>" > .env.local
@@ -413,7 +413,7 @@ npm run deploy          # Deploy to GitHub Pages (manual)
 npm run deploy-auto     # Deploy in background with logging
 
 # Utilities
-node scripts/generate-password-hash.js "password"  # Generate bcrypt hash
+node scripts/generate-password-hash.mjs "password"  # Generate bcrypt hash
 ```
 
 ## 📱 Responsive Design

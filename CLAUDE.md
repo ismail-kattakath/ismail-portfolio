@@ -231,7 +231,7 @@ npm run build
 
 ```bash
 # Generate hash
-node scripts/generate-password-hash.js "password"
+node scripts/generate-password-hash.mjs "password"
 
 # Add to .env.local
 echo 'NEXT_PUBLIC_EDIT_PASSWORD_HASH="$2b$10$..."' >> .env.local
@@ -328,7 +328,7 @@ git commit -m "feat: feature with tests and docs"
 
 - `src/config/password.ts` - Config logic
 - `src/components/auth/PasswordProtection.tsx` - Component
-- `scripts/generate-password-hash.js` - Hash generator
+- `scripts/generate-password-hash.mjs` - Hash generator
 
 **Docs:** See [docs/PASSWORD_PROTECTION_SETUP.md](./docs/PASSWORD_PROTECTION_SETUP.md)
 
@@ -671,7 +671,7 @@ npm run lint         # Run ESLint
 npm run format       # Format with Prettier + Tailwind
 npm run format:check # Check formatting
 
-node scripts/generate-password-hash.js "password"  # Generate hash
+node scripts/generate-password-hash.mjs "password"  # Generate hash
 npx tsc --noEmit     # Type check
 ```
 
@@ -719,7 +719,7 @@ npm install
 ### Password Not Working
 
 - Check `NEXT_PUBLIC_EDIT_PASSWORD_HASH` is set
-- Regenerate hash: `node scripts/generate-password-hash.js "password"`
+- Regenerate hash: `node scripts/generate-password-hash.mjs "password"`
 - Clear browser cache / use incognito
 - Check GitHub Secrets (production)
 

@@ -534,7 +534,7 @@ export default function PasswordProtection({ children }) {
 **1. Generate Password Hash:**
 
 ```bash
-node scripts/generate-password-hash.js "your-password"
+node scripts/generate-password-hash.mjs "your-password"
 ```
 
 **2. Local Development:**
@@ -1332,7 +1332,7 @@ npm run deploy         # Manual deploy to GitHub Pages
 
 ```bash
 # Generate password hash
-node scripts/generate-password-hash.js "password"
+node scripts/generate-password-hash.mjs "password"
 
 # Validate JSON Resume
 npx ajv validate -s node_modules/@jsonresume/schema/schema.json -d src/data/resume.json

@@ -190,7 +190,7 @@ git push origin main
 1. **Generate password hash:**
 
    ```bash
-   node scripts/generate-password-hash.js "your-password"
+   node scripts/generate-password-hash.mjs "your-password"
    ```
 
 2. **Add to GitHub Secrets:**
@@ -406,7 +406,7 @@ cat src/data/resume.json | python -m json.tool
 **Generate new hash:**
 
 ```bash
-node scripts/generate-password-hash.js "new-password"
+node scripts/generate-password-hash.mjs "new-password"
 ```
 
 ---

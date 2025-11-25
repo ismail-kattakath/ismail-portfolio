@@ -12,7 +12,7 @@ describe('Password Configuration', () => {
   })
 
   describe('getPasswordHash', () => {
-    it('should return undefined when no environment variable is set (server-side)', () => {
+    it('should return undefined when no environment variable is set (server-side)', async () => {
       // Simulate server environment
       const originalWindow = (global as any).window
       delete (global as any).window
@@ -20,7 +20,9 @@ describe('Password Configuration', () => {
 
       // Force module reload to pick up new env
       jest.resetModules()
-      const { getPasswordHash: freshGetPasswordHash } = require('../password')
+      const { getPasswordHash: freshGetPasswordHash } = await import(
+        '../password'
+      )
 
       const result = freshGetPasswordHash()
 
@@ -30,7 +32,7 @@ describe('Password Configuration', () => {
       ;(global as any).window = originalWindow
     })
 
-    it('should return hash from environment variable when set (server-side)', () => {
+    it('should return hash from environment variable when set (server-side)', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
 
@@ -41,7 +43,9 @@ describe('Password Configuration', () => {
 
       // Force module reload to pick up new env
       jest.resetModules()
-      const { getPasswordHash: freshGetPasswordHash } = require('../password')
+      const { getPasswordHash: freshGetPasswordHash } = await import(
+        '../password'
+      )
 
       const result = freshGetPasswordHash()
 
@@ -103,15 +107,15 @@ describe('Password Configuration', () => {
   })
 
   describe('isPasswordProtectionEnabled', () => {
-    it('should return false when no password hash is configured (server-side)', () => {
+    it('should return false when no password hash is configured (server-side)', async () => {
       const originalWindow = (global as any).window
       delete (global as any).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
       jest.resetModules()
-      const {
-        isPasswordProtectionEnabled: freshIsEnabled,
-      } = require('../password')
+      const { isPasswordProtectionEnabled: freshIsEnabled } = await import(
+        '../password'
+      )
 
       const result = freshIsEnabled()
 
@@ -119,7 +123,7 @@ describe('Password Configuration', () => {
       ;(global as any).window = originalWindow
     })
 
-    it('should return true when password hash is configured via env var (server-side)', () => {
+    it('should return true when password hash is configured via env var (server-side)', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
       const originalWindow = (global as any).window
@@ -127,9 +131,9 @@ describe('Password Configuration', () => {
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
-      const {
-        isPasswordProtectionEnabled: freshIsEnabled,
-      } = require('../password')
+      const { isPasswordProtectionEnabled: freshIsEnabled } = await import(
+        '../password'
+      )
 
       const result = freshIsEnabled()
 
@@ -164,7 +168,7 @@ describe('Password Configuration', () => {
   })
 
   describe('Security considerations', () => {
-    it('should return valid bcrypt hash format when configured', () => {
+    it('should return valid bcrypt hash format when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
       const originalWindow = (global as any).window
@@ -172,7 +176,9 @@ describe('Password Configuration', () => {
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
-      const { getPasswordHash: freshGetPasswordHash } = require('../password')
+      const { getPasswordHash: freshGetPasswordHash } = await import(
+        '../password'
+      )
 
       const hash = freshGetPasswordHash()
 
@@ -181,7 +187,7 @@ describe('Password Configuration', () => {
       ;(global as any).window = originalWindow
     })
 
-    it('should not expose password in plain text when configured', () => {
+    it('should not expose password in plain text when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
       const originalWindow = (global as any).window
@@ -189,7 +195,9 @@ describe('Password Configuration', () => {
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
-      const { getPasswordHash: freshGetPasswordHash } = require('../password')
+      const { getPasswordHash: freshGetPasswordHash } = await import(
+        '../password'
+      )
 
       const hash = freshGetPasswordHash()
 
@@ -203,7 +211,7 @@ describe('Password Configuration', () => {
       ;(global as any).window = originalWindow
     })
 
-    it('should use bcrypt hash with sufficient salt rounds when configured', () => {
+    it('should use bcrypt hash with sufficient salt rounds when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
       const originalWindow = (global as any).window
@@ -211,7 +219,9 @@ describe('Password Configuration', () => {
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
-      const { getPasswordHash: freshGetPasswordHash } = require('../password')
+      const { getPasswordHash: freshGetPasswordHash } = await import(
+        '../password'
+      )
 
       const hash = freshGetPasswordHash()
 
@@ -229,7 +239,7 @@ describe('Password Configuration', () => {
   })
 
   describe('Optional authentication behavior', () => {
-    it('should allow disabling password protection by not setting env var', () => {
+    it('should allow disabling password protection by not setting env var', async () => {
       const originalWindow = (global as any).window
       delete (global as any).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
@@ -238,7 +248,7 @@ describe('Password Configuration', () => {
       const {
         getPasswordHash: freshGetPasswordHash,
         isPasswordProtectionEnabled: freshIsEnabled,
-      } = require('../password')
+      } = await import('../password')
 
       const hash = freshGetPasswordHash()
       const isEnabled = freshIsEnabled()
@@ -248,7 +258,7 @@ describe('Password Configuration', () => {
       ;(global as any).window = originalWindow
     })
 
-    it('should enable password protection when env var is set', () => {
+    it('should enable password protection when env var is set', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
       const originalWindow = (global as any).window
@@ -259,7 +269,7 @@ describe('Password Configuration', () => {
       const {
         getPasswordHash: freshGetPasswordHash,
         isPasswordProtectionEnabled: freshIsEnabled,
-      } = require('../password')
+      } = await import('../password')
 
       const hash = freshGetPasswordHash()
       const isEnabled = freshIsEnabled()

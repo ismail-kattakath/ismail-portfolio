@@ -9,7 +9,7 @@
 // - If NEXT_PUBLIC_EDIT_PASSWORD_HASH is NOT set → Public access (no password)
 //
 // TO ENABLE:
-// 1. Generate hash: node scripts/generate-password-hash.js "your-password"
+// 1. Generate hash: node scripts/generate-password-hash.mjs "your-password"
 // 2. Set NEXT_PUBLIC_EDIT_PASSWORD_HASH in .env.local (local dev)
 // 3. Set NEXT_PUBLIC_EDIT_PASSWORD_HASH in GitHub Secrets (production)
 //

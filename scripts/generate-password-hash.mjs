@@ -8,8 +8,8 @@
  *   node scripts/generate-password-hash.js "your-password-here"
  */
 
-const bcrypt = require('bcryptjs')
-const readline = require('readline')
+import bcrypt from 'bcryptjs'
+import readline from 'readline'
 
 const SALT_ROUNDS = 10
 

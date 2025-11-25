@@ -32,13 +32,13 @@ This guide explains how to **optionally** set up password protection for the edi
 Run the included script to generate a bcrypt hash of your password:
 
 ```bash
-node scripts/generate-password-hash.js
+node scripts/generate-password-hash.mjs
 ```
 
 Or provide the password directly as an argument:
 
 ```bash
-node scripts/generate-password-hash.js "your-strong-password"
+node scripts/generate-password-hash.mjs "your-strong-password"
 ```
 
 **Password Recommendations:**
@@ -126,7 +126,7 @@ A "Logout" button appears in the top-right corner when authenticated. Click it t
 - `src/app/resume/edit/page.tsx` - Wrapped with PasswordProtection
 - `src/app/cover-letter/edit/page.tsx` - Wrapped with PasswordProtection
 - `.github/workflows/deploy.yml` - Uses GitHub secret during build
-- `scripts/generate-password-hash.js` - Hash generation utility
+- `scripts/generate-password-hash.mjs` - Hash generation utility
 - `.env.example` - Example environment variables
 - `.gitignore` - Excludes .env files and password.ts from version control
 
@@ -157,7 +157,7 @@ A "Logout" button appears in the top-right corner when authenticated. Click it t
 
 To change the password:
 
-1. Generate a new hash: `node scripts/generate-password-hash.js "new-password"`
+1. Generate a new hash: `node scripts/generate-password-hash.mjs "new-password"`
 2. Update the GitHub Secret with the new hash
 3. Redeploy: `git commit --allow-empty -m "redeploy" && git push`
 

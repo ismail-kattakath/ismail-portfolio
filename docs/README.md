@@ -122,7 +122,7 @@ jsonresume-to-everything/
 │   └── __tests__/
 │       └── password-protection-e2e.test.tsx     # E2E tests
 └── scripts/
-    └── generate-password-hash.js                # Hash generator
+    └── generate-password-hash.mjs                # Hash generator
 ```
 
 ## Additional Resources
