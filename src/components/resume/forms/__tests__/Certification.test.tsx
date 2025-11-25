@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Certification from '@/components/resume/forms/certification'
+import Certification from '@/components/resume/forms/Certification'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import {
   renderWithContext,
