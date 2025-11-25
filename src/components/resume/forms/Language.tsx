@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import FormButton from '@/components/resume-builder/form/FormButton'
+import FormButton from '@/components/ui/FormButton'
 import { FormCard } from '@/components/ui/FormCard'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'

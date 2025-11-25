@@ -1,5 +1,5 @@
 import React from 'react'
-import FormButton from '@/components/resume-builder/form/FormButton'
+import FormButton from '@/components/ui/FormButton'
 import { FormInput } from '@/components/ui/FormInput'
 import { FormTextarea } from '@/components/ui/FormTextarea'
 import { FormCard } from '@/components/ui/FormCard'

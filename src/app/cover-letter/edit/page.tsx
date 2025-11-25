@@ -13,7 +13,7 @@ import CoverLetterContent from '@/components/cover-letter/forms/CoverLetterConte
 import PrintButton from '@/components/document-builder/ui/PrintButton'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import { Toaster } from 'sonner'
-import { useDocumentHandlers } from '@/lib/hooks/useDocumentHandlers'
+import { useDocumentHandlers } from '@/hooks/useDocumentHandlers'
 import type { CoverLetterData } from '@/types'
 import PasswordProtection from '@/components/auth/PasswordProtection'
 

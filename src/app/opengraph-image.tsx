@@ -1,5 +1,5 @@
 import resumeData from '@/lib/resumeAdapter'
-import { generateOgImage } from '@/utils/generateOgImage'
+import { generateOgImage } from '@/lib/utils/generateOgImage'
 
 export const dynamic = 'force-static'
 

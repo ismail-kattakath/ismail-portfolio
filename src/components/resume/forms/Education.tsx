@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import FormButton from '@/components/resume-builder/form/FormButton'
+import FormButton from '@/components/ui/FormButton'
 import { FormInput } from '@/components/ui/FormInput'
 import { FormCard } from '@/components/ui/FormCard'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -25,7 +25,9 @@ const Education = () => {
     { urlFields: ['url'] }
   )
 
-  const handleToggleEducationDates = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleToggleEducationDates = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setResumeData({ ...resumeData, showEducationDates: e.target.checked })
   }
 

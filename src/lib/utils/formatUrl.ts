@@ -1,9 +1,9 @@
 /**
  * Formats a URL by adding http:// protocol if not already present
- * @param {string} url - The URL to format
- * @returns {string} - The formatted URL with protocol
+ * @param url - The URL to format
+ * @returns The formatted URL with protocol
  */
-export const formatUrl = (url) => {
+export const formatUrl = (url: string): string => {
   if (!url) return ''
 
   // Check if URL already has a protocol

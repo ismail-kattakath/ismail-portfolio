@@ -15,11 +15,11 @@ import Skill from '@/components/resume/forms/Skill'
 import PersonalInformation from '@/components/document-builder/shared-forms/PersonalInformation'
 import Summary from '@/components/resume/forms/Summary'
 import Education from '@/components/resume/forms/Education'
-import Certification from '@/components/resume/forms/certification'
+import Certification from '@/components/resume/forms/Certification'
 import PrintButton from '@/components/document-builder/ui/PrintButton'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import { Toaster } from 'sonner'
-import { useDocumentHandlers } from '@/lib/hooks/useDocumentHandlers'
+import { useDocumentHandlers } from '@/hooks/useDocumentHandlers'
 import PasswordProtection from '@/components/auth/PasswordProtection'
 
 function ResumeEditor() {
