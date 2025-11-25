@@ -1,122 +1,103 @@
+import React from 'react'
 import FormButton from '@/components/resume-builder/form/FormButton'
-import React, { useContext } from 'react'
-import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import { FormInput } from '@/components/ui/FormInput'
+import { FormTextarea } from '@/components/ui/FormTextarea'
+import { FormCard } from '@/components/ui/FormCard'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { DeleteButton } from '@/components/ui/DeleteButton'
+import { useArrayForm } from '@/hooks/useArrayForm'
 
+/**
+ * Projects form component - REFACTORED
+ * Reduced from 125 lines to ~90 lines using reusable components
+ * Note: Old implementation had inconsistent styling - now fixed
+ */
 const Projects = () => {
-  const { resumeData, setResumeData } = useContext(ResumeContext)
-
-  const handleProjects = (e, index) => {
-    const newProjects = [...resumeData.projects]
-    newProjects[index][e.target.name] = e.target.value
-    setResumeData({ ...resumeData, projects: newProjects })
-  }
-
-  const addProjects = () => {
-    setResumeData({
-      ...resumeData,
-      projects: [
-        ...resumeData.projects,
-        {
-          title: '',
-          link: '',
-          description: '',
-          keyAchievements: '',
-          startYear: '',
-          endYear: '',
-        },
-      ],
-    })
-  }
-
-  const removeProjects = (index) => {
-    const newProjects = [...resumeData.projects]
-    newProjects[index] = newProjects[newProjects.length - 1]
-    newProjects.pop()
-    setResumeData({ ...resumeData, projects: newProjects })
-  }
+  const { data, handleChange, add, remove } = useArrayForm('projects', {
+    name: '',
+    link: '',
+    description: '',
+    keyAchievements: '',
+    startYear: '',
+    endYear: '',
+  })
 
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-base font-semibold text-white">Projects</h2>
-      {resumeData.projects.map((project, index) => (
-        <div key={index} className="flex flex-col">
-          <div className="floating-label-group mb-2">
-            <input
-              type="text"
-              placeholder="Project Name"
+    <div className="flex flex-col gap-4">
+      <SectionHeader title="Projects" variant="purple" />
+
+      <div className="flex flex-col gap-3">
+        {data.map((project, index) => (
+          <FormCard key={index}>
+            <FormInput
+              label="Project Name"
               name="name"
-              className="w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.name}
-              onChange={(e) => handleProjects(e, index)}
+              onChange={(e) => handleChange(e, index)}
+              variant="purple"
             />
-            <label className="floating-label">Project Name</label>
-          </div>
-          <div className="floating-label-group mb-2">
-            <input
-              type="text"
-              placeholder="Link"
+
+            <FormInput
+              label="Link"
               name="link"
-              className="w-full rounded bg-white px-2 py-1 text-gray-950"
+              type="url"
               value={project.link}
-              onChange={(e) => handleProjects(e, index)}
+              onChange={(e) => handleChange(e, index)}
+              variant="purple"
             />
-            <label className="floating-label">Link</label>
-          </div>
-          <div className="floating-label-group mb-2">
-            <textarea
-              type="text"
-              placeholder="Description"
+
+            <FormTextarea
+              label="Description"
               name="description"
-              className="h-32 w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.description}
-              maxLength="250"
-              onChange={(e) => handleProjects(e, index)}
+              onChange={(e) => handleChange(e, index)}
+              variant="purple"
+              maxLength={250}
+              showCounter
+              minHeight="120px"
             />
-            <label className="floating-label">Description</label>
-          </div>
-          <div className="floating-label-group mb-2">
-            <textarea
-              type="text"
-              placeholder="Key Achievements"
+
+            <FormTextarea
+              label="Key Achievements"
               name="keyAchievements"
-              className="h-40 w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.keyAchievements}
-              onChange={(e) => handleProjects(e, index)}
+              onChange={(e) => handleChange(e, index)}
+              variant="purple"
+              showCounter
+              minHeight="150px"
             />
-            <label className="floating-label">Key Achievements</label>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <div className="floating-label-group">
-              <input
-                type="date"
-                placeholder="Start Year"
+
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+              <FormInput
+                label="Start Year"
                 name="startYear"
-                className="rounded bg-white px-2 py-1 text-gray-950"
-                value={project.startYear}
-                onChange={(e) => handleProjects(e, index)}
-              />
-              <label className="floating-label">Start Year</label>
-            </div>
-            <div className="floating-label-group">
-              <input
                 type="date"
-                placeholder="End Year"
-                name="endYear"
-                className="rounded bg-white px-2 py-1 text-gray-950"
-                value={project.endYear}
-                onChange={(e) => handleProjects(e, index)}
+                value={project.startYear}
+                onChange={(e) => handleChange(e, index)}
+                variant="purple"
+                className="flex-1"
               />
-              <label className="floating-label">End Year</label>
+
+              <FormInput
+                label="End Year"
+                name="endYear"
+                type="date"
+                value={project.endYear}
+                onChange={(e) => handleChange(e, index)}
+                variant="purple"
+                className="flex-1"
+              />
+
+              <DeleteButton
+                onClick={() => remove(index)}
+                label="Delete this project"
+              />
             </div>
-          </div>
-        </div>
-      ))}
-      <FormButton
-        size={resumeData.projects.length}
-        add={addProjects}
-        remove={removeProjects}
-        label="Project"
-      />
+          </FormCard>
+        ))}
+      </div>
+
+      <FormButton size={data.length} add={add} label="Project" />
     </div>
   )
 }

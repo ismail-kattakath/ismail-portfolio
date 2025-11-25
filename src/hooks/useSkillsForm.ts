@@ -1,0 +1,89 @@
+import { useContext } from 'react'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import type { Skill } from '@/types'
+
+/**
+ * Specialized hook for managing skills with nested structure
+ * Handles skill groups with individual skill items
+ */
+export function useSkillsForm(title: string) {
+  const { resumeData, setResumeData } = useContext(ResumeContext)
+
+  const skillType = resumeData.skills.find(
+    (skillType) => skillType.title === title
+  )
+
+  if (!skillType) {
+    throw new Error(`Skill type "${title}" not found`)
+  }
+
+  /**
+   * Handle text change for a specific skill
+   */
+  const handleChange = (index: number, value: string) => {
+    const newSkills = [...skillType.skills]
+    newSkills[index] = { ...newSkills[index], text: value }
+
+    setResumeData((prevData) => ({
+      ...prevData,
+      skills: prevData.skills.map((skill) =>
+        skill.title === title ? { ...skill, skills: newSkills } : skill
+      ),
+    }))
+  }
+
+  /**
+   * Toggle highlight state for a skill
+   */
+  const toggleHighlight = (index: number) => {
+    const newSkills = [...skillType.skills]
+    newSkills[index] = {
+      ...newSkills[index],
+      highlight: !newSkills[index].highlight,
+    }
+
+    setResumeData((prevData) => ({
+      ...prevData,
+      skills: prevData.skills.map((skill) =>
+        skill.title === title ? { ...skill, skills: newSkills } : skill
+      ),
+    }))
+  }
+
+  /**
+   * Add new skill to the group
+   */
+  const add = () => {
+    const newSkill: Skill = { text: '', highlight: false }
+    const newSkills = [...skillType.skills, newSkill]
+
+    setResumeData((prevData) => ({
+      ...prevData,
+      skills: prevData.skills.map((skill) =>
+        skill.title === title ? { ...skill, skills: newSkills } : skill
+      ),
+    }))
+  }
+
+  /**
+   * Remove skill by index
+   */
+  const remove = (index: number) => {
+    const newSkills = skillType.skills.filter((_, i) => i !== index)
+
+    setResumeData((prevData) => ({
+      ...prevData,
+      skills: prevData.skills.map((skill) =>
+        skill.title === title ? { ...skill, skills: newSkills } : skill
+      ),
+    }))
+  }
+
+  return {
+    skills: skillType.skills,
+    handleChange,
+    toggleHighlight,
+    add,
+    remove,
+  }
+}

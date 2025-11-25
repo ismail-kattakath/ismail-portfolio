@@ -45,3 +45,6 @@ export type {
   OpenAIError,
   StoredCredentials,
 } from './openai'
+
+// Portfolio/display types
+export type { Experience, Skill as PortfolioSkill, Project as PortfolioProject, ContactInfo } from './portfolio'

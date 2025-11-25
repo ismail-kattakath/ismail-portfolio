@@ -478,7 +478,9 @@ describe('Skill Component', () => {
 
       const skillContainer = container.querySelector('.group')
 
-      expect(skillContainer).toHaveClass('flex', 'items-center')
+      // Updated: New structure uses flex items-center inside the card, not on the card itself
+      const innerContainer = skillContainer?.querySelector('.flex.items-center')
+      expect(innerContainer).toBeInTheDocument()
     })
   })
 
