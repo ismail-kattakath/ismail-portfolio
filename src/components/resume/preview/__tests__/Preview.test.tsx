@@ -15,7 +15,7 @@ jest.mock('@hello-pangea/dnd', () => ({
   Droppable: ({
     children,
   }: {
-    children: (provided: any, snapshot: any) => React.ReactNode
+    children: (provided: unknown, snapshot: unknown) => React.ReactNode
   }) => (
     <div data-testid="droppable">
       {children(
@@ -36,7 +36,7 @@ jest.mock('@hello-pangea/dnd', () => ({
   Draggable: ({
     children,
   }: {
-    children: (provided: any, snapshot: any) => React.ReactNode
+    children: (provided: unknown, snapshot: unknown) => React.ReactNode
   }) => (
     <div data-testid="draggable">
       {children(
@@ -62,7 +62,7 @@ jest.mock('react-highlight-menu', () => ({
 
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...props} />
   },
@@ -70,7 +70,12 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({ children, ...props }: any) => <a {...props}>{children}</a>,
+  default: ({
+    children,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    children: React.ReactNode
+  }) => <a {...props}>{children}</a>,
 }))
 
 jest.mock('@/hooks/useKeyboardShortcut', () => ({

@@ -218,7 +218,7 @@ describe('AITextAreaWithButton Component', () => {
   describe('Edge Cases', () => {
     it('should handle undefined value', () => {
       render(
-        <AITextAreaWithButton {...defaultProps} value={undefined as any} />
+        <AITextAreaWithButton {...defaultProps} value={undefined as string} />
       )
       const textarea = screen.getByPlaceholderText('Test placeholder')
       expect(textarea).toHaveValue('')
@@ -226,7 +226,7 @@ describe('AITextAreaWithButton Component', () => {
     })
 
     it('should handle null value', () => {
-      render(<AITextAreaWithButton {...defaultProps} value={null as any} />)
+      render(<AITextAreaWithButton {...defaultProps} value={null as string} />)
       const textarea = screen.getByPlaceholderText('Test placeholder')
       expect(textarea).toHaveValue('')
       expect(screen.getByText('0')).toBeInTheDocument()

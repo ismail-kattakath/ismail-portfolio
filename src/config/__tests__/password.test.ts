@@ -1,5 +1,10 @@
 import { getPasswordHash, isPasswordProtectionEnabled } from '@/config/password'
 
+// Type for global object in tests where we need to manipulate window
+interface TestGlobal extends NodeJS.Global {
+  window: Window & typeof globalThis
+}
+
 describe('Password Configuration', () => {
   const originalWindow = global.window
   const originalProcessEnv = process.env
@@ -14,8 +19,8 @@ describe('Password Configuration', () => {
   describe('getPasswordHash', () => {
     it('should return undefined when no environment variable is set (server-side)', async () => {
       // Simulate server environment
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
       // Force module reload to pick up new env
@@ -29,7 +34,7 @@ describe('Password Configuration', () => {
       expect(result).toBeUndefined()
 
       // Restore window
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     it('should return hash from environment variable when set (server-side)', async () => {
@@ -37,8 +42,8 @@ describe('Password Configuration', () => {
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
 
       // Simulate server environment
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       // Force module reload to pick up new env
@@ -52,14 +57,14 @@ describe('Password Configuration', () => {
       expect(result).toBe(mockHash)
 
       // Restore window
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     // TODO: This test is hard to properly mock in jsdom environment
     // The actual browser behavior works correctly - this is a testing limitation
     it.skip('should return hash from window.__PASSWORD_HASH__ in browser', () => {
       const mockHash = '$2b$10$testHashFromWindow'
-      ;(global as any).window = {
+      ;(global as TestGlobal).window = {
         __PASSWORD_HASH__: mockHash,
         document: {}, // Make it look like a browser environment
       }
@@ -70,7 +75,7 @@ describe('Password Configuration', () => {
     })
 
     it('should return undefined in browser when no window hash exists and no env var', () => {
-      ;(global as any).window = {
+      ;(global as TestGlobal).window = {
         document: {}, // Make it look like a browser environment
       }
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
@@ -86,7 +91,7 @@ describe('Password Configuration', () => {
       const windowHash = '$2b$10$windowHash'
       const envHash = '$2b$10$envHash'
 
-      ;(global as any).window = {
+      ;(global as TestGlobal).window = {
         __PASSWORD_HASH__: windowHash,
         document: {}, // Make it look like a browser environment
       }
@@ -98,7 +103,7 @@ describe('Password Configuration', () => {
     })
 
     it('should handle undefined window object gracefully', () => {
-      delete (global as any).window
+      delete (global as TestGlobal).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
       expect(() => getPasswordHash()).not.toThrow()
@@ -108,8 +113,8 @@ describe('Password Configuration', () => {
 
   describe('isPasswordProtectionEnabled', () => {
     it('should return false when no password hash is configured (server-side)', async () => {
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
       jest.resetModules()
@@ -120,14 +125,14 @@ describe('Password Configuration', () => {
       const result = freshIsEnabled()
 
       expect(result).toBe(false)
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     it('should return true when password hash is configured via env var (server-side)', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
@@ -138,14 +143,14 @@ describe('Password Configuration', () => {
       const result = freshIsEnabled()
 
       expect(result).toBe(true)
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     // TODO: This test is hard to properly mock in jsdom environment
     // The actual browser behavior works correctly - this is a testing limitation
     it.skip('should return true when password hash is configured via window object', () => {
       const mockHash = '$2b$10$testHashFromWindow'
-      ;(global as any).window = {
+      ;(global as TestGlobal).window = {
         __PASSWORD_HASH__: mockHash,
         document: {}, // Make it look like a browser environment
       }
@@ -156,7 +161,7 @@ describe('Password Configuration', () => {
     })
 
     it('should return false in browser when no hash is available', () => {
-      ;(global as any).window = {
+      ;(global as TestGlobal).window = {
         document: {}, // Make it look like a browser environment
       }
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
@@ -171,8 +176,8 @@ describe('Password Configuration', () => {
     it('should return valid bcrypt hash format when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
@@ -184,14 +189,14 @@ describe('Password Configuration', () => {
 
       // Bcrypt hashes start with $2a$, $2b$, or $2y$
       expect(hash).toMatch(/^\$2[aby]\$\d{2}\$/)
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     it('should not expose password in plain text when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
@@ -208,14 +213,14 @@ describe('Password Configuration', () => {
         expect(hash).not.toMatch(/^[a-z0-9]{4,}$/i) // Not a simple alphanumeric string
       }
 
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     it('should use bcrypt hash with sufficient salt rounds when configured', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
@@ -234,14 +239,14 @@ describe('Password Configuration', () => {
         }
       }
 
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
   })
 
   describe('Optional authentication behavior', () => {
     it('should allow disabling password protection by not setting env var', async () => {
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       delete process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
       jest.resetModules()
@@ -255,14 +260,14 @@ describe('Password Configuration', () => {
 
       expect(hash).toBeUndefined()
       expect(isEnabled).toBe(false)
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
 
     it('should enable password protection when env var is set', async () => {
       const mockHash =
         '$2b$10$DROkfTWOCqdekTKMKybP2eD9NIqTHNyAKFgsZCdpEXS9vC2honJfS'
-      const originalWindow = (global as any).window
-      delete (global as any).window
+      const originalWindow = (global as TestGlobal).window
+      delete (global as TestGlobal).window
       process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH = mockHash
 
       jest.resetModules()
@@ -276,7 +281,7 @@ describe('Password Configuration', () => {
 
       expect(hash).toBe(mockHash)
       expect(isEnabled).toBe(true)
-      ;(global as any).window = originalWindow
+      ;(global as TestGlobal).window = originalWindow
     })
   })
 })

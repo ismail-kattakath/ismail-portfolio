@@ -10,7 +10,7 @@ import ResumeEditPage from '@/app/resume/edit/page'
 // Mock dynamic imports to avoid SSR issues
 jest.mock('next/dynamic', () => ({
   __esModule: true,
-  default: (...args: any[]) => {
+  default: (...args: unknown[]) => {
     const dynamicModule = jest.requireActual('next/dynamic')
     const dynamicActualComp = dynamicModule.default
     const RequiredComponent = dynamicActualComp(...args)
@@ -30,7 +30,7 @@ jest.mock('@/hooks/useKeyboardShortcut', () => ({
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...props} />
   },
