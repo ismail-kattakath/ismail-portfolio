@@ -99,7 +99,7 @@ export function convertToJSONResume(customData?: ResumeData) {
       image: data.profilePicture || '',
       email: data.email,
       phone: data.contactInformation,
-      url: websiteProfile?.url || '',
+      url: '', // Don't set url - Website is now kept in profiles array for order preservation
       summary: data.summary,
       location,
       profiles: profiles, // Keep all profiles including Website for order preservation

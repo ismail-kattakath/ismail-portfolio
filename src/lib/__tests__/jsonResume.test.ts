@@ -166,7 +166,12 @@ describe('JSON Resume Conversion', () => {
     it('should handle URLs without http protocol', () => {
       const result = convertToJSONResume(mockResumeData)
 
-      expect(result.basics.url).toBe('https://example.com')
+      // Website is now kept in profiles array, not in basics.url
+      expect(result.basics.url).toBe('')
+      const websiteProfile = result.basics.profiles.find(
+        (p) => p.network === 'Website'
+      )
+      expect(websiteProfile?.url).toBe('https://example.com')
       expect(result.work[0].url).toBe('https://techcorp.com')
       expect(result.education[0].url).toBe('https://utoronto.ca')
     })
