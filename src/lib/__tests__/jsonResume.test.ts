@@ -1,4 +1,4 @@
-import { convertToJSONResume, convertFromJSONResume } from '../jsonResume'
+import { convertToJSONResume, convertFromJSONResume } from '@/lib/jsonResume'
 import type { ResumeData } from '@/types'
 
 describe('JSON Resume Conversion', () => {

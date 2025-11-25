@@ -1,5 +1,5 @@
 import resumeData from '@/lib/resumeAdapter'
-import { validateJSONResume } from './jsonResumeSchema'
+import { validateJSONResume } from '@/lib/jsonResumeSchema'
 import type {
   ResumeData,
   SocialMediaLink,

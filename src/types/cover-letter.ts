@@ -3,7 +3,7 @@
  * Cover letter uses the same base structure as resume but with additional content field
  */
 
-import { ResumeData } from './resume'
+import { ResumeData } from '@/types/resume'
 
 /**
  * Cover letter data extends resume data with a content field

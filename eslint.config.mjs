@@ -1,6 +1,7 @@
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { FlatCompat } from '@eslint/eslintrc'
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,6 +22,9 @@ const eslintConfig = [
     ],
   },
   {
+    plugins: {
+      'no-relative-import-paths': noRelativeImportPaths,
+    },
     rules: {
       // Critical rules - enforce strictly
       '@typescript-eslint/no-require-imports': 'error',
@@ -29,6 +33,15 @@ const eslintConfig = [
       // Code quality rules - keep as warnings for gradual improvement
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
+      // Import path rules - enforce absolute imports with @/ alias
+      'no-relative-import-paths/no-relative-import-paths': [
+        'warn',
+        {
+          allowSameFolder: true,
+          rootDir: 'src',
+          prefix: '@',
+        },
+      ],
     },
   },
 ]

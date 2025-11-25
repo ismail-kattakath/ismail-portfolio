@@ -1,4 +1,4 @@
-import resumeData from '../resumeAdapter'
+import resumeData from '@/lib/resumeAdapter'
 import jsonResumeData from '@/data/resume.json'
 
 describe('Resume Adapter', () => {

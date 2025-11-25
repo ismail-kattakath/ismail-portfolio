@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import AITextAreaWithButton from '../AITextAreaWithButton'
+import AITextAreaWithButton from '@/components/document-builder/shared-forms/AITextAreaWithButton'
 
 describe('AITextAreaWithButton Component', () => {
   const defaultProps = {

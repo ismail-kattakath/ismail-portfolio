@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
-import AIGenerateSummaryModal from './AIGenerateSummaryModal'
+import AIGenerateSummaryModal from '@/components/resume/forms/AIGenerateSummaryModal'
 import AITextAreaWithButton from '@/components/document-builder/shared-forms/AITextAreaWithButton'
 
 const Summary = () => {

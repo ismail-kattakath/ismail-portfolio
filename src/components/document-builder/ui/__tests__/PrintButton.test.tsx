@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import PrintButton from '../PrintButton'
+import PrintButton from '@/components/document-builder/ui/PrintButton'
 
 describe('PrintButton Component', () => {
   let mockPrint: jest.SpyInstance

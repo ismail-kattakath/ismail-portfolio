@@ -789,6 +789,7 @@ npm test -- --clearCache
 
 - ⚠️ `@typescript-eslint/no-explicit-any` - 72 violations
 - ⚠️ `@typescript-eslint/no-unused-vars` - 32 violations
+- ⚠️ `no-relative-import-paths/no-relative-import-paths` - 30 violations (relative imports)
 
 ### Improvement Phases
 

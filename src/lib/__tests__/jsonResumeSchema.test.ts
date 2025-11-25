@@ -1,4 +1,4 @@
-import { validateJSONResume } from '../jsonResumeSchema'
+import { validateJSONResume } from '@/lib/jsonResumeSchema'
 
 describe('JSON Resume Schema Validation', () => {
   const validJSONResume = {

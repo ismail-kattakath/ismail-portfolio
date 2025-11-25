@@ -1,6 +1,6 @@
 import React from 'react'
 import { axe } from 'jest-axe'
-import PersonalInformation from '../PersonalInformation'
+import PersonalInformation from '@/components/document-builder/shared-forms/PersonalInformation'
 import {
   renderWithContext,
   createMockResumeData,

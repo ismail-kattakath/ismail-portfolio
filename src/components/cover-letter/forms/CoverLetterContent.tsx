@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
-import AIGenerateModal from './AIGenerateModal'
+import AIGenerateModal from '@/components/cover-letter/forms/AIGenerateModal'
 import AITextAreaWithButton from '@/components/document-builder/shared-forms/AITextAreaWithButton'
 
 const CoverLetterContent = () => {

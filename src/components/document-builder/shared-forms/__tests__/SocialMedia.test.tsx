@@ -1,7 +1,7 @@
 import React from 'react'
 import { axe } from 'jest-axe'
 import { act, waitFor } from '@testing-library/react'
-import SocialMedia from '../SocialMedia'
+import SocialMedia from '@/components/document-builder/shared-forms/SocialMedia'
 import {
   renderWithContext,
   createMockResumeData,

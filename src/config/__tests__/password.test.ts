@@ -1,4 +1,4 @@
-import { getPasswordHash, isPasswordProtectionEnabled } from '../password'
+import { getPasswordHash, isPasswordProtectionEnabled } from '@/config/password'
 
 describe('Password Configuration', () => {
   const originalWindow = global.window

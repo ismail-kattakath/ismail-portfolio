@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import PasswordProtection from '../PasswordProtection'
+import PasswordProtection from '@/components/auth/PasswordProtection'
 import bcrypt from 'bcryptjs'
 
 // Mock the password config

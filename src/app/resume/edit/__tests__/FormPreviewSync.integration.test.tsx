@@ -11,7 +11,7 @@ import {
   waitFor,
   within,
 } from '@testing-library/react'
-import ResumeEditPage from '../page'
+import ResumeEditPage from '@/app/resume/edit/page'
 import { createMockResumeData } from '@/lib/__tests__/test-utils'
 
 // Mock dynamic imports to avoid SSR issues
@@ -21,9 +21,9 @@ jest.mock('next/dynamic', () => ({
     const dynamicModule = jest.requireActual('next/dynamic')
     const dynamicActualComp = dynamicModule.default
     const RequiredComponent = dynamicActualComp(...args)
-    RequiredComponent.preload
+    void (RequiredComponent.preload
       ? RequiredComponent.preload()
-      : RequiredComponent.render.preload()
+      : RequiredComponent.render.preload())
     return RequiredComponent
   },
 }))
