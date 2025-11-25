@@ -275,7 +275,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowApiKey(!showApiKey)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors cursor-pointer"
                   aria-label={showApiKey ? "Hide API key" : "Show API key"}
                 >
                   {showApiKey ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -411,7 +411,7 @@ const AIGenerateModal: React.FC<AIGenerateModalProps> = ({
             <button
               onClick={handleGenerate}
               disabled={!isFormValid}
-              className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 group"
+              className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 group"
             >
               <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               <span>Generate {currentConfig.label}</span>

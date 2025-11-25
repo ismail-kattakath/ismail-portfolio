@@ -54,7 +54,7 @@ const AITextAreaWithButton: React.FC<AITextAreaWithButtonProps> = ({
       <button
         type="button"
         onClick={onGenerateClick}
-        className="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-t-none rounded-b-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl group border border-white/20 border-t-0"
+        className="w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-t-none rounded-b-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl group border border-white/20 border-t-0 cursor-pointer"
       >
         <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
         <span>Generate with AI</span>

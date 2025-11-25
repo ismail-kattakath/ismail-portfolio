@@ -120,7 +120,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
           <div className="exclude-print fixed top-4 right-4 z-50">
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-all shadow-lg"
+              className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-all shadow-lg cursor-pointer"
               title="Logout from edit mode"
             >
               Logout
@@ -173,7 +173,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors cursor-pointer"
                 tabIndex={-1}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}

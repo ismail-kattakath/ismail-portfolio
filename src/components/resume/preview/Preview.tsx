@@ -331,7 +331,7 @@ const Preview = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`mb-1 ${
+                            className={`mb-1 cursor-grab active:cursor-grabbing ${
                               snapshot.isDragging &&
                               "outline-dashed outline-2 outline-gray-400 bg-white"
                             }`}
@@ -377,7 +377,7 @@ const Preview = () => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`mb-2 ${
+                              className={`mb-2 cursor-grab active:cursor-grabbing ${
                                 snapshot.isDragging &&
                                 "outline-dashed outline-2 outline-gray-400 bg-white"
                               }`}
@@ -428,6 +428,7 @@ const Preview = () => {
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                                 className={`
+                                          cursor-grab active:cursor-grabbing
                                           hover:outline-dashed hover:outline-2 hover:outline-gray-400
                                           ${
                                             snapshot.isDragging &&

@@ -107,7 +107,7 @@ const Modal: React.FC<ModalProps> = ({
                 <button
                   ref={firstFocusableRef}
                   onClick={onClose}
-                  className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X size={20} />

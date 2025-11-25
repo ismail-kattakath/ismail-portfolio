@@ -137,7 +137,7 @@ export default function Footer() {
                         window.location.href = item.href
                       }
                     }}
-                    className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-primary)] transition-colors flex items-center gap-2 group"
+                    className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-primary)] transition-colors flex items-center gap-2 group cursor-pointer"
                   >
                     <span className="w-0 group-hover:w-3 h-0.5 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] transition-all rounded-full"></span>
                     {item.name}
@@ -151,7 +151,7 @@ export default function Footer() {
               onClick={scrollToTop}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[var(--md-sys-color-primary-container)] text-[var(--md-sys-color-on-primary-container)] rounded-full md3-label-medium font-medium shadow-sm hover:shadow-md transition-shadow"
+              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[var(--md-sys-color-primary-container)] text-[var(--md-sys-color-on-primary-container)] rounded-full md3-label-medium font-medium shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             >
               <ArrowUp size={16} />
               Back to Top
