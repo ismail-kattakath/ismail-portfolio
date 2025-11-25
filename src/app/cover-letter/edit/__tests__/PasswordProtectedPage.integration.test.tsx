@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import CoverLetterEditPage from '../page'
+import CoverLetterEditPage from '@/app/cover-letter/edit/page'
 import bcrypt from 'bcryptjs'
 
 // Mock the password config

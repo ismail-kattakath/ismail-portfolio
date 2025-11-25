@@ -1,6 +1,6 @@
 import React from 'react'
 import { axe } from 'jest-axe'
-import Skill from '../Skill'
+import Skill from '@/components/resume/forms/Skill'
 import {
   renderWithContext,
   createMockResumeData,

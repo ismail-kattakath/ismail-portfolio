@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import CoverLetterContent from '../CoverLetterContent'
+import CoverLetterContent from '@/components/cover-letter/forms/CoverLetterContent'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import {
   renderWithContext,

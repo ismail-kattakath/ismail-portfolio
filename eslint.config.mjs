@@ -35,7 +35,7 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'warn',
       // Import path rules - enforce absolute imports with @/ alias
       'no-relative-import-paths/no-relative-import-paths': [
-        'warn',
+        'error',
         {
           allowSameFolder: true,
           rootDir: 'src',

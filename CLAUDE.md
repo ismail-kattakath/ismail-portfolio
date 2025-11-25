@@ -783,13 +783,13 @@ npm test -- --clearCache
 
 - ✅ `@typescript-eslint/no-require-imports` - Zero violations
 - ✅ `react/no-unescaped-entities` - Zero violations
+- ✅ `no-relative-import-paths/no-relative-import-paths` - Zero violations (enforces @/ alias imports)
 - ⚠️ `@typescript-eslint/no-unused-expressions` - 3 violations (fix in progress)
 
 **Code Quality (Warning - Gradual Improvement):**
 
 - ⚠️ `@typescript-eslint/no-explicit-any` - 72 violations
 - ⚠️ `@typescript-eslint/no-unused-vars` - 32 violations
-- ⚠️ `no-relative-import-paths/no-relative-import-paths` - 30 violations (relative imports)
 
 ### Improvement Phases
 

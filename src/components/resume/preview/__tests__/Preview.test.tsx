@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Preview from '../Preview'
+import Preview from '@/components/resume/preview/Preview'
 import {
   renderWithContext,
   createMockResumeData,

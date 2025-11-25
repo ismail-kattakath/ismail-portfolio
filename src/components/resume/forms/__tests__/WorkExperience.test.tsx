@@ -1,6 +1,6 @@
 import React from 'react'
 import { axe } from 'jest-axe'
-import WorkExperience from '../WorkExperience'
+import WorkExperience from '@/components/resume/forms/WorkExperience'
 import {
   renderWithContext,
   createMockResumeData,

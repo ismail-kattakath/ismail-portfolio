@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ResumeEditPage from '../page'
+import ResumeEditPage from '@/app/resume/edit/page'
 import bcrypt from 'bcryptjs'
 
 // Mock the password config

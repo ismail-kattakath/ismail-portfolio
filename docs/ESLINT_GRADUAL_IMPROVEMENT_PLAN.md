@@ -10,12 +10,12 @@
 | ------------------------------------------ | ----- | ---------- | -------- |
 | `@typescript-eslint/no-explicit-any`       | 72    | ⚠️ Warning | High     |
 | `@typescript-eslint/no-unused-vars`        | 32    | ⚠️ Warning | Medium   |
-| `@typescript-eslint/no-unused-expressions` | 3     | ❌ Error   | Critical |
+| `@typescript-eslint/no-unused-expressions` | 0     | ✅ Fixed   | -        |
 | `@typescript-eslint/no-require-imports`    | 0     | ✅ Fixed   | -        |
 | `react/no-unescaped-entities`              | 0     | ✅ Fixed   | -        |
 
 **Total Warnings:** 104
-**Total Errors:** 3 (blocking commits)
+**Total Errors:** 0 (no blockers)
 
 ---
 
@@ -37,40 +37,29 @@
 
 ---
 
-## Pending Phases
-
-### Phase 1: Fix Unused Expressions (URGENT - Currently Blocking)
+### ✅ Phase 1: Fix Unused Expressions (Completed)
 
 **Priority:** 🔴 Critical
-**Estimated Effort:** 15 minutes
-**Files Affected:** 3
+**Completed:** 2025-01-25
+**Commit:** `9d8459c`
 
-**Violations:**
+**Files Fixed:**
 
-```
-./src/app/resume/edit/__tests__/CompleteWorkflow.integration.test.tsx
-  Line 17: Expected an assignment or function call and instead saw an expression
+- `CompleteWorkflow.integration.test.tsx` line 17
+- `FormPreviewSync.integration.test.tsx` line 24
+- `JSONResumeImport.integration.test.tsx` line 17
 
-./src/app/resume/edit/__tests__/FormPreviewSync.integration.test.tsx
-  Line 24: Expected an assignment or function call and instead saw an expression
+**Solution:**
+Wrapped preload ternary expressions with void operator to explicitly discard return values.
 
-./src/app/resume/edit/__tests__/JSONResumeImport.integration.test.tsx
-  Line 17: Expected an assignment or function call and instead saw an expression
-```
-
-**Action Items:**
-
-1. Review test files for unused expressions (likely debugging statements)
-2. Remove or convert to proper assignments
-3. Verify tests still pass
-4. Commit: "fix: remove unused expressions in test files"
-
-**Success Criteria:**
+**Results:**
 
 - Zero `no-unused-expressions` errors
-- All tests passing
+- All tests passing (3 suites, 42 tests)
 
 ---
+
+## Pending Phases
 
 ### Phase 2: Clean Up Unused Variables in Tests
 
@@ -319,7 +308,7 @@ src/components/sections/Skills.tsx                       1 any type
 
 ### Immediate (This Week)
 
-- [ ] **Phase 1:** Fix unused expressions (URGENT - blocks commits)
+- [x] **Phase 1:** Fix unused expressions (URGENT - blocks commits) ✅ Complete
 
 ### Short Term (Next 2 Weeks)
 
@@ -371,6 +360,10 @@ Update this section after each phase:
 - ✅ Phase 0 Complete: Critical rules enforced
 - 📊 Baseline established: 72 `any` types, 32 unused vars, 3 unused expressions
 - 📝 Created improvement plan document
+- ✅ Phase 1 Complete: All unused expressions fixed (commit 9d8459c)
+  - Fixed 3 integration test files with void operator
+  - All tests passing (3 suites, 42 tests)
+  - Zero blocking errors remaining
 ```
 
 ---
