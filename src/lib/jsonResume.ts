@@ -120,7 +120,9 @@ export function convertToJSONResume(customData?: ResumeData) {
  * Converts JSON Resume format back to our internal resumeData format
  * Returns null if conversion fails
  */
-export function convertFromJSONResume(jsonResume: any): any | null {
+export function convertFromJSONResume(
+  jsonResume: JSONResume
+): ResumeData | null {
   try {
     // Validate first
     const validation = validateJSONResume(jsonResume)
@@ -133,7 +135,7 @@ export function convertFromJSONResume(jsonResume: any): any | null {
 
     // Convert profiles back to social media format
     const profiles = basics.profiles || []
-    const socialMedia = profiles.map((profile: any) => ({
+    const socialMedia = profiles.map((profile) => ({
       socialMedia: profile.network || '',
       link: profile.url?.replace(/^https?:\/\//, '') || '',
     }))
@@ -147,7 +149,7 @@ export function convertFromJSONResume(jsonResume: any): any | null {
     }
 
     // Convert work experience back
-    const workExperience = (jsonResume.work || []).map((job: any) => ({
+    const workExperience = (jsonResume.work || []).map((job) => ({
       company: job.name || '',
       url: job.url?.replace(/^https?:\/\//, '') || '',
       position: job.position || '',
@@ -159,7 +161,7 @@ export function convertFromJSONResume(jsonResume: any): any | null {
     }))
 
     // Convert education back
-    const education = (jsonResume.education || []).map((edu: any) => ({
+    const education = (jsonResume.education || []).map((edu) => ({
       school: edu.institution || '',
       url: edu.url?.replace(/^https?:\/\//, '') || '',
       degree: edu.studyType || '',
@@ -168,7 +170,7 @@ export function convertFromJSONResume(jsonResume: any): any | null {
     }))
 
     // Convert skills back - merge all skill keywords into categories
-    const skills = (jsonResume.skills || []).map((skillGroup: any) => ({
+    const skills = (jsonResume.skills || []).map((skillGroup) => ({
       title: skillGroup.name || 'Skills',
       skills: (skillGroup.keywords || []).map((keyword: string) => ({
         text: keyword,
@@ -178,7 +180,7 @@ export function convertFromJSONResume(jsonResume: any): any | null {
 
     // Convert languages back
     const languages = (jsonResume.languages || []).map(
-      (lang: any) => lang.language || lang
+      (lang) => lang.language || (typeof lang === 'string' ? lang : '')
     )
 
     // Convert certifications back

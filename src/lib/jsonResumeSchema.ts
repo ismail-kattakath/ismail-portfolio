@@ -244,7 +244,7 @@ const validateSchema = ajv.compile(jsonResumeSchema)
  * Validates data against JSON Resume schema v1.0.0
  * Returns validation result with detailed errors
  */
-export function validateJSONResume(data: any): {
+export function validateJSONResume(data: unknown): {
   valid: boolean
   errors: string[]
 } {

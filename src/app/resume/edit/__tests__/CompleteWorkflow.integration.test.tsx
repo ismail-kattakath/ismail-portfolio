@@ -180,7 +180,7 @@ describe('Integration: Complete Edit → Preview → Print Workflow', () => {
   })
 
   describe('Import → Edit → Preview Workflow', () => {
-    const createMockJSONResumeFile = (data: any) => {
+    const createMockJSONResumeFile = (data: unknown) => {
       const jsonString = JSON.stringify(data)
       const blob = new Blob([jsonString], { type: 'application/json' })
       return new File([blob], 'resume.json', { type: 'application/json' })

@@ -33,8 +33,8 @@ function CoverLetterEditor() {
     showLanguages: false,
   })
   const { handleProfilePicture, handleChange } = useDocumentHandlers(
-    coverLetterData as any,
-    setCoverLetterData as any
+    coverLetterData as ResumeData,
+    setCoverLetterData as React.Dispatch<React.SetStateAction<ResumeData>>
   )
 
   // Load saved data on mount
@@ -56,8 +56,10 @@ function CoverLetterEditor() {
       {/* Use ResumeContext so original components work unchanged */}
       <ResumeContext.Provider
         value={{
-          resumeData: coverLetterData as any,
-          setResumeData: setCoverLetterData as any,
+          resumeData: coverLetterData as ResumeData,
+          setResumeData: setCoverLetterData as React.Dispatch<
+            React.SetStateAction<ResumeData>
+          >,
           handleProfilePicture,
           handleChange,
         }}

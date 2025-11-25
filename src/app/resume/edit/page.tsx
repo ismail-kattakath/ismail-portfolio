@@ -33,32 +33,28 @@ function ResumeEditor() {
   // Migrate skills data on mount if needed
   useEffect(() => {
     if (resumeData.skills && resumeData.skills.length > 0) {
-      const needsMigration = resumeData.skills.some((skillCategory: any) =>
+      const needsMigration = resumeData.skills.some((skillCategory) =>
         skillCategory.skills.some(
-          (skill: any) =>
+          (skill) =>
             typeof skill === 'string' ||
-            ((skill as any).underline !== undefined &&
-              skill.highlight === undefined)
+            ('underline' in skill && skill.highlight === undefined)
         )
       )
 
       if (needsMigration) {
         const migratedData = {
           ...resumeData,
-          skills: resumeData.skills.map((skillCategory: any) => ({
+          skills: resumeData.skills.map((skillCategory) => ({
             ...skillCategory,
-            skills: skillCategory.skills.map((skill: any) => {
+            skills: skillCategory.skills.map((skill) => {
               if (typeof skill === 'string') {
                 return { text: skill, highlight: false }
               }
               // Handle old 'underline' property
-              if (
-                (skill as any).underline !== undefined &&
-                skill.highlight === undefined
-              ) {
+              if ('underline' in skill && skill.highlight === undefined) {
                 return {
                   text: skill.text,
-                  highlight: (skill as any).underline,
+                  highlight: (skill as { underline: boolean }).underline,
                 }
               }
               return skill
