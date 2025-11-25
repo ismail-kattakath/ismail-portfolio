@@ -38,44 +38,44 @@ export default function Header() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-[var(--md-sys-color-surface-container)]/80 backdrop-blur-xl shadow-lg'
+          ? 'bg-[var(--md-sys-color-surface-container)]/80 shadow-lg backdrop-blur-xl'
           : 'bg-transparent'
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 py-4">
+      <nav className="mx-auto max-w-6xl px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
           <motion.button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2 group cursor-pointer"
+            className="group flex cursor-pointer items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-24 h-14">
+            <div className="h-14 w-24">
               <Logo width={96} height={54} fill="#ffffff" />
             </div>
           </motion.button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden items-center space-x-1 md:flex">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => handleNavigation(item.href)}
-                className="relative px-5 py-3 text-[var(--md-sys-color-on-surface)] md3-label-large transition-colors group cursor-pointer"
+                className="md3-label-large group relative cursor-pointer px-5 py-3 text-[var(--md-sys-color-on-surface)] transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <span className="relative z-10 group-hover:text-[var(--md-sys-color-primary)] transition-colors">
+                <span className="relative z-10 transition-colors group-hover:text-[var(--md-sys-color-primary)]">
                   {item.name}
                 </span>
                 <motion.span
-                  className="absolute bottom-0 left-1/2 h-0.5 bg-[var(--md-sys-color-primary)] rounded-full"
+                  className="absolute bottom-0 left-1/2 h-0.5 rounded-full bg-[var(--md-sys-color-primary)]"
                   initial={{ width: 0, x: '-50%' }}
                   whileHover={{ width: '80%' }}
                   transition={{ duration: 0.3 }}
@@ -87,7 +87,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <motion.button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-[var(--md-sys-color-on-surface)]"
+            className="p-2 text-[var(--md-sys-color-on-surface)] md:hidden"
             whileTap={{ scale: 0.95 }}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -101,9 +101,9 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden mt-4 pb-4"
+            className="mt-4 pb-4 md:hidden"
           >
-            <div className="flex flex-col space-y-2 bg-[var(--md-sys-color-surface-container-high)] rounded-2xl p-4 border border-[var(--md-sys-color-outline-variant)]">
+            <div className="flex flex-col space-y-2 rounded-2xl border border-[var(--md-sys-color-outline-variant)] bg-[var(--md-sys-color-surface-container-high)] p-4">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}

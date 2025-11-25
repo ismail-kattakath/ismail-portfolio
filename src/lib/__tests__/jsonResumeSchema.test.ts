@@ -1,8 +1,9 @@
-import { validateJSONResume } from '../jsonResumeSchema';
+import { validateJSONResume } from '../jsonResumeSchema'
 
 describe('JSON Resume Schema Validation', () => {
   const validJSONResume = {
-    $schema: 'https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json',
+    $schema:
+      'https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json',
     basics: {
       name: 'John Doe',
       label: 'Software Engineer',
@@ -36,29 +37,29 @@ describe('JSON Resume Schema Validation', () => {
     interests: [],
     references: [],
     projects: [],
-  };
+  }
 
   describe('validateJSONResume', () => {
     it('should validate a correct JSON Resume', () => {
-      const result = validateJSONResume(validJSONResume);
+      const result = validateJSONResume(validJSONResume)
 
-      expect(result.valid).toBe(true);
+      expect(result.valid).toBe(true)
       if (!result.valid) {
-        expect(result.errors).toBeDefined();
+        expect(result.errors).toBeDefined()
       }
-    });
+    })
 
     it('should accept minimal valid JSON Resume', () => {
       const minimalResume = {
         basics: {
           name: 'Jane Doe',
         },
-      };
+      }
 
-      const result = validateJSONResume(minimalResume);
+      const result = validateJSONResume(minimalResume)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate work experience fields', () => {
       const resumeWithWork = {
@@ -74,12 +75,12 @@ describe('JSON Resume Schema Validation', () => {
             url: 'https://techcorp.com',
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithWork);
+      const result = validateJSONResume(resumeWithWork)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate education fields', () => {
       const resumeWithEducation = {
@@ -95,12 +96,12 @@ describe('JSON Resume Schema Validation', () => {
             courses: ['Algorithms', 'Data Structures'],
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithEducation);
+      const result = validateJSONResume(resumeWithEducation)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate skills array', () => {
       const resumeWithSkills = {
@@ -112,12 +113,12 @@ describe('JSON Resume Schema Validation', () => {
             keywords: ['JavaScript', 'React', 'Node.js'],
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithSkills);
+      const result = validateJSONResume(resumeWithSkills)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate languages array', () => {
       const resumeWithLanguages = {
@@ -132,12 +133,12 @@ describe('JSON Resume Schema Validation', () => {
             fluency: 'Professional',
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithLanguages);
+      const result = validateJSONResume(resumeWithLanguages)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate certificates array', () => {
       const resumeWithCerts = {
@@ -150,28 +151,28 @@ describe('JSON Resume Schema Validation', () => {
             url: 'https://aws.com/cert',
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithCerts);
+      const result = validateJSONResume(resumeWithCerts)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should return false for completely invalid data', () => {
-      const invalid = 'not an object';
+      const invalid = 'not an object'
 
-      const result = validateJSONResume(invalid);
+      const result = validateJSONResume(invalid)
 
-      expect(result.valid).toBe(false);
-      expect(result.errors).not.toBeNull();
-    });
+      expect(result.valid).toBe(false)
+      expect(result.errors).not.toBeNull()
+    })
 
     it('should handle empty object', () => {
-      const result = validateJSONResume({});
+      const result = validateJSONResume({})
 
       // JSON Resume schema allows empty objects (all fields are optional)
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate optional fields when present', () => {
       const resumeWithOptionals = {
@@ -180,12 +181,12 @@ describe('JSON Resume Schema Validation', () => {
           ...validJSONResume.basics,
           image: 'https://example.com/photo.jpg',
         },
-      };
+      }
 
-      const result = validateJSONResume(resumeWithOptionals);
+      const result = validateJSONResume(resumeWithOptionals)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate date formats', () => {
       const resumeWithDates = {
@@ -198,12 +199,12 @@ describe('JSON Resume Schema Validation', () => {
             endDate: '2023-12-31',
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithDates);
+      const result = validateJSONResume(resumeWithDates)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate URL formats when provided', () => {
       const resumeWithUrls = {
@@ -218,12 +219,12 @@ describe('JSON Resume Schema Validation', () => {
             },
           ],
         },
-      };
+      }
 
-      const result = validateJSONResume(resumeWithUrls);
+      const result = validateJSONResume(resumeWithUrls)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should validate email format in basics', () => {
       const resumeWithEmail = {
@@ -232,12 +233,12 @@ describe('JSON Resume Schema Validation', () => {
           ...validJSONResume.basics,
           email: 'valid.email@example.com',
         },
-      };
+      }
 
-      const result = validateJSONResume(resumeWithEmail);
+      const result = validateJSONResume(resumeWithEmail)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should handle volunteer work validation', () => {
       const resumeWithVolunteer = {
@@ -252,12 +253,12 @@ describe('JSON Resume Schema Validation', () => {
             highlights: ['Organized events', 'Raised funds'],
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithVolunteer);
+      const result = validateJSONResume(resumeWithVolunteer)
 
-      expect(result.valid).toBe(true);
-    });
+      expect(result.valid).toBe(true)
+    })
 
     it('should handle projects validation', () => {
       const resumeWithProjects = {
@@ -276,11 +277,11 @@ describe('JSON Resume Schema Validation', () => {
             type: 'application',
           },
         ],
-      };
+      }
 
-      const result = validateJSONResume(resumeWithProjects);
+      const result = validateJSONResume(resumeWithProjects)
 
-      expect(result.valid).toBe(true);
-    });
-  });
-});
+      expect(result.valid).toBe(true)
+    })
+  })
+})

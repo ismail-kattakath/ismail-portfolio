@@ -1,4 +1,4 @@
-import resumeData from "@/lib/resumeAdapter"
+import resumeData from '@/lib/resumeAdapter'
 import { SITE_URL } from '@/config/site'
 import type { Metadata } from 'next'
 
@@ -16,7 +16,8 @@ export function generateSiteMetadata(): Metadata {
   const linkedInHandle = linkedInProfile?.link.replace('linkedin.com/in/', '')
 
   // OG title: "Name - Position"
-  const siteTitle = name && position ? `${name} - ${position}` : name || 'Portfolio'
+  const siteTitle =
+    name && position ? `${name} - ${position}` : name || 'Portfolio'
 
   // OG description: First sentence from summary (55-200 chars)
   let siteDescription = 'Professional Portfolio'
@@ -30,7 +31,7 @@ export function generateSiteMetadata(): Metadata {
       // Ensure 55-200 character requirement
       if (siteDescription.length < 55) {
         // If too short, try adding second sentence
-        const sentences = summary.split(/[.!?]/).filter(s => s.trim())
+        const sentences = summary.split(/[.!?]/).filter((s) => s.trim())
         if (sentences.length > 1) {
           siteDescription = `${sentences[0].trim()}. ${sentences[1].trim()}`
         }
@@ -49,25 +50,46 @@ export function generateSiteMetadata(): Metadata {
 
     // Add position title components
     if (position) {
-      position.split(/[|,]/).forEach(part => {
+      position.split(/[|,]/).forEach((part) => {
         keywordSet.add(part.trim())
       })
     }
 
     // Priority skills to include (curated from skills array)
     const prioritySkills = [
-      'Generative AI', 'AI/ML', 'LLM', 'RAG Systems', 'vLLM',
-      'Kubernetes', 'Docker', 'Cloud Architecture',
-      'OAuth 2.0', 'SAML 2.0', 'SSO', 'Authentication',
-      'CI/CD', 'DevOps', 'Terraform',
-      'Node.js', 'Next.js', 'ReactJS', 'TypeScript', 'Python',
-      'MongoDB', 'PostgreSQL',
-      'AWS', 'Google Cloud', 'GCP', 'GKE',
-      'Microservices', 'RESTful APIs',
-      'Technical Leadership', 'Software Engineering'
+      'Generative AI',
+      'AI/ML',
+      'LLM',
+      'RAG Systems',
+      'vLLM',
+      'Kubernetes',
+      'Docker',
+      'Cloud Architecture',
+      'OAuth 2.0',
+      'SAML 2.0',
+      'SSO',
+      'Authentication',
+      'CI/CD',
+      'DevOps',
+      'Terraform',
+      'Node.js',
+      'Next.js',
+      'ReactJS',
+      'TypeScript',
+      'Python',
+      'MongoDB',
+      'PostgreSQL',
+      'AWS',
+      'Google Cloud',
+      'GCP',
+      'GKE',
+      'Microservices',
+      'RESTful APIs',
+      'Technical Leadership',
+      'Software Engineering',
     ]
 
-    prioritySkills.forEach(skill => keywordSet.add(skill))
+    prioritySkills.forEach((skill) => keywordSet.add(skill))
 
     return Array.from(keywordSet).join(', ')
   }

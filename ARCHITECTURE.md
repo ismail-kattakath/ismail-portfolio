@@ -38,23 +38,24 @@ graph TD
 
 ### Core Dependencies
 
-| Category | Library | Version | Purpose |
-|----------|---------|---------|---------|
-| **UI Framework** | Next.js | 15.5.2 | React framework with SSG |
-| **Styling** | Tailwind CSS | v4 | Utility-first CSS |
-| **Animations** | Framer Motion | 12.23.12 | Page transitions, scrolling |
-| **Forms/DnD** | @hello-pangea/dnd | 18.0.1 | Drag-drop resume sections |
-| **Validation** | AJV + ajv-formats | 8.17.1, 3.0.1 | JSON Resume schema validation |
-| **Auth** | bcryptjs | 3.0.3 | Password hashing (client-side) |
-| **Notifications** | Sonner | 2.0.7 | Toast notifications |
-| **Icons** | Lucide React, React Icons | 0.542.0, 5.2.1 | UI icons |
-| **Image Processing** | Sharp | 0.34.3 | OG image generation |
-| **Testing** | Jest + RTL | 30.2.0, 16.3.0 | Unit & integration tests |
-| **SEO** | next-sitemap | 4.2.3 | Auto-generated sitemaps |
+| Category             | Library                   | Version        | Purpose                        |
+| -------------------- | ------------------------- | -------------- | ------------------------------ |
+| **UI Framework**     | Next.js                   | 15.5.2         | React framework with SSG       |
+| **Styling**          | Tailwind CSS              | v4             | Utility-first CSS              |
+| **Animations**       | Framer Motion             | 12.23.12       | Page transitions, scrolling    |
+| **Forms/DnD**        | @hello-pangea/dnd         | 18.0.1         | Drag-drop resume sections      |
+| **Validation**       | AJV + ajv-formats         | 8.17.1, 3.0.1  | JSON Resume schema validation  |
+| **Auth**             | bcryptjs                  | 3.0.3          | Password hashing (client-side) |
+| **Notifications**    | Sonner                    | 2.0.7          | Toast notifications            |
+| **Icons**            | Lucide React, React Icons | 0.542.0, 5.2.1 | UI icons                       |
+| **Image Processing** | Sharp                     | 0.34.3         | OG image generation            |
+| **Testing**          | Jest + RTL                | 30.2.0, 16.3.0 | Unit & integration tests       |
+| **SEO**              | next-sitemap              | 4.2.3          | Auto-generated sitemaps        |
 
 ### Build Configuration
 
 **Next.js Config** (`next.config.ts`):
+
 ```typescript
 {
   output: 'export',              // Static site generation
@@ -68,12 +69,13 @@ graph TD
 ```
 
 **TypeScript Config** (`tsconfig.json`):
+
 ```json
 {
   "compilerOptions": {
     "target": "ES2017",
     "strict": true,
-    "paths": { "@/*": ["./src/*"] }  // Path alias
+    "paths": { "@/*": ["./src/*"] } // Path alias
   }
 }
 ```
@@ -126,6 +128,7 @@ function convertFromJSONResume(jsonResume: JSONResume): ResumeData {
 ```
 
 **Transformations:**
+
 - **Social Media:** `basics.profiles` → `socialMedia[]` (adds Website from `basics.url`)
 - **Work Experience:** `work[].highlights` (array) → `keyAchievements` (newline-separated string)
 - **Skills:** `skills[].keywords` (strings) → `skills[]` (objects with `text`, `highlight`)
@@ -147,6 +150,7 @@ function convertToJSONResume(customData?: ResumeData): JSONResume {
 ```
 
 **Features:**
+
 - Validates output using AJV schema validator
 - Adds `https://` back to URLs
 - Parses address string using regex patterns
@@ -157,8 +161,8 @@ function convertToJSONResume(customData?: ResumeData): JSONResume {
 **File:** `src/lib/jsonResumeSchema.ts`
 
 ```typescript
-import Ajv from "ajv";
-import addFormats from "ajv-formats";
+import Ajv from 'ajv'
+import addFormats from 'ajv-formats'
 
 function validateJSONResume(data: any): { valid: boolean; errors: string[] } {
   // Validates against official JSON Resume schema
@@ -167,6 +171,7 @@ function validateJSONResume(data: any): { valid: boolean; errors: string[] } {
 ```
 
 **Features:**
+
 - Official JSON Resume v1.0.0 schema embedded
 - Email, URL, URI format validation
 - Detailed error reporting with property paths
@@ -186,6 +191,7 @@ export const projects: Project[] = [ ... ]
 ```
 
 **Transformations:**
+
 - Extracts LinkedIn, GitHub, Website from social media
 - Formats dates: ISO string → "Mon YYYY - Mon YYYY"
 - Splits keyAchievements by newline for bullet points
@@ -257,11 +263,12 @@ src/app/
 <div>
   <Header />
   <main>
-    <Hero />      {/* Name, title, contact buttons */}
-    <About />     {/* Professional summary */}
-    <Skills />    {/* Grouped technical skills */}
-    <Experience />{/* Work history timeline */}
-    <Contact />   {/* Contact form/info */}
+    <Hero /> {/* Name, title, contact buttons */}
+    <About /> {/* Professional summary */}
+    <Skills /> {/* Grouped technical skills */}
+    <Experience />
+    {/* Work history timeline */}
+    <Contact /> {/* Contact form/info */}
   </main>
   <Footer />
 </div>
@@ -274,19 +281,18 @@ src/app/
 ```jsx
 <PasswordProtection>
   <Toaster />
-  <ResumeContext.Provider value={resumeData, setResumeData, handlers}>
-
+  <ResumeContext.Provider value={(resumeData, setResumeData, handlers)}>
     {/* Left Panel: Form Editor */}
     <form className="exclude-print">
-      <LoadUnload />           {/* Import/Export JSON Resume */}
-      <PersonalInformation />  {/* Name, email, phone, address */}
-      <SocialMedia />          {/* LinkedIn, GitHub, Website */}
-      <Summary />              {/* Professional summary (AI-assisted) */}
-      <WorkExperience />       {/* Jobs with drag-drop reordering */}
-      <Education />            {/* Degrees */}
-      <Skill />                {/* Skill groups */}
-      <Language />             {/* Languages */}
-      <Certification />        {/* Certifications */}
+      <LoadUnload /> {/* Import/Export JSON Resume */}
+      <PersonalInformation /> {/* Name, email, phone, address */}
+      <SocialMedia /> {/* LinkedIn, GitHub, Website */}
+      <Summary /> {/* Professional summary (AI-assisted) */}
+      <WorkExperience /> {/* Jobs with drag-drop reordering */}
+      <Education /> {/* Degrees */}
+      <Skill /> {/* Skill groups */}
+      <Language /> {/* Languages */}
+      <Certification /> {/* Certifications */}
     </form>
 
     {/* Right Panel: Live Preview */}
@@ -299,6 +305,7 @@ src/app/
 ```
 
 **Key Features:**
+
 - **Real-time preview:** Form changes instantly reflect in preview
 - **Drag-and-drop:** Reorder work experience, education, skills
 - **localStorage persistence:** Auto-saves form state
@@ -311,13 +318,12 @@ src/app/
 <PasswordProtection>
   <Toaster />
   <DocumentContext.Provider>
-
     {/* Left Panel: Form */}
     <form className="exclude-print">
-      <LoadUnload />           {/* Import/Export */}
-      <PersonalInformation />  {/* Reuses resume personal info */}
+      <LoadUnload /> {/* Import/Export */}
+      <PersonalInformation /> {/* Reuses resume personal info */}
       <SocialMedia />
-      <CoverLetterContent />   {/* AI-assisted content generation */}
+      <CoverLetterContent /> {/* AI-assisted content generation */}
     </form>
 
     {/* Right Panel: Live Preview */}
@@ -330,6 +336,7 @@ src/app/
 ```
 
 **Key Features:**
+
 - **AI generation:** Generate tailored cover letters from job descriptions
 - **Personal info reuse:** Pulls data from resume.json
 - **Streaming responses:** Real-time AI output display
@@ -394,11 +401,11 @@ cover-letter/
 ```typescript
 // Shared context for resume and cover letter editors
 export const ResumeContext = createContext<{
-  resumeData: ResumeData;
-  setResumeData: (data: ResumeData) => void;
-  handleProfilePicture: (url: string) => void;
-  handleChange: (field: string, value: any) => void;
-}>();
+  resumeData: ResumeData
+  setResumeData: (data: ResumeData) => void
+  handleProfilePicture: (url: string) => void
+  handleChange: (field: string, value: any) => void
+}>()
 ```
 
 **Usage:** Provides state and handlers to all form components
@@ -451,62 +458,63 @@ flowchart TD
 **File:** `src/components/auth/PasswordProtection.tsx`
 
 ```typescript
-const SESSION_KEY = 'edit-auth-token';
-const SESSION_EXPIRY_KEY = 'edit-auth-expiry';
-const SESSION_DURATION = 1000 * 60 * 60 * 24; // 24 hours
+const SESSION_KEY = 'edit-auth-token'
+const SESSION_EXPIRY_KEY = 'edit-auth-expiry'
+const SESSION_DURATION = 1000 * 60 * 60 * 24 // 24 hours
 
 export default function PasswordProtection({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     // If password protection disabled, grant immediate access
     if (!isPasswordProtectionEnabled()) {
-      setIsAuthenticated(true);
-      setIsChecking(false);
-      return;
+      setIsAuthenticated(true)
+      setIsChecking(false)
+      return
     }
 
     // Check sessionStorage for valid token
-    const token = sessionStorage.getItem(SESSION_KEY);
-    const expiry = sessionStorage.getItem(SESSION_EXPIRY_KEY);
+    const token = sessionStorage.getItem(SESSION_KEY)
+    const expiry = sessionStorage.getItem(SESSION_EXPIRY_KEY)
 
     if (token === 'authenticated' && expiry) {
-      const expiryTime = parseInt(expiry, 10);
+      const expiryTime = parseInt(expiry, 10)
       if (Date.now() < expiryTime) {
-        setIsAuthenticated(true);
+        setIsAuthenticated(true)
       } else {
         // Session expired
-        sessionStorage.removeItem(SESSION_KEY);
-        sessionStorage.removeItem(SESSION_EXPIRY_KEY);
+        sessionStorage.removeItem(SESSION_KEY)
+        sessionStorage.removeItem(SESSION_EXPIRY_KEY)
       }
     }
 
-    setIsChecking(false);
-  }, []);
+    setIsChecking(false)
+  }, [])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validate password using bcrypt
-    const isValid = await bcrypt.compare(password, passwordHash);
+    const isValid = await bcrypt.compare(password, passwordHash)
 
     if (isValid) {
       // Set session with 24-hour expiry
-      const expiryTime = Date.now() + SESSION_DURATION;
-      sessionStorage.setItem(SESSION_KEY, 'authenticated');
-      sessionStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString());
-      setIsAuthenticated(true);
+      const expiryTime = Date.now() + SESSION_DURATION
+      sessionStorage.setItem(SESSION_KEY, 'authenticated')
+      sessionStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString())
+      setIsAuthenticated(true)
     } else {
-      setError('Incorrect password');
+      setError('Incorrect password')
     }
-  };
+  }
 
   // Render: Loading → Password Form → Protected Content
 }
 ```
 
 **Security Features:**
+
 - **bcrypt hashing:** Cost factor 10 (2^10 = 1024 rounds)
 - **Session-based:** 24-hour sessionStorage tokens
 - **Client-side validation:** No server required for static sites
@@ -515,6 +523,7 @@ export default function PasswordProtection({ children }) {
 - **Show/hide password toggle**
 
 **Limitations (Client-Side Auth):**
+
 - ⚠️ Can be bypassed by inspecting built files
 - ⚠️ Suitable for personal portfolios, not production apps
 - ✅ Deters casual access
@@ -523,17 +532,20 @@ export default function PasswordProtection({ children }) {
 #### Setup Process
 
 **1. Generate Password Hash:**
+
 ```bash
 node scripts/generate-password-hash.js "your-password"
 ```
 
 **2. Local Development:**
+
 ```bash
 # .env.local
 NEXT_PUBLIC_EDIT_PASSWORD_HASH="$2b$10$..."
 ```
 
 **3. Production (GitHub Secrets):**
+
 ```
 Settings → Secrets → Actions → New repository secret
 Name: NEXT_PUBLIC_EDIT_PASSWORD_HASH
@@ -541,20 +553,21 @@ Value: $2b$10$...
 ```
 
 **4. Password Config File:**
+
 ```typescript
 // src/config/password.ts
 export function getPasswordHash(): string | undefined {
   // Try window object (build-time injection)
   if (isBrowser() && (window as any).__PASSWORD_HASH__) {
-    return (window as any).__PASSWORD_HASH__;
+    return (window as any).__PASSWORD_HASH__
   }
 
   // Try environment variable
-  return process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH || undefined;
+  return process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH || undefined
 }
 
 export function isPasswordProtectionEnabled(): boolean {
-  return getPasswordHash() !== undefined;
+  return getPasswordHash() !== undefined
 }
 ```
 
@@ -594,7 +607,7 @@ flowchart TD
 **File:** `src/lib/ai/openai-client.ts`
 
 ```typescript
-const REQUEST_TIMEOUT = 120000; // 2 minutes (for slow models)
+const REQUEST_TIMEOUT = 120000 // 2 minutes (for slow models)
 
 async function makeOpenAIStreamRequest(
   config: OpenAIConfig,
@@ -603,46 +616,46 @@ async function makeOpenAIStreamRequest(
 ): Promise<string> {
   // POST /v1/chat/completions with stream: true
   const response = await fetch(`${config.baseURL}/v1/chat/completions`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${config.apiKey}`,
     },
     body: JSON.stringify({ ...request, stream: true }),
-  });
+  })
 
   // Read SSE stream
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let fullContent = "";
-  let buffer = "";
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let fullContent = ''
+  let buffer = ''
 
   while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+    const { done, value } = await reader.read()
+    if (done) break
 
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() || "";
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() || ''
 
     for (const line of lines) {
-      if (line.startsWith("data: ")) {
-        const jsonStr = line.slice(6);
-        if (jsonStr === "[DONE]") continue;
+      if (line.startsWith('data: ')) {
+        const jsonStr = line.slice(6)
+        if (jsonStr === '[DONE]') continue
 
-        const chunk = JSON.parse(jsonStr);
-        const delta = chunk.choices[0]?.delta;
+        const chunk = JSON.parse(jsonStr)
+        const delta = chunk.choices[0]?.delta
 
         if (delta?.content) {
-          fullContent += delta.content;
-          onProgress({ content: delta.content, done: false });
+          fullContent += delta.content
+          onProgress({ content: delta.content, done: false })
         }
       }
     }
   }
 
-  onProgress({ done: true });
-  return fullContent;
+  onProgress({ done: true })
+  return fullContent
 }
 
 export async function generateCoverLetter(
@@ -651,40 +664,43 @@ export async function generateCoverLetter(
   jobDescription: string,
   onProgress?: StreamCallback
 ): Promise<string> {
-  const prompt = buildCoverLetterPrompt(resumeData, jobDescription);
+  const prompt = buildCoverLetterPrompt(resumeData, jobDescription)
 
   const request = {
     model: config.model,
     messages: [
       {
-        role: "system",
-        content: "You are a professional cover letter writer..."
+        role: 'system',
+        content: 'You are a professional cover letter writer...',
       },
-      { role: "user", content: prompt }
+      { role: 'user', content: prompt },
     ],
     temperature: 0.7,
     max_tokens: 800,
     top_p: 0.9,
-  };
+  }
 
   // Use streaming or standard request
   let content = onProgress
     ? await makeOpenAIStreamRequest(config, request, onProgress)
-    : await makeOpenAIRequest(config, request).then(r => r.choices[0].message.content);
+    : await makeOpenAIRequest(config, request).then(
+        (r) => r.choices[0].message.content
+      )
 
   // Post-process and validate
-  const processed = postProcessCoverLetter(content);
-  const validation = validateCoverLetter(processed);
+  const processed = postProcessCoverLetter(content)
+  const validation = validateCoverLetter(processed)
 
   if (!validation.isValid) {
-    console.warn("Validation warnings:", validation.errors);
+    console.warn('Validation warnings:', validation.errors)
   }
 
-  return processed;
+  return processed
 }
 ```
 
 **Features:**
+
 - **Streaming support:** Real-time token-by-token display
 - **Timeout handling:** 2-minute timeout for slow models
 - **Error handling:** Network errors, API errors, empty responses
@@ -708,15 +724,21 @@ ${resumeData.name}
 ${resumeData.position}
 
 WORK EXPERIENCE:
-${resumeData.workExperience.map(job => `
+${resumeData.workExperience
+  .map(
+    (job) => `
 ${job.position} at ${job.company}
 ${job.keyAchievements}
-`).join('\n')}
+`
+  )
+  .join('\n')}
 
 SKILLS:
-${resumeData.skills.map(group =>
-  `${group.title}: ${group.skills.map(s => s.text).join(', ')}`
-).join('\n')}
+${resumeData.skills
+  .map(
+    (group) => `${group.title}: ${group.skills.map((s) => s.text).join(', ')}`
+  )
+  .join('\n')}
 
 JOB DESCRIPTION:
 ${jobDescription}
@@ -728,59 +750,62 @@ INSTRUCTIONS:
 - Use professional tone
 - Include standard greeting and signature
 - Focus on why candidate is ideal for THIS specific role
-`;
+`
 }
 
 export function validateCoverLetter(content: string): {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean
+  errors: string[]
 } {
-  const errors: string[] = [];
+  const errors: string[] = []
 
   // Length check (150-500 words)
-  const wordCount = content.split(/\s+/).length;
-  if (wordCount < 150) errors.push("Too short (< 150 words)");
-  if (wordCount > 500) errors.push("Too long (> 500 words)");
+  const wordCount = content.split(/\s+/).length
+  if (wordCount < 150) errors.push('Too short (< 150 words)')
+  if (wordCount > 500) errors.push('Too long (> 500 words)')
 
   // Has greeting
   if (!/Dear|To Whom|Hello/i.test(content)) {
-    errors.push("Missing greeting");
+    errors.push('Missing greeting')
   }
 
   // Has signature
   if (!/Sincerely|Best regards|Thank you/i.test(content)) {
-    errors.push("Missing closing signature");
+    errors.push('Missing closing signature')
   }
 
   return {
     isValid: errors.length === 0,
-    errors
-  };
+    errors,
+  }
 }
 ```
 
 #### Credential Storage
 
 ```typescript
-const STORAGE_KEY = "ai_cover_letter_credentials";
+const STORAGE_KEY = 'ai_cover_letter_credentials'
 
 export function saveCredentials(credentials: StoredCredentials): void {
   if (credentials.rememberCredentials) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials))
   } else {
     // Clear credentials but keep job description
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      apiUrl: "",
-      apiKey: "",
-      rememberCredentials: false,
-      lastJobDescription: credentials.lastJobDescription,
-    }));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        apiUrl: '',
+        apiKey: '',
+        rememberCredentials: false,
+        lastJobDescription: credentials.lastJobDescription,
+      })
+    )
   }
 }
 
 export function loadCredentials(): StoredCredentials | null {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : null;
+  const stored = localStorage.getItem(STORAGE_KEY)
+  return stored ? JSON.parse(stored) : null
 }
 ```
 
@@ -797,9 +822,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -819,7 +844,7 @@ jobs:
 
       - name: Run tests
         run: npm test
-        continue-on-error: false  # Deployment FAILS if tests fail
+        continue-on-error: false # Deployment FAILS if tests fail
 
       - name: Build with Next.js
         run: npm run build
@@ -844,6 +869,7 @@ jobs:
 ```
 
 **Pipeline Steps:**
+
 1. **Checkout** code from repository
 2. **Setup Node.js** 20 with npm cache
 3. **Install dependencies** (`npm ci`)
@@ -876,30 +902,33 @@ module.exports = {
   ],
 
   robotsTxtOptions: {
-    policies: [{
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/resume/edit/', '/cover-letter/edit/', '/resume.json/'],
-    }],
+    policies: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/resume/edit/', '/cover-letter/edit/', '/resume.json/'],
+      },
+    ],
   },
 
   transform: async (config, path) => {
-    let priority = 0.7;
-    let changefreq = 'monthly';
+    let priority = 0.7
+    let changefreq = 'monthly'
 
-    if (path === '/') priority = 1.0;
-    else if (path === '/resume' || path === '/resume/') priority = 0.8;
+    if (path === '/') priority = 1.0
+    else if (path === '/resume' || path === '/resume/') priority = 0.8
     else if (path === '/book' || path === '/book/') {
-      priority = 0.5;
-      changefreq = 'yearly';
+      priority = 0.5
+      changefreq = 'yearly'
     }
 
-    return { loc: path, changefreq, priority };
+    return { loc: path, changefreq, priority }
   },
-};
+}
 ```
 
 **Generated Files:**
+
 - `out/sitemap.xml` - XML sitemap
 - `out/robots.txt` - Robots exclusion file
 
@@ -908,6 +937,7 @@ module.exports = {
 ### Static Export Configuration
 
 **Output Structure:**
+
 ```
 out/
 ├── index.html                 # Homepage
@@ -1009,9 +1039,9 @@ src/__tests__/
 **File:** `jest.config.js`
 
 ```javascript
-const nextJest = require('next/jest');
+const nextJest = require('next/jest')
 
-const createJestConfig = nextJest({ dir: './' });
+const createJestConfig = nextJest({ dir: './' })
 
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
@@ -1029,15 +1059,15 @@ const customJestConfig = {
     '**/__tests__/**/*.(test|spec).[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
   ],
-};
+}
 
-module.exports = createJestConfig(customJestConfig);
+module.exports = createJestConfig(customJestConfig)
 ```
 
 **File:** `jest.setup.js`
 
 ```javascript
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -1047,27 +1077,33 @@ jest.mock('next/navigation', () => ({
     prefetch: jest.fn(),
   }),
   usePathname: () => '/',
-}));
+}))
 
 // Mock bcryptjs (async operations)
 jest.mock('bcryptjs', () => ({
   compare: jest.fn((password, hash) => {
-    return Promise.resolve(password === 'test-password');
+    return Promise.resolve(password === 'test-password')
   }),
-}));
+}))
 
 // Mock sessionStorage
 const sessionStorageMock = (() => {
-  let store = {};
+  let store = {}
   return {
     getItem: (key) => store[key] || null,
-    setItem: (key, value) => { store[key] = value.toString(); },
-    removeItem: (key) => { delete store[key]; },
-    clear: () => { store = {}; },
-  };
-})();
+    setItem: (key, value) => {
+      store[key] = value.toString()
+    },
+    removeItem: (key) => {
+      delete store[key]
+    },
+    clear: () => {
+      store = {}
+    },
+  }
+})()
 
-Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock });
+Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock })
 ```
 
 ### Running Tests
@@ -1095,6 +1131,7 @@ npm test -- --testPathPatterns="cover-letter"
 ### Static Site Generation (SSG)
 
 **Benefits:**
+
 - No runtime server required
 - Instant page loads (pre-rendered HTML)
 - CDN-friendly (GitHub Pages)
@@ -1112,6 +1149,7 @@ npm test -- --testPathPatterns="cover-letter"
 ### Code Splitting
 
 **Next.js 15 automatic features:**
+
 - Route-based code splitting
 - Dynamic imports for modals/heavy components
 - Tree-shaking of unused exports
@@ -1119,6 +1157,7 @@ npm test -- --testPathPatterns="cover-letter"
 ### CSS Optimization
 
 **Tailwind CSS v4:**
+
 - PostCSS-based (faster than JIT)
 - Automatic purging of unused classes
 - Inline critical CSS
@@ -1148,11 +1187,13 @@ Route (app)                              Size     First Load JS
 
 **Symptom:** `npm run build` fails
 **Causes:**
+
 - TypeScript errors
 - Missing dependencies
 - Invalid resume.json
 
 **Solutions:**
+
 ```bash
 # Fix TypeScript errors
 npm run lint
@@ -1171,6 +1212,7 @@ npm install
 **Cause:** `NEXT_PUBLIC_EDIT_PASSWORD_HASH` not set
 
 **Solution:**
+
 ```bash
 # Local: Add to .env.local
 NEXT_PUBLIC_EDIT_PASSWORD_HASH="$2b$10$..."
@@ -1183,11 +1225,13 @@ Settings → Secrets → Actions → NEXT_PUBLIC_EDIT_PASSWORD_HASH
 
 **Symptom:** `npm test` fails
 **Common issues:**
+
 - Missing mocks (bcryptjs, sessionStorage)
 - Async timing issues
 - Environment-specific code
 
 **Solution:**
+
 ```bash
 # Run tests with verbose output
 npm test -- --verbose
@@ -1203,11 +1247,13 @@ npm test -- --clearCache
 
 **Symptom:** Pages show 404 on GitHub Pages
 **Causes:**
+
 - Missing `.nojekyll` file
 - Incorrect `basePath` config
 - Trailing slash issues
 
 **Solution:**
+
 ```bash
 # Ensure .nojekyll exists
 touch out/.nojekyll
@@ -1223,6 +1269,7 @@ touch out/.nojekyll
 **Cause:** `postbuild` script not running
 
 **Solution:**
+
 ```bash
 # Manually run sitemap generation
 npm run build  # Automatically runs postbuild
@@ -1246,21 +1293,21 @@ npx serve out
 
 ### File Locations
 
-| Purpose | File |
-|---------|------|
-| **Data Source** | `src/data/resume.json` |
-| **Data Adapter** | `src/lib/resumeAdapter.ts` |
-| **Type Definitions** | `src/types/*.ts` |
-| **Homepage** | `src/app/page.tsx` |
-| **Resume Editor** | `src/app/resume/edit/page.tsx` |
-| **Cover Letter Editor** | `src/app/cover-letter/edit/page.tsx` |
-| **Password Config** | `src/config/password.ts` |
-| **Auth Component** | `src/components/auth/PasswordProtection.tsx` |
-| **AI Client** | `src/lib/ai/openai-client.ts` |
-| **Next.js Config** | `next.config.ts` |
-| **Jest Config** | `jest.config.js` |
-| **GitHub Actions** | `.github/workflows/deploy.yml` |
-| **Sitemap Config** | `next-sitemap.config.js` |
+| Purpose                 | File                                         |
+| ----------------------- | -------------------------------------------- |
+| **Data Source**         | `src/data/resume.json`                       |
+| **Data Adapter**        | `src/lib/resumeAdapter.ts`                   |
+| **Type Definitions**    | `src/types/*.ts`                             |
+| **Homepage**            | `src/app/page.tsx`                           |
+| **Resume Editor**       | `src/app/resume/edit/page.tsx`               |
+| **Cover Letter Editor** | `src/app/cover-letter/edit/page.tsx`         |
+| **Password Config**     | `src/config/password.ts`                     |
+| **Auth Component**      | `src/components/auth/PasswordProtection.tsx` |
+| **AI Client**           | `src/lib/ai/openai-client.ts`                |
+| **Next.js Config**      | `next.config.ts`                             |
+| **Jest Config**         | `jest.config.js`                             |
+| **GitHub Actions**      | `.github/workflows/deploy.yml`               |
+| **Sitemap Config**      | `next-sitemap.config.js`                     |
 
 ### Environment Variables
 

@@ -51,6 +51,7 @@ We are committed to providing a welcoming and inspiring community for all. Pleas
 
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/jsonresume-to-everything.git
    cd jsonresume-to-everything
@@ -91,6 +92,7 @@ Use descriptive branch names following this pattern:
 - `chore/what-changed` - Build, CI, or tooling changes
 
 **Examples:**
+
 ```bash
 git checkout -b feat/add-projects-section
 git checkout -b fix/password-protection-session
@@ -132,10 +134,11 @@ git push origin main
 - **Export types** from `src/types/` directory
 
 **Good:**
+
 ```typescript
 interface Props {
-  data: ResumeData;
-  onSave: (data: ResumeData) => void;
+  data: ResumeData
+  onSave: (data: ResumeData) => void
 }
 
 export default function MyComponent({ data, onSave }: Props) {
@@ -144,6 +147,7 @@ export default function MyComponent({ data, onSave }: Props) {
 ```
 
 **Bad:**
+
 ```typescript
 export default function MyComponent({ data, onSave }: any) {
   // Missing types!
@@ -158,6 +162,7 @@ export default function MyComponent({ data, onSave }: any) {
 - **Default exports** for components
 
 **Component Structure:**
+
 ```typescript
 // 1. Imports
 import React, { useState } from 'react';
@@ -202,13 +207,15 @@ export default function MyComponent({ data }: Props) {
 - **Dark mode**: Consider dark backgrounds (project theme)
 
 **Good:**
+
 ```tsx
-<div className="flex flex-col md:flex-row gap-4 p-6 bg-white/10 rounded-lg">
+<div className="flex flex-col gap-4 rounded-lg bg-white/10 p-6 md:flex-row">
   <h2 className="text-2xl font-bold text-white">Title</h2>
 </div>
 ```
 
 **Bad:**
+
 ```tsx
 <div style={{ display: 'flex', padding: '24px' }}>
   <h2 className="my-custom-title">Title</h2>
@@ -230,6 +237,7 @@ UI Components
 ```
 
 **Rules:**
+
 - ✅ **DO**: Update `resume.json` for content changes
 - ✅ **DO**: Use adapter functions for transformations
 - ❌ **DON'T**: Edit display components for content
@@ -250,6 +258,7 @@ UI Components
 - **JSDoc** for exported functions/types
 
 **Good:**
+
 ```typescript
 /**
  * Converts JSON Resume format to internal ResumeData format
@@ -290,6 +299,7 @@ npm test -- path/to/file.test.tsx
 ### Writing Tests
 
 **Unit Test Example:**
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -317,6 +327,7 @@ describe('MyComponent', () => {
 ```
 
 **Test Location:**
+
 - **Unit tests**: `src/components/**/__tests__/ComponentName.test.tsx`
 - **Integration tests**: `src/app/*/__tests__/Feature.integration.test.tsx`
 - **E2E tests**: `src/__tests__/feature-e2e.test.tsx`
@@ -334,6 +345,7 @@ describe('MyComponent', () => {
 ### Before Submitting
 
 **Checklist:**
+
 - [ ] Code follows project conventions
 - [ ] All tests pass (`npm test`)
 - [ ] TypeScript compiles (`npm run build`)
@@ -360,6 +372,7 @@ Types:
 ```
 
 **Examples:**
+
 ```
 feat(resume): add drag-and-drop for certifications
 fix(auth): session expiry not clearing properly
@@ -372,29 +385,36 @@ test(cover-letter): add AI generation tests
 
 ```markdown
 ## Description
+
 Brief description of what this PR does.
 
 ## Type of Change
+
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
 
 ## Changes Made
+
 - List key changes
 - One per line
 - Be specific
 
 ## Testing
+
 Describe how you tested these changes:
+
 - Manual testing steps
 - New/updated automated tests
 - Edge cases covered
 
 ## Screenshots (if applicable)
+
 Add screenshots to help reviewers understand UI changes.
 
 ## Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Self-review completed
 - [ ] Comments added for complex logic
@@ -444,6 +464,7 @@ Add screenshots to help reviewers understand UI changes.
 ### Examples
 
 **Good:**
+
 ```
 feat(ai): add streaming support for cover letter generation
 
@@ -456,6 +477,7 @@ Closes #123
 ```
 
 **Bad:**
+
 ```
 update stuff
 ```
@@ -463,7 +485,7 @@ update stuff
 ### Best Practices
 
 - **First line**: 50 characters max, imperative mood ("add" not "added")
-- **Body**: Wrap at 72 characters, explain *what* and *why* (not *how*)
+- **Body**: Wrap at 72 characters, explain _what_ and _why_ (not _how_)
 - **Footer**: Reference issues/PRs
 
 ---
@@ -479,14 +501,14 @@ update stuff
 
 ### Documentation Files
 
-| File | Purpose | Update When |
-|------|---------|-------------|
-| `README.md` | Project overview, quick start | Major features, setup changes |
-| `ARCHITECTURE.md` | Technical deep-dive | Architecture changes |
-| `QUICKSTART.md` | User setup guide | User-facing changes |
-| `CLAUDE_CODE_GUIDE.md` | Development guide | Development workflows |
-| `docs/*.md` | Feature-specific docs | Relevant feature changes |
-| `CHANGELOG.md` | Version history | User-facing changes |
+| File                   | Purpose                       | Update When                   |
+| ---------------------- | ----------------------------- | ----------------------------- |
+| `README.md`            | Project overview, quick start | Major features, setup changes |
+| `ARCHITECTURE.md`      | Technical deep-dive           | Architecture changes          |
+| `QUICKSTART.md`        | User setup guide              | User-facing changes           |
+| `CLAUDE_CODE_GUIDE.md` | Development guide             | Development workflows         |
+| `docs/*.md`            | Feature-specific docs         | Relevant feature changes      |
+| `CHANGELOG.md`         | Version history               | User-facing changes           |
 
 ### Documentation Standards
 
@@ -515,6 +537,7 @@ Clear, concise description of the bug.
 
 **To Reproduce**
 Steps to reproduce:
+
 1. Go to '...'
 2. Click on '...'
 3. See error
@@ -526,6 +549,7 @@ What you expected to happen.
 If applicable, add screenshots.
 
 **Environment:**
+
 - OS: [e.g., macOS 13.0, Windows 11]
 - Browser: [e.g., Chrome 120, Safari 17]
 - Node version: [e.g., 20.10.0]
@@ -569,6 +593,7 @@ Mockups, examples, or references.
 ### Password Protection
 
 **If modifying auth:**
+
 - Update tests in `src/components/auth/__tests__/`
 - Update integration tests
 - Update `docs/PASSWORD_PROTECTION_SETUP.md`
@@ -577,6 +602,7 @@ Mockups, examples, or references.
 ### AI Features
 
 **If modifying AI integration:**
+
 - Test with multiple providers (OpenAI, local)
 - Update `docs/AI_CONTENT_GENERATOR.md`
 - Test all content types (cover letters, summaries)
@@ -586,6 +612,7 @@ Mockups, examples, or references.
 ### Static Export
 
 **Remember:**
+
 - No server-side runtime
 - All API calls happen at build time
 - Images must be unoptimized
@@ -598,6 +625,7 @@ Mockups, examples, or references.
 ### Common Tasks
 
 **Add new homepage section:**
+
 1. Add data to `resume.json`
 2. Create component in `src/components/sections/`
 3. Import in `src/app/page.tsx`
@@ -605,6 +633,7 @@ Mockups, examples, or references.
 5. Update documentation
 
 **Fix bug:**
+
 1. Create issue (if not exists)
 2. Write failing test
 3. Fix the bug
@@ -612,6 +641,7 @@ Mockups, examples, or references.
 5. Submit PR
 
 **Update dependencies:**
+
 1. Check for breaking changes
 2. Update `package.json`
 3. Run `npm install`
@@ -652,6 +682,7 @@ npm install                    # Reinstall dependencies
 ## Recognition
 
 Contributors will be acknowledged in:
+
 - GitHub contributors page
 - CHANGELOG.md for significant contributions
 - Special thanks in README.md for major features
@@ -659,6 +690,7 @@ Contributors will be acknowledged in:
 ## Credits
 
 This project was inspired by and builds upon:
+
 - **[sauravhathi/atsresume](https://github.com/sauravhathi/atsresume)** - JSON Resume to ATS Resume concepts
 - **[JSON Resume](https://jsonresume.org)** - Resume standard specification
 - Open source community and all dependency maintainers

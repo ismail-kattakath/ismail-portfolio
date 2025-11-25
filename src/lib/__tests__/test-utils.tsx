@@ -1,8 +1,11 @@
-import React, { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { DocumentContext, DocumentContextType } from '@/lib/contexts/DocumentContext';
-import resumeData from '@/lib/resumeAdapter';
-import type { ResumeData } from '@/types';
+import React, { ReactElement } from 'react'
+import { render, RenderOptions } from '@testing-library/react'
+import {
+  DocumentContext,
+  DocumentContextType,
+} from '@/lib/contexts/DocumentContext'
+import resumeData from '@/lib/resumeAdapter'
+import type { ResumeData } from '@/types'
 
 /**
  * Creates a mock DocumentContext value for testing
@@ -17,8 +20,8 @@ export const createMockDocumentContext = (
     handleChange: jest.fn(),
     editable: true,
     ...overrides,
-  };
-};
+  }
+}
 
 /**
  * Creates mock resume data for testing
@@ -46,11 +49,11 @@ export const createMockResumeData = (
     certifications: [],
     content: '',
     ...overrides,
-  };
-};
+  }
+}
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
-  contextValue?: Partial<DocumentContextType>;
+  contextValue?: Partial<DocumentContextType>
 }
 
 /**
@@ -60,21 +63,21 @@ export const renderWithContext = (
   ui: ReactElement,
   options?: CustomRenderOptions
 ) => {
-  const { contextValue, ...renderOptions } = options || {};
+  const { contextValue, ...renderOptions } = options || {}
 
-  const mockContextValue = createMockDocumentContext(contextValue);
+  const mockContextValue = createMockDocumentContext(contextValue)
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <DocumentContext.Provider value={mockContextValue}>
       {children}
     </DocumentContext.Provider>
-  );
+  )
 
   return {
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
     mockContextValue,
-  };
-};
+  }
+}
 
 /**
  * Helper to get form elements by their floating labels
@@ -82,21 +85,21 @@ export const renderWithContext = (
 export const getInputByLabel = (container: HTMLElement, labelText: string) => {
   const label = Array.from(container.querySelectorAll('.floating-label')).find(
     (el) => el.textContent === labelText
-  );
+  )
 
   if (!label) {
-    throw new Error(`Could not find input with label: ${labelText}`);
+    throw new Error(`Could not find input with label: ${labelText}`)
   }
 
   // Get the input element that is a sibling of the label
-  const input = label.parentElement?.querySelector('input, textarea');
+  const input = label.parentElement?.querySelector('input, textarea')
 
   if (!input) {
-    throw new Error(`Could not find input element for label: ${labelText}`);
+    throw new Error(`Could not find input element for label: ${labelText}`)
   }
 
-  return input;
-};
+  return input
+}
 
 /**
  * Helper to simulate user typing in an input
@@ -106,13 +109,13 @@ export const typeInInput = (
   value: string,
   eventName = 'change'
 ) => {
-  const event = new Event(eventName, { bubbles: true });
+  const event = new Event(eventName, { bubbles: true })
   Object.defineProperty(event, 'target', {
     writable: false,
     value: { value, name: input.getAttribute('name') },
-  });
-  input.dispatchEvent(event);
-};
+  })
+  input.dispatchEvent(event)
+}
 
 /**
  * Mock data for testing different form sections
@@ -168,7 +171,7 @@ export const mockFormData = {
       url: 'aws.com',
     },
   ],
-};
+}
 
 // Re-export everything from @testing-library/react
-export * from '@testing-library/react';
+export * from '@testing-library/react'

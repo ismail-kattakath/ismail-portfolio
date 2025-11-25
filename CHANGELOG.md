@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Comprehensive documentation system:
   - ARCHITECTURE.md - Deep technical reference
   - QUICKSTART.md - User setup guide
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-01-25
 
 ### Added
+
 - **Portfolio Features**
   - Homepage with Hero, About, Skills, Experience, and Contact sections
   - Responsive design with Tailwind CSS v4
@@ -107,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical Details
 
 **Dependencies:**
+
 - Next.js 15.5.2 (App Router, static export)
 - React 19.1.0
 - TypeScript 5
@@ -118,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sharp 0.34.3 (image processing)
 
 **Configuration:**
+
 - TypeScript strict mode enabled
 - Path alias: `@/*` → `./src/*`
 - ESLint + Prettier (code quality)
@@ -146,6 +150,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Versioning Scheme
 
 We use [Semantic Versioning](https://semver.org/):
+
 - **MAJOR**: Incompatible API changes
 - **MINOR**: Backwards-compatible functionality
 - **PATCH**: Backwards-compatible bug fixes
@@ -153,6 +158,7 @@ We use [Semantic Versioning](https://semver.org/):
 ### Release Notes Format
 
 Each release includes:
+
 - **Added**: New features
 - **Changed**: Changes to existing functionality
 - **Deprecated**: Soon-to-be removed features
@@ -225,6 +231,7 @@ N/A (initial release)
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on:
+
 - How to propose changes
 - Coding standards
 - Testing requirements

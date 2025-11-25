@@ -29,6 +29,7 @@ The entire portfolio website is driven by a **single source of truth**: `src/dat
 ## Single Source of Truth
 
 ### Location
+
 ```
 src/data/resume.json
 ```
@@ -86,6 +87,7 @@ This project uses the **[JSON Resume](https://jsonresume.org) v1.0.0 standard** 
 ### Schema Reference
 
 The full schema is available at:
+
 ```
 https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json
 ```
@@ -135,10 +137,7 @@ The `resume.json` file follows this structure:
       "startDate": "2020-01-01",
       "endDate": "2023-12-31",
       "summary": "Brief role description",
-      "highlights": [
-        "Achievement 1",
-        "Achievement 2"
-      ]
+      "highlights": ["Achievement 1", "Achievement 2"]
     }
   ],
   "education": [
@@ -157,11 +156,7 @@ The `resume.json` file follows this structure:
     {
       "name": "Programming Languages",
       "level": "Expert",
-      "keywords": [
-        "JavaScript",
-        "TypeScript",
-        "Python"
-      ]
+      "keywords": ["JavaScript", "TypeScript", "Python"]
     }
   ],
   "languages": [
@@ -182,10 +177,7 @@ The `resume.json` file follows this structure:
     {
       "name": "Project Name",
       "description": "Project description",
-      "highlights": [
-        "Feature 1",
-        "Feature 2"
-      ],
+      "highlights": ["Feature 1", "Feature 2"],
       "keywords": ["React", "Node.js"],
       "startDate": "2022-01-01",
       "endDate": "2023-01-01",
@@ -232,6 +224,7 @@ open src/data/resume.json
 ```
 
 **Fields:**
+
 - `name` - Your full name (used in headers, metadata)
 - `label` - Professional title/tagline (shown on homepage hero)
 - `email` - Primary contact email
@@ -267,6 +260,7 @@ open src/data/resume.json
 ```
 
 **Supported Networks:**
+
 - GitHub
 - LinkedIn
 - Twitter
@@ -309,6 +303,7 @@ open src/data/resume.json
 ```
 
 **Tips:**
+
 - List jobs in **reverse chronological order** (most recent first)
 - Use **empty string** for `endDate` if currently employed
 - Use **ISO date format** (YYYY-MM-DD) for dates
@@ -338,6 +333,7 @@ open src/data/resume.json
 ```
 
 **Fields:**
+
 - `institution` - School/university name
 - `area` - Field of study (e.g., "Computer Science")
 - `studyType` - Degree type (e.g., "Bachelor of Science", "Master of Science")
@@ -352,48 +348,29 @@ open src/data/resume.json
     {
       "name": "Programming Languages",
       "level": "Expert",
-      "keywords": [
-        "JavaScript",
-        "TypeScript",
-        "Python",
-        "Go"
-      ]
+      "keywords": ["JavaScript", "TypeScript", "Python", "Go"]
     },
     {
       "name": "Frontend Development",
       "level": "Expert",
-      "keywords": [
-        "React",
-        "Next.js",
-        "Vue.js",
-        "Tailwind CSS"
-      ]
+      "keywords": ["React", "Next.js", "Vue.js", "Tailwind CSS"]
     },
     {
       "name": "Backend Development",
       "level": "Advanced",
-      "keywords": [
-        "Node.js",
-        "Express",
-        "PostgreSQL",
-        "MongoDB"
-      ]
+      "keywords": ["Node.js", "Express", "PostgreSQL", "MongoDB"]
     },
     {
       "name": "DevOps & Cloud",
       "level": "Advanced",
-      "keywords": [
-        "AWS",
-        "Docker",
-        "Kubernetes",
-        "CI/CD"
-      ]
+      "keywords": ["AWS", "Docker", "Kubernetes", "CI/CD"]
     }
   ]
 }
 ```
 
 **Skill Organization:**
+
 - Group skills by **category** (name field)
 - Use **level** to indicate proficiency: "Beginner", "Intermediate", "Advanced", "Expert", "Master"
 - List skills in **keywords** array
@@ -421,6 +398,7 @@ open src/data/resume.json
 ```
 
 **Fluency Levels:**
+
 - Native speaker
 - Full professional proficiency
 - Professional working proficiency
@@ -586,10 +564,12 @@ The `calendar` field in `basics` is a **custom extension** to JSON Resume:
 ```
 
 This appears on:
+
 - Homepage contact section
 - `/book` page (redirects to calendar)
 
 **Supported services:**
+
 - Google Calendar
 - Calendly
 - Cal.com
@@ -666,18 +646,21 @@ npm run build
 Common errors and fixes:
 
 **Missing required field:**
+
 ```
 Error: "basics.name" is required
 Fix: Add "name" field to "basics" object
 ```
 
 **Invalid date format:**
+
 ```
 Error: "work[0].startDate" must match format "date"
 Fix: Use ISO format: "2020-01-01"
 ```
 
 **Invalid email:**
+
 ```
 Error: "basics.email" must match format "email"
 Fix: Ensure valid email: "user@domain.com"
@@ -688,12 +671,14 @@ Fix: Ensure valid email: "user@domain.com"
 ### Changes Not Appearing?
 
 **1. Hard reload browser:**
+
 ```
 Mac: Cmd + Shift + R
 Windows: Ctrl + Shift + R
 ```
 
 **2. Restart dev server:**
+
 ```bash
 # Kill server (Ctrl+C)
 rm -rf .next
@@ -701,6 +686,7 @@ npm run dev
 ```
 
 **3. Check for JSON syntax errors:**
+
 ```bash
 # Validate JSON
 cat src/data/resume.json | python3 -m json.tool
@@ -709,6 +695,7 @@ cat src/data/resume.json | python3 -m json.tool
 ### JSON Syntax Errors
 
 **Missing comma:**
+
 ```json
 // ❌ Wrong
 {
@@ -724,6 +711,7 @@ cat src/data/resume.json | python3 -m json.tool
 ```
 
 **Trailing comma:**
+
 ```json
 // ❌ Wrong (JSON doesn't allow trailing commas)
 {
@@ -737,6 +725,7 @@ cat src/data/resume.json | python3 -m json.tool
 ```
 
 **Unescaped quotes:**
+
 ```json
 // ❌ Wrong
 {
@@ -760,6 +749,7 @@ npm run lint
 ```
 
 Common issues:
+
 - Invalid JSON syntax
 - Missing required fields
 - Incorrect data types

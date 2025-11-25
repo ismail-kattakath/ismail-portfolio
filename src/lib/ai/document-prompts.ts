@@ -1,4 +1,4 @@
-import type { ResumeData } from "@/types";
+import type { ResumeData } from '@/types'
 
 /**
  * Builds a prompt for AI professional summary generation
@@ -8,35 +8,37 @@ export function buildSummaryPrompt(
   resumeData: ResumeData,
   jobDescription: string
 ): string {
-  const { name, position, workExperience, skills } = resumeData;
+  const { name, position, workExperience, skills } = resumeData
 
-  console.log("Building summary prompt with resume data:", {
+  console.log('Building summary prompt with resume data:', {
     name,
     position,
     experienceCount: workExperience?.length || 0,
     skillsCount: skills?.length || 0,
-  });
+  })
 
   // Build work experience summary
-  const experienceSummary = workExperience
-    ?.slice(0, 3)
-    .map((exp) => {
-      const achievements = exp.keyAchievements
-        ?.split("\n")
-        .filter(Boolean)
-        .slice(0, 3)
-        .join("; ");
+  const experienceSummary =
+    workExperience
+      ?.slice(0, 3)
+      .map((exp) => {
+        const achievements = exp.keyAchievements
+          ?.split('\n')
+          .filter(Boolean)
+          .slice(0, 3)
+          .join('; ')
 
-      return `${exp.position} at ${exp.company}: ${achievements}`;
-    })
-    .filter(Boolean)
-    .join("\n\n") || "No work experience provided";
+        return `${exp.position} at ${exp.company}: ${achievements}`
+      })
+      .filter(Boolean)
+      .join('\n\n') || 'No work experience provided'
 
   // Build skills summary
-  const skillsList = skills
-    ?.flatMap((group) => group.skills.map((s) => s.text))
-    .slice(0, 20)
-    .join(", ") || "No skills provided";
+  const skillsList =
+    skills
+      ?.flatMap((group) => group.skills.map((s) => s.text))
+      .slice(0, 20)
+      .join(', ') || 'No skills provided'
 
   const prompt = `You are a professional resume writer. Write a compelling professional summary based STRICTLY on the candidate information provided below.
 
@@ -76,34 +78,36 @@ ACCURACY VERIFICATION:
 Before writing each sentence, verify that ANY claim about the candidate's background is explicitly stated in the candidate information above. If you cannot find it in the provided information, DO NOT include it.
 
 OUTPUT FORMAT:
-Return ONLY the professional summary as plain text, without any additional formatting, markdown, or explanations. The summary should be ready to paste directly into a resume.`;
+Return ONLY the professional summary as plain text, without any additional formatting, markdown, or explanations. The summary should be ready to paste directly into a resume.`
 
-  return prompt;
+  return prompt
 }
 
 /**
  * Validates the generated summary content
  */
 export function validateSummary(content: string): {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean
+  errors: string[]
 } {
-  const errors: string[] = [];
+  const errors: string[] = []
 
   // Check minimum length
   if (content.length < 100) {
-    errors.push("Summary is too short (minimum 100 characters)");
+    errors.push('Summary is too short (minimum 100 characters)')
   }
 
   // Check maximum length (matching default summary style: ~675 chars)
   if (content.length > 675) {
-    errors.push("Summary is too long (maximum 675 characters for single paragraph)");
+    errors.push(
+      'Summary is too long (maximum 675 characters for single paragraph)'
+    )
   }
 
   // Check for multiple paragraphs (should be single paragraph)
-  const paragraphs = content.trim().split(/\n\n+/);
+  const paragraphs = content.trim().split(/\n\n+/)
   if (paragraphs.length > 1) {
-    errors.push("Summary should be a single paragraph (no line breaks)");
+    errors.push('Summary should be a single paragraph (no line breaks)')
   }
 
   // Check for suspicious patterns
@@ -114,18 +118,18 @@ export function validateSummary(content: string): {
     /awarded (the|a)/i,
     /published in/i,
     /patent for/i,
-  ];
+  ]
 
   for (const pattern of suspiciousPatterns) {
     if (pattern.test(content)) {
-      console.warn(`Summary may contain unverified claim: ${pattern}`);
+      console.warn(`Summary may contain unverified claim: ${pattern}`)
     }
   }
 
   return {
     isValid: errors.length === 0,
     errors,
-  };
+  }
 }
 
 /**
@@ -137,41 +141,43 @@ export function buildCoverLetterPrompt(
   jobDescription: string
 ): string {
   // Extract key information from resume
-  const { name, position, summary, workExperience, skills } = resumeData;
+  const { name, position, summary, workExperience, skills } = resumeData
 
-  console.log("Building prompt with resume data:", {
+  console.log('Building prompt with resume data:', {
     name,
     position,
     summaryLength: summary?.length || 0,
     experienceCount: workExperience?.length || 0,
     skillsCount: skills?.length || 0,
-  });
+  })
 
   // Build work experience summary
-  const experienceSummary = workExperience
-    ?.slice(0, 3) // Use top 3 most recent experiences
-    .map((exp) => {
-      const achievements = exp.keyAchievements
-        ?.split("\n")
-        .filter(Boolean)
-        .slice(0, 3) // Top 3 achievements per job
-        .join("; ");
+  const experienceSummary =
+    workExperience
+      ?.slice(0, 3) // Use top 3 most recent experiences
+      .map((exp) => {
+        const achievements = exp.keyAchievements
+          ?.split('\n')
+          .filter(Boolean)
+          .slice(0, 3) // Top 3 achievements per job
+          .join('; ')
 
-      return `${exp.position} at ${exp.company}: ${achievements}`;
-    })
-    .filter(Boolean)
-    .join("\n\n") || "No work experience provided";
+        return `${exp.position} at ${exp.company}: ${achievements}`
+      })
+      .filter(Boolean)
+      .join('\n\n') || 'No work experience provided'
 
   // Build skills summary
-  const skillsList = skills
-    ?.flatMap((group) => group.skills.map((s) => s.text))
-    .slice(0, 15) // Top 15 skills
-    .join(", ") || "No skills provided";
+  const skillsList =
+    skills
+      ?.flatMap((group) => group.skills.map((s) => s.text))
+      .slice(0, 15) // Top 15 skills
+      .join(', ') || 'No skills provided'
 
-  console.log("Prompt data prepared:", {
+  console.log('Prompt data prepared:', {
     experienceSummaryLength: experienceSummary.length,
     skillsListLength: skillsList.length,
-  });
+  })
 
   // Build the prompt
   const prompt = `You are a professional cover letter writer. Write a compelling, tailored cover letter based STRICTLY on the candidate information provided below.
@@ -215,9 +221,9 @@ ACCURACY VERIFICATION:
 Before writing each sentence, verify that ANY claim about the candidate's background is explicitly stated in the candidate information above. If you cannot find it in the provided information, DO NOT include it.
 
 OUTPUT FORMAT:
-Return ONLY the cover letter content as plain text, without any additional formatting, markdown, or explanations.`;
+Return ONLY the cover letter content as plain text, without any additional formatting, markdown, or explanations.`
 
-  return prompt;
+  return prompt
 }
 
 /**
@@ -225,34 +231,34 @@ Return ONLY the cover letter content as plain text, without any additional forma
  * Ensures it meets minimum quality standards and doesn't contain fabrications
  */
 export function validateCoverLetter(content: string): {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean
+  errors: string[]
 } {
-  const errors: string[] = [];
+  const errors: string[] = []
 
   // Check minimum length (should be at least 200 characters)
   if (content.length < 200) {
-    errors.push("Cover letter is too short");
+    errors.push('Cover letter is too short')
   }
 
   // Check maximum length (should not exceed 2000 characters)
   if (content.length > 2000) {
-    errors.push("Cover letter is too long");
+    errors.push('Cover letter is too long')
   }
 
   // Check for common placeholder issues
   const placeholders = [
-    "[Company Name]",
-    "[Your Name]",
-    "[Position]",
-    "Dear Hiring Manager",
-    "Sincerely,",
-    "Best regards,",
-  ];
+    '[Company Name]',
+    '[Your Name]',
+    '[Position]',
+    'Dear Hiring Manager',
+    'Sincerely,',
+    'Best regards,',
+  ]
 
   for (const placeholder of placeholders) {
     if (content.includes(placeholder)) {
-      errors.push(`Contains placeholder: ${placeholder}`);
+      errors.push(`Contains placeholder: ${placeholder}`)
     }
   }
 
@@ -265,20 +271,20 @@ export function validateCoverLetter(content: string): {
     /published in/i,
     /patent for/i,
     /I have \d+ years/i, // Avoid specific year claims not in resume
-  ];
+  ]
 
   for (const pattern of suspiciousPatterns) {
     if (pattern.test(content)) {
       // This is a warning, not a hard error
       // We don't add to errors but log it
-      console.warn(`Cover letter may contain unverified claim: ${pattern}`);
+      console.warn(`Cover letter may contain unverified claim: ${pattern}`)
     }
   }
 
   return {
     isValid: errors.length === 0,
     errors,
-  };
+  }
 }
 
 /**
@@ -286,18 +292,18 @@ export function validateCoverLetter(content: string): {
  * Cleans up formatting and ensures consistency
  */
 export function postProcessCoverLetter(content: string): string {
-  let processed = content.trim();
+  let processed = content.trim()
 
   // Remove any leading/trailing quotes that AI might add
-  processed = processed.replace(/^["']|["']$/g, "");
+  processed = processed.replace(/^["']|["']$/g, '')
 
   // Normalize line breaks (ensure double line breaks between paragraphs)
-  processed = processed.replace(/\n{3,}/g, "\n\n");
+  processed = processed.replace(/\n{3,}/g, '\n\n')
 
   // Remove any markdown formatting that might slip through
-  processed = processed.replace(/\*\*/g, "");
-  processed = processed.replace(/\*/g, "");
-  processed = processed.replace(/#{1,6}\s/g, "");
+  processed = processed.replace(/\*\*/g, '')
+  processed = processed.replace(/\*/g, '')
+  processed = processed.replace(/#{1,6}\s/g, '')
 
-  return processed.trim();
+  return processed.trim()
 }

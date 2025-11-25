@@ -6,14 +6,14 @@ This directory contains feature-specific documentation for the portfolio project
 
 **For project overview and quick start, see the root-level documentation:**
 
-| Document | Purpose | Audience |
-|----------|---------|----------|
-| **[../QUICKSTART.md](../QUICKSTART.md)** | Get started in 10 minutes | 👤 End Users |
-| **[../ARCHITECTURE.md](../ARCHITECTURE.md)** | Complete technical reference | 👨‍💻 Developers |
-| **[../CLAUDE.md](../CLAUDE.md)** | Claude Code development guide | 🤖 Claude Code Sessions |
-| **[../CONTRIBUTING.md](../CONTRIBUTING.md)** | How to contribute | 🤝 Contributors |
-| **[../CHANGELOG.md](../CHANGELOG.md)** | Version history | 📋 Everyone |
-| **[../README.md](../README.md)** | Project overview | 📖 Everyone |
+| Document                                     | Purpose                       | Audience                |
+| -------------------------------------------- | ----------------------------- | ----------------------- |
+| **[../QUICKSTART.md](../QUICKSTART.md)**     | Get started in 10 minutes     | 👤 End Users            |
+| **[../ARCHITECTURE.md](../ARCHITECTURE.md)** | Complete technical reference  | 👨‍💻 Developers           |
+| **[../CLAUDE.md](../CLAUDE.md)**             | Claude Code development guide | 🤖 Claude Code Sessions |
+| **[../CONTRIBUTING.md](../CONTRIBUTING.md)** | How to contribute             | 🤝 Contributors         |
+| **[../CHANGELOG.md](../CHANGELOG.md)**       | Version history               | 📋 Everyone             |
+| **[../README.md](../README.md)**             | Project overview              | 📖 Everyone             |
 
 ---
 
@@ -22,7 +22,9 @@ This directory contains feature-specific documentation for the portfolio project
 This directory contains detailed guides for specific features:
 
 ### For New Users
+
 📄 **[DEFAULT_DATA_SETUP.md](./DEFAULT_DATA_SETUP.md)**
+
 - **START HERE** - Customize your portfolio data
 - Update personal information, work experience, skills
 - Single source of truth explanation
@@ -32,7 +34,9 @@ This directory contains detailed guides for specific features:
 ## Features Documentation
 
 ### AI Content Generator
+
 📄 **[AI_CONTENT_GENERATOR.md](./AI_CONTENT_GENERATOR.md)**
+
 - **NEW FEATURE** - AI-powered content generation for multiple use cases
 - **Requires**: OpenAI API key or compatible API endpoint
 - **Supports**: Cover letter generation, professional summary generation
@@ -45,10 +49,13 @@ This directory contains detailed guides for specific features:
 - Credential storage and security
 
 ### Password Protection Feature
+
 Documentation for the password protection system implemented for edit pages:
 
 #### Setup & Usage
+
 📄 **[PASSWORD_PROTECTION_SETUP.md](./PASSWORD_PROTECTION_SETUP.md)**
+
 - Complete setup guide for local and production environments
 - How to generate password hashes
 - GitHub Secrets configuration
@@ -57,7 +64,9 @@ Documentation for the password protection system implemented for edit pages:
 - Security considerations
 
 #### Testing
+
 For comprehensive testing information:
+
 - **Run tests**: `npm test` to see current test results
 - **Test coverage**: `npm test:coverage` for detailed coverage reports
 - **Test guidelines**: See [CONTRIBUTING.md](../CONTRIBUTING.md#testing-guidelines)
@@ -66,12 +75,14 @@ For comprehensive testing information:
 ## Quick Links
 
 ### First Time Setup
+
 1. **[Customize Your Data](./DEFAULT_DATA_SETUP.md)** - Update personal info, experience, skills
 2. **[Setup Password Protection](./PASSWORD_PROTECTION_SETUP.md)** - Secure your edit pages
 3. **[Configure AI Content Generator](./AI_CONTENT_GENERATOR.md)** - Optional: Setup AI for cover letters and summaries
 4. **Build & Deploy** - See main [README.md](../README.md)
 
 ### For Developers
+
 - **Setup Password Protection**: [PASSWORD_PROTECTION_SETUP.md](./PASSWORD_PROTECTION_SETUP.md)
 - **Run Tests**: `npm test` (all tests) or `npm test -- --testPathPatterns="password"` (password tests only)
 - **Test Coverage**: `npm test:coverage` for detailed coverage reports
@@ -79,6 +90,7 @@ For comprehensive testing information:
 - **Contributing**: See [CONTRIBUTING.md](../CONTRIBUTING.md) for test guidelines
 
 ### For Users
+
 - **Access Protected Pages**: Navigate to `/resume/edit` or `/cover-letter/edit`
 - **Default Password**: Configured during setup (see SETUP guide)
 - **Session Duration**: 24 hours
@@ -134,6 +146,7 @@ When adding new features that require documentation:
 ## Support
 
 For questions or issues:
+
 - Check the relevant documentation first
 - Look at the troubleshooting sections
 - Check GitHub Issues for similar problems

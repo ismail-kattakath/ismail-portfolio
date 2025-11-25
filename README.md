@@ -8,14 +8,14 @@ A production-ready, customizable portfolio website built with Next.js 15, TypeSc
 
 ## 📚 Documentation
 
-| Guide | Purpose | Audience |
-|-------|---------|----------|
-| **[Quick Start](./QUICKSTART.md)** | Deploy in 10 minutes | 👤 End Users |
-| **[Architecture](./ARCHITECTURE.md)** | Technical deep-dive | 👨‍💻 Developers |
-| **[Claude Guide](./CLAUDE.md)** | Development reference | 🤖 Claude Code Sessions |
-| **[Contributing](./CONTRIBUTING.md)** | Contribution guidelines | 🤝 Contributors |
-| **[Changelog](./CHANGELOG.md)** | Version history | 📋 Everyone |
-| **[Detailed Guides](./docs/)** | Feature-specific docs | 📖 Power Users |
+| Guide                                 | Purpose                 | Audience                |
+| ------------------------------------- | ----------------------- | ----------------------- |
+| **[Quick Start](./QUICKSTART.md)**    | Deploy in 10 minutes    | 👤 End Users            |
+| **[Architecture](./ARCHITECTURE.md)** | Technical deep-dive     | 👨‍💻 Developers           |
+| **[Claude Guide](./CLAUDE.md)**       | Development reference   | 🤖 Claude Code Sessions |
+| **[Contributing](./CONTRIBUTING.md)** | Contribution guidelines | 🤝 Contributors         |
+| **[Changelog](./CHANGELOG.md)**       | Version history         | 📋 Everyone             |
+| **[Detailed Guides](./docs/)**        | Feature-specific docs   | 📖 Power Users          |
 
 **👉 New here? Start with [QUICKSTART.md](./QUICKSTART.md) to get your portfolio live in 10 minutes!**
 
@@ -57,12 +57,14 @@ Open [http://localhost:3000](http://localhost:3000) - you'll see a working portf
 This is the **most important step** - make it yours!
 
 **Edit the single data file:**
+
 ```bash
 # Open in your editor
 code src/data/resume.json
 ```
 
 **Update your information** (following [JSON Resume](https://jsonresume.org) v1.0.0 standard):
+
 ```json
 {
   "basics": {
@@ -96,6 +98,7 @@ code src/data/resume.json
 ```
 
 **Need detailed guidance?** See the **[Default Data Setup Guide](./docs/DEFAULT_DATA_SETUP.md)** for:
+
 - Complete field explanations
 - Best practices for each section
 - Date formatting guidelines
@@ -107,6 +110,7 @@ code src/data/resume.json
 ### 4. Deploy to GitHub Pages
 
 **Enable GitHub Pages:**
+
 1. Push your changes to GitHub
 2. Go to repository **Settings → Pages**
 3. Source: **GitHub Actions**
@@ -121,7 +125,9 @@ Your portfolio will be live at: `https://YOUR-USERNAME.github.io/jsonresume-to-e
 ### Step-by-Step Customization
 
 #### 1️⃣ Personal Information
+
 Update `src/data/resume.json` → `basics` section:
+
 - Name, email, phone, location
 - Professional title (`label`)
 - Website URL
@@ -130,7 +136,9 @@ Update `src/data/resume.json` → `basics` section:
 **Takes 5 minutes** | [Detailed Guide →](./docs/DEFAULT_DATA_SETUP.md#step-2-update-personal-information-basics)
 
 #### 2️⃣ Work Experience
+
 Update `src/data/resume.json` → `work` array:
+
 - Company names and positions
 - Employment dates (ISO format: YYYY-MM-DD)
 - Achievements with metrics
@@ -139,7 +147,9 @@ Update `src/data/resume.json` → `work` array:
 **Takes 15 minutes** | [Detailed Guide →](./docs/DEFAULT_DATA_SETUP.md#step-4-update-work-experience-work)
 
 #### 3️⃣ Skills
+
 Update `src/data/resume.json` → `skills` array:
+
 - Group skills by category
 - List technologies and tools
 - Indicate proficiency levels
@@ -147,13 +157,16 @@ Update `src/data/resume.json` → `skills` array:
 **Takes 5 minutes** | [Detailed Guide →](./docs/DEFAULT_DATA_SETUP.md#step-6-update-skills)
 
 #### 4️⃣ Education & Certifications
+
 Update `src/data/resume.json`:
+
 - `education` array - degrees and schools
 - `certificates` array - certifications
 
 **Takes 5 minutes** | [Detailed Guide →](./docs/DEFAULT_DATA_SETUP.md#step-5-update-education)
 
 #### 5️⃣ Password Protection (Optional - Disabled by Default)
+
 **Edit pages are publicly accessible by default.** Want to secure them?
 
 ```bash
@@ -171,6 +184,7 @@ echo "NEXT_PUBLIC_EDIT_PASSWORD_HASH=<your-hash>" > .env.local
 ## 🎯 What You Get
 
 ### Homepage Sections
+
 1. **Hero** - Name, title, contact info (from `resume.json`)
 2. **About** - Professional summary (from `basics.summary`)
 3. **Skills** - Technical expertise by category (from `skills`)
@@ -180,6 +194,7 @@ echo "NEXT_PUBLIC_EDIT_PASSWORD_HASH=<your-hash>" > .env.local
 ### Special Features
 
 #### 📄 Resume Builder (`/resume/edit`)
+
 - **Interactive editor** with live preview
 - **Drag-and-drop** section reordering
 - **Import/Export** JSON Resume format
@@ -187,17 +202,20 @@ echo "NEXT_PUBLIC_EDIT_PASSWORD_HASH=<your-hash>" > .env.local
 - **Print ready** - triggers browser print dialog
 
 #### ✉️ Cover Letter Generator (`/cover-letter/edit`)
+
 - **Auto-populated** personal info from resume
 - **Live preview** as you type
 - **Password protected** for security
 - **Print ready** for applications
 
 #### 🔗 Calendar Booking (`/book`)
+
 - Redirects to your calendar booking link
 - Set via `basics.calendar` in `resume.json`
 - Supports Google Calendar, Calendly, Cal.com
 
 #### 📊 JSON Resume API (`/resume.json`)
+
 - Public JSON endpoint of your resume
 - Standard format for other tools
 - Automatically generated from `resume.json`
@@ -243,16 +261,17 @@ graph TD
 
 ### Essential Guides
 
-| Guide | Purpose | Time Required |
-|-------|---------|---------------|
-| **[Default Data Setup](./docs/DEFAULT_DATA_SETUP.md)** | ⭐ Customize your portfolio data | 30 min |
-| **[Password Protection Setup](./docs/PASSWORD_PROTECTION_SETUP.md)** | Secure edit pages | 5 min |
-| **[AI Content Generator](./docs/AI_CONTENT_GENERATOR.md)** | Setup AI features | 10 min |
-| **[Docs Overview](./docs/README.md)** | Documentation index | 2 min |
+| Guide                                                                | Purpose                          | Time Required |
+| -------------------------------------------------------------------- | -------------------------------- | ------------- |
+| **[Default Data Setup](./docs/DEFAULT_DATA_SETUP.md)**               | ⭐ Customize your portfolio data | 30 min        |
+| **[Password Protection Setup](./docs/PASSWORD_PROTECTION_SETUP.md)** | Secure edit pages                | 5 min         |
+| **[AI Content Generator](./docs/AI_CONTENT_GENERATOR.md)**           | Setup AI features                | 10 min        |
+| **[Docs Overview](./docs/README.md)**                                | Documentation index              | 2 min         |
 
 ### Quick Reference
 
 **Want to update...**
+
 - Personal info? → Edit `basics` in `resume.json`
 - Work experience? → Edit `work` array in `resume.json`
 - Skills? → Edit `skills` array in `resume.json`
@@ -260,6 +279,7 @@ graph TD
 - Colors/styling? → Edit `src/app/globals.css`
 
 **Having issues?**
+
 - Check [Troubleshooting Guide](./docs/DEFAULT_DATA_SETUP.md#troubleshooting)
 - Run tests: `npm test` to verify functionality
 - Open a GitHub issue
@@ -271,6 +291,7 @@ graph TD
 **Automatic deployment via GitHub Actions:**
 
 1. **Push to main branch**:
+
    ```bash
    git add .
    git commit -m "feat: customize portfolio"
@@ -288,6 +309,7 @@ graph TD
    ```
 
 **What happens automatically:**
+
 - ✅ Tests run (deployment fails if tests fail)
 - ✅ Build static site
 - ✅ Generate sitemap
@@ -299,6 +321,7 @@ graph TD
 Want `portfolio.yourdomain.com` instead of GitHub's URL?
 
 1. **Add CNAME file** in project root:
+
    ```bash
    echo "portfolio.yourdomain.com" > CNAME
    git add CNAME
@@ -307,6 +330,7 @@ Want `portfolio.yourdomain.com` instead of GitHub's URL?
    ```
 
 2. **Configure DNS** with your domain provider:
+
    ```
    Type: CNAME
    Host: portfolio (or @)
@@ -324,6 +348,7 @@ Want `portfolio.yourdomain.com` instead of GitHub's URL?
 ### Alternative Hosting
 
 This project also works on:
+
 - **Vercel**: `vercel deploy` (zero config)
 - **Netlify**: Drag & drop `out/` folder
 - **AWS S3**: Upload `out/` folder
@@ -349,6 +374,7 @@ npm test:watch
 ```
 
 **Test Statistics:**
+
 - **125 total tests** (112 passing, 13 minor failures)
 - **89.6% pass rate**
 - Unit tests: Password config, PasswordProtection component
@@ -356,6 +382,7 @@ npm test:watch
 - E2E tests: Complete user workflows
 
 **What's tested:**
+
 - ✅ Password authentication flows
 - ✅ Session management (24-hour expiry)
 - ✅ Resume editor functionality
@@ -392,11 +419,13 @@ node scripts/generate-password-hash.js "password"  # Generate bcrypt hash
 ## 📱 Responsive Design
 
 Optimized for all devices:
+
 - **Mobile** (< 768px): Single column, touch-friendly
 - **Tablet** (768px - 1024px): Enhanced layout
 - **Desktop** (> 1024px): Full multi-column experience
 
 **Tested on:**
+
 - iOS Safari, Chrome
 - Android Chrome, Firefox
 - Desktop Chrome, Firefox, Safari, Edge
@@ -406,6 +435,7 @@ Optimized for all devices:
 ### Change Colors
 
 Edit `src/app/globals.css`:
+
 ```css
 @theme {
   --color-primary: #your-color;
@@ -423,6 +453,7 @@ Edit `src/app/globals.css`:
 ### Add Sections
 
 Follow the adapter pattern:
+
 1. Add data to `resume.json`
 2. Update TypeScript types in `src/types/`
 3. Create component in `src/components/`
@@ -433,12 +464,14 @@ Follow the adapter pattern:
 ### Password Protection
 
 This project uses **client-side password protection** with bcrypt:
+
 - ✅ Suitable for personal portfolios
 - ✅ Deters casual access
 - ✅ No server/database required
 - ⚠️ Can be bypassed by inspecting built files
 
 **For production apps requiring real security:**
+
 - Use server-side authentication
 - Deploy to Vercel/Netlify with edge functions
 - Implement proper user accounts
@@ -454,6 +487,7 @@ This project uses **client-side password protection** with bcrypt:
 ## 🤝 Contributing
 
 Contributions welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
@@ -483,6 +517,7 @@ This project builds upon and is inspired by the open-source community:
 ## 🎯 What's Next?
 
 After setup, you can:
+
 - [ ] Customize your data in `resume.json`
 - [ ] Set up password protection for edit pages
 - [ ] Configure custom domain

@@ -1,29 +1,31 @@
-import React, { useContext, useState } from "react";
-import { ResumeContext } from "@/lib/contexts/DocumentContext";
-import AIGenerateModal from "./AIGenerateModal";
-import AITextAreaWithButton from "@/components/document-builder/shared-forms/AITextAreaWithButton";
+import React, { useContext, useState } from 'react'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import AIGenerateModal from './AIGenerateModal'
+import AITextAreaWithButton from '@/components/document-builder/shared-forms/AITextAreaWithButton'
 
 const CoverLetterContent = () => {
-  const { resumeData, setResumeData } = useContext(ResumeContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { resumeData, setResumeData } = useContext(ResumeContext)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setResumeData({ ...resumeData, content: e.target.value });
-  };
+    setResumeData({ ...resumeData, content: e.target.value })
+  }
 
   const handleGenerate = (generatedContent: string) => {
-    setResumeData({ ...resumeData, content: generatedContent });
-  };
+    setResumeData({ ...resumeData, content: generatedContent })
+  }
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <div className="w-1 h-6 bg-gradient-to-b from-amber-500 to-orange-500 rounded-full"></div>
-        <h2 className="text-lg text-white font-semibold">Cover Letter Content</h2>
+        <div className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-orange-500"></div>
+        <h2 className="text-lg font-semibold text-white">
+          Cover Letter Content
+        </h2>
       </div>
 
       <AITextAreaWithButton
-        value={resumeData.content || ""}
+        value={resumeData.content || ''}
         onChange={handleContentChange}
         onGenerateClick={() => setIsModalOpen(true)}
         placeholder="Write your compelling cover letter here...
@@ -43,7 +45,7 @@ Tip: Highlight your relevant experience, explain why you're excited about this o
         resumeData={resumeData}
       />
     </div>
-  );
-};
+  )
+}
 
-export default CoverLetterContent;
+export default CoverLetterContent

@@ -7,10 +7,12 @@ This guide explains how to **optionally** set up password protection for the edi
 **By default, edit pages are publicly accessible** - no password required. This makes it easy to get started.
 
 **To enable password protection:**
+
 - Set the `NEXT_PUBLIC_EDIT_PASSWORD_HASH` environment variable
 - Follow the setup instructions below
 
 **To disable password protection:**
+
 - Simply don't set the environment variable
 - Edit pages will be accessible to anyone who visits them
 
@@ -40,12 +42,14 @@ node scripts/generate-password-hash.js "your-strong-password"
 ```
 
 **Password Recommendations:**
+
 - Use at least 12 characters
 - Include uppercase, lowercase, numbers, and special characters
 - Don't reuse passwords from other services
 - Example: `MyP0rtf0lio!2024@Edit`
 
 The script will output a hash like:
+
 ```
 $2a$10$N9qo8uLOickgx2ZMRZoMye7T8h9/qRBSMy1Wz0C.OvQ1rPLbSLbsG
 ```
@@ -164,6 +168,7 @@ To change the password:
 **Issue**: Edit pages show password prompt but you want them publicly accessible.
 
 **Solution**:
+
 - Remove `NEXT_PUBLIC_EDIT_PASSWORD_HASH` from `.env.local`
 - Or comment it out with `#`
 - Restart dev server
@@ -172,6 +177,7 @@ To change the password:
 **Issue**: Password prompt not showing when you want protection enabled.
 
 **Solution**:
+
 1. **Local Development**:
    - Create `.env.local` with: `NEXT_PUBLIC_EDIT_PASSWORD_HASH=your-hash`
    - Restart dev server: `npm run dev`
@@ -184,11 +190,13 @@ To change the password:
 ### Password Doesn't Work
 
 **Causes**:
+
 - Hash was generated incorrectly
 - Hash doesn't match GitHub secret
 - Browser cached old version
 
 **Solutions**:
+
 1. Regenerate hash and update secret
 2. Clear browser cache (Ctrl+Shift+Delete)
 3. Try incognito/private mode
@@ -197,10 +205,12 @@ To change the password:
 ### Page Loads Without Password Prompt
 
 **Causes**:
+
 - Already authenticated (session active)
 - Environment variable not injected
 
 **Solutions**:
+
 1. Click "Logout" button or clear `sessionStorage`
 2. Verify GitHub secret is set correctly
 3. Check browser console: `console.log(process.env.NEXT_PUBLIC_EDIT_PASSWORD_HASH)`

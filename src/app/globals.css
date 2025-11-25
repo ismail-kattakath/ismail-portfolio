@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 /* Material Design 3 Dark Theme Tokens */
@@ -12,37 +12,37 @@
   --md-sys-color-surface-container: #1f1d2f;
   --md-sys-color-surface-container-high: #2a283a;
   --md-sys-color-surface-container-highest: #353345;
-  
+
   /* M3 Primary Colors (LinkedIn Blue - Professional Brand) */
   --md-sys-color-primary: #0a66c2;
   --md-sys-color-on-primary: #ffffff;
   --md-sys-color-primary-container: #004182;
   --md-sys-color-on-primary-container: #d4e5ff;
-  
-  /* M3 Secondary Colors (Magenta) */  
+
+  /* M3 Secondary Colors (Magenta) */
   --md-sys-color-secondary: #ff00f5;
   --md-sys-color-on-secondary: #4a004a;
   --md-sys-color-secondary-container: #6e006e;
   --md-sys-color-on-secondary-container: #ff99ff;
-  
+
   /* M3 Tertiary Colors (Orange) */
   --md-sys-color-tertiary: #ff8c00;
   --md-sys-color-on-tertiary: #4d2a00;
   --md-sys-color-tertiary-container: #6b3f00;
   --md-sys-color-on-tertiary-container: #ffdeab;
-  
+
   /* M3 Text Colors */
   --md-sys-color-on-surface: #e3e1f0;
   --md-sys-color-on-surface-variant: #c3c1d0;
   --md-sys-color-outline: #9e9cb0;
   --md-sys-color-outline-variant: #424150;
-  
+
   /* M3 Error Colors */
   --md-sys-color-error: #ffb4ab;
   --md-sys-color-on-error: #690005;
   --md-sys-color-error-container: #93000a;
   --md-sys-color-on-error-container: #ffdad6;
-  
+
   /* M3 Elevation */
   --md-sys-elevation-level0: 0dp;
   --md-sys-elevation-level1: 1dp;
@@ -50,7 +50,7 @@
   --md-sys-elevation-level3: 6dp;
   --md-sys-elevation-level4: 8dp;
   --md-sys-elevation-level5: 12dp;
-  
+
   /* M3 Shape */
   --md-sys-shape-corner-none: 0px;
   --md-sys-shape-corner-extra-small: 4px;
@@ -63,7 +63,8 @@
 @theme inline {
   --color-background: var(--md-sys-color-surface);
   --color-foreground: var(--md-sys-color-on-surface);
-  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:
+    'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'Roboto Mono', monospace;
 }
 
@@ -79,7 +80,12 @@ body {
   background-color: var(--md-sys-color-surface);
   min-height: 100vh;
   color: var(--md-sys-color-on-surface);
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    'Roboto',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
   line-height: 1.5;
   letter-spacing: 0.1px;
 }
@@ -90,7 +96,7 @@ body {
   color: var(--md-sys-color-on-surface);
   border-radius: var(--md-sys-shape-corner-large);
   border: 1px solid var(--md-sys-color-outline-variant);
-  transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .md3-surface-container {
@@ -107,10 +113,10 @@ body {
   background: var(--md-sys-color-surface-container-low);
   color: var(--md-sys-color-on-surface);
   border-radius: var(--md-sys-shape-corner-medium);
-  box-shadow: 
+  box-shadow:
     0px 1px 2px 0px rgba(0, 0, 0, 0.3),
     0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
   border: none;
   position: relative;
   overflow: hidden;
@@ -122,7 +128,7 @@ body {
   inset: 0;
   background: var(--md-sys-color-on-surface);
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .md3-card:hover::before {
@@ -130,7 +136,7 @@ body {
 }
 
 .md3-card:hover {
-  box-shadow: 
+  box-shadow:
     0px 2px 6px 2px rgba(0, 0, 0, 0.15),
     0px 1px 2px 0px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
@@ -152,11 +158,11 @@ body {
   line-height: 20px;
   height: 40px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
   font-family: 'Roboto', sans-serif;
   position: relative;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0px 1px 2px 0px rgba(0, 0, 0, 0.3),
     0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
@@ -167,7 +173,7 @@ body {
   inset: 0;
   background: var(--md-sys-color-on-primary);
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .md3-btn-filled:hover::before {
@@ -175,7 +181,7 @@ body {
 }
 
 .md3-btn-filled:hover {
-  box-shadow: 
+  box-shadow:
     0px 2px 6px 2px rgba(0, 0, 0, 0.15),
     0px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
@@ -191,7 +197,7 @@ body {
   line-height: 20px;
   height: 40px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
   font-family: 'Roboto', sans-serif;
   position: relative;
   overflow: hidden;
@@ -204,7 +210,7 @@ body {
   inset: 0;
   background: var(--md-sys-color-primary);
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+  transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .md3-btn-outlined:hover::before {
@@ -378,12 +384,12 @@ body {
     font-size: 36px;
     line-height: 44px;
   }
-  
+
   .md3-display-medium {
     font-size: 32px;
     line-height: 40px;
   }
-  
+
   .md3-display-small {
     font-size: 28px;
     line-height: 36px;

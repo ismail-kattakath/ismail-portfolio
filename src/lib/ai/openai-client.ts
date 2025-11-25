@@ -6,18 +6,18 @@ import type {
   StoredCredentials,
   StreamCallback,
   OpenAIStreamChunk,
-} from "@/types/openai";
-import type { ResumeData } from "@/types";
+} from '@/types/openai'
+import type { ResumeData } from '@/types'
 import {
   buildCoverLetterPrompt,
   validateCoverLetter,
   postProcessCoverLetter,
   buildSummaryPrompt,
   validateSummary,
-} from "@/lib/ai/document-prompts";
+} from '@/lib/ai/document-prompts'
 
-const STORAGE_KEY = "ai_cover_letter_credentials";
-const REQUEST_TIMEOUT = 120000; // 120 seconds (2 minutes) - increased for thinking models like OLMo-3
+const STORAGE_KEY = 'ai_cover_letter_credentials'
+const REQUEST_TIMEOUT = 120000 // 120 seconds (2 minutes) - increased for thinking models like OLMo-3
 
 /**
  * Custom error class for OpenAI API errors
@@ -28,8 +28,8 @@ export class OpenAIAPIError extends Error {
     public readonly code?: string,
     public readonly type?: string
   ) {
-    super(message);
-    this.name = "OpenAIAPIError";
+    super(message)
+    this.name = 'OpenAIAPIError'
   }
 }
 
@@ -40,70 +40,70 @@ async function makeOpenAIRequest(
   config: OpenAIConfig,
   request: OpenAIRequest
 ): Promise<OpenAIResponse> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT)
 
   try {
     const response = await fetch(`${config.baseURL}/v1/chat/completions`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${config.apiKey}`,
       },
       body: JSON.stringify(request),
       signal: controller.signal,
-    });
+    })
 
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       // Try to parse error response
-      let errorMessage = `API request failed with status ${response.status}`;
+      let errorMessage = `API request failed with status ${response.status}`
       try {
-        const errorData: OpenAIError = await response.json();
-        errorMessage = errorData.error.message || errorMessage;
+        const errorData: OpenAIError = await response.json()
+        errorMessage = errorData.error.message || errorMessage
         throw new OpenAIAPIError(
           errorMessage,
           errorData.error.code,
           errorData.error.type
-        );
+        )
       } catch (parseError) {
         // If can't parse error, throw generic error
         if (parseError instanceof OpenAIAPIError) {
-          throw parseError;
+          throw parseError
         }
-        throw new OpenAIAPIError(errorMessage);
+        throw new OpenAIAPIError(errorMessage)
       }
     }
 
-    const data: OpenAIResponse = await response.json();
-    return data;
+    const data: OpenAIResponse = await response.json()
+    return data
   } catch (error) {
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId)
 
     if (error instanceof OpenAIAPIError) {
-      throw error;
+      throw error
     }
 
     if (error instanceof Error) {
-      if (error.name === "AbortError") {
+      if (error.name === 'AbortError') {
         throw new OpenAIAPIError(
-          "Request timed out after 2 minutes. The model may be too slow or the server is overloaded. Try using a faster model or check your server status.",
-          "timeout"
-        );
+          'Request timed out after 2 minutes. The model may be too slow or the server is overloaded. Try using a faster model or check your server status.',
+          'timeout'
+        )
       }
 
-      if (error.message.includes("fetch")) {
+      if (error.message.includes('fetch')) {
         throw new OpenAIAPIError(
-          "Unable to connect to AI server. Please check the URL and ensure the server is running.",
-          "network_error"
-        );
+          'Unable to connect to AI server. Please check the URL and ensure the server is running.',
+          'network_error'
+        )
       }
 
-      throw new OpenAIAPIError(error.message);
+      throw new OpenAIAPIError(error.message)
     }
 
-    throw new OpenAIAPIError("An unexpected error occurred");
+    throw new OpenAIAPIError('An unexpected error occurred')
   }
 }
 
@@ -117,74 +117,74 @@ async function makeOpenAIStreamRequest(
 ): Promise<string> {
   try {
     const response = await fetch(`${config.baseURL}/v1/chat/completions`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${config.apiKey}`,
       },
       body: JSON.stringify({ ...request, stream: true }),
-    });
+    })
 
     if (!response.ok) {
-      let errorMessage = `API request failed with status ${response.status}`;
+      let errorMessage = `API request failed with status ${response.status}`
       try {
-        const errorData: OpenAIError = await response.json();
-        errorMessage = errorData.error.message || errorMessage;
+        const errorData: OpenAIError = await response.json()
+        errorMessage = errorData.error.message || errorMessage
         throw new OpenAIAPIError(
           errorMessage,
           errorData.error.code,
           errorData.error.type
-        );
+        )
       } catch (parseError) {
         if (parseError instanceof OpenAIAPIError) {
-          throw parseError;
+          throw parseError
         }
-        throw new OpenAIAPIError(errorMessage);
+        throw new OpenAIAPIError(errorMessage)
       }
     }
 
     if (!response.body) {
-      throw new OpenAIAPIError("No response body received", "no_body");
+      throw new OpenAIAPIError('No response body received', 'no_body')
     }
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let fullContent = "";
-    let buffer = "";
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let fullContent = ''
+    let buffer = ''
 
     while (true) {
-      const { done, value } = await reader.read();
+      const { done, value } = await reader.read()
 
       if (done) {
-        onProgress({ done: true });
-        break;
+        onProgress({ done: true })
+        break
       }
 
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      buffer = lines.pop() || ""; // Keep incomplete line in buffer
+      buffer += decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = lines.pop() || '' // Keep incomplete line in buffer
 
       for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed === "data: [DONE]") continue;
+        const trimmed = line.trim()
+        if (!trimmed || trimmed === 'data: [DONE]') continue
 
-        if (trimmed.startsWith("data: ")) {
-          const jsonStr = trimmed.slice(6);
+        if (trimmed.startsWith('data: ')) {
+          const jsonStr = trimmed.slice(6)
           try {
-            const chunk: OpenAIStreamChunk = JSON.parse(jsonStr);
-            const delta = chunk.choices[0]?.delta;
+            const chunk: OpenAIStreamChunk = JSON.parse(jsonStr)
+            const delta = chunk.choices[0]?.delta
 
             if (delta?.content) {
-              fullContent += delta.content;
+              fullContent += delta.content
 
               // Send progress update
               onProgress({
                 content: delta.content,
                 done: false,
-              });
+              })
             }
           } catch (parseError) {
-            console.warn("Failed to parse SSE chunk:", jsonStr);
+            console.warn('Failed to parse SSE chunk:', jsonStr)
           }
         }
       }
@@ -192,29 +192,29 @@ async function makeOpenAIStreamRequest(
 
     if (!fullContent || fullContent.trim().length === 0) {
       throw new OpenAIAPIError(
-        "AI generated an empty response. Please try again.",
-        "empty_response"
-      );
+        'AI generated an empty response. Please try again.',
+        'empty_response'
+      )
     }
 
-    return fullContent;
+    return fullContent
   } catch (error) {
     if (error instanceof OpenAIAPIError) {
-      throw error;
+      throw error
     }
 
     if (error instanceof Error) {
-      if (error.message.includes("fetch")) {
+      if (error.message.includes('fetch')) {
         throw new OpenAIAPIError(
-          "Unable to connect to AI server. Please check the URL and ensure the server is running.",
-          "network_error"
-        );
+          'Unable to connect to AI server. Please check the URL and ensure the server is running.',
+          'network_error'
+        )
       }
 
-      throw new OpenAIAPIError(error.message);
+      throw new OpenAIAPIError(error.message)
     }
 
-    throw new OpenAIAPIError("An unexpected error occurred");
+    throw new OpenAIAPIError('An unexpected error occurred')
   }
 }
 
@@ -228,65 +228,69 @@ export async function generateCoverLetter(
   onProgress?: StreamCallback
 ): Promise<string> {
   // Build the prompt
-  const prompt = buildCoverLetterPrompt(resumeData, jobDescription);
+  const prompt = buildCoverLetterPrompt(resumeData, jobDescription)
 
   // Prepare the request
   const request: OpenAIRequest = {
     model: config.model,
     messages: [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are a professional cover letter writer with expertise in highlighting candidate strengths and tailoring content to job requirements. You write compelling, specific, and achievement-focused cover letters.",
+          'You are a professional cover letter writer with expertise in highlighting candidate strengths and tailoring content to job requirements. You write compelling, specific, and achievement-focused cover letters.',
       },
       {
-        role: "user",
+        role: 'user',
         content: prompt,
       },
     ],
     temperature: 0.7,
     max_tokens: 800,
     top_p: 0.9,
-  };
+  }
 
   // Use streaming if callback provided, otherwise use regular request
-  let generatedContent: string;
+  let generatedContent: string
 
   if (onProgress) {
-    generatedContent = await makeOpenAIStreamRequest(config, request, onProgress);
+    generatedContent = await makeOpenAIStreamRequest(
+      config,
+      request,
+      onProgress
+    )
   } else {
     // Make the API request (non-streaming for backward compatibility)
-    const response = await makeOpenAIRequest(config, request);
+    const response = await makeOpenAIRequest(config, request)
 
     // Extract the generated text
     if (!response.choices || response.choices.length === 0) {
       throw new OpenAIAPIError(
-        "AI generated an empty response. Please try again.",
-        "empty_response"
-      );
+        'AI generated an empty response. Please try again.',
+        'empty_response'
+      )
     }
 
-    generatedContent = response.choices[0].message.content;
+    generatedContent = response.choices[0].message.content
 
     if (!generatedContent || generatedContent.trim().length === 0) {
       throw new OpenAIAPIError(
-        "AI generated an empty response. Please try rephrasing the job description.",
-        "empty_content"
-      );
+        'AI generated an empty response. Please try rephrasing the job description.',
+        'empty_content'
+      )
     }
   }
 
   // Post-process the content
-  const processedContent = postProcessCoverLetter(generatedContent);
+  const processedContent = postProcessCoverLetter(generatedContent)
 
   // Validate the content
-  const validation = validateCoverLetter(processedContent);
+  const validation = validateCoverLetter(processedContent)
   if (!validation.isValid) {
-    console.warn("Cover letter validation warnings:", validation.errors);
+    console.warn('Cover letter validation warnings:', validation.errors)
     // Still return the content, but log warnings
   }
 
-  return processedContent;
+  return processedContent
 }
 
 /**
@@ -299,89 +303,93 @@ export async function generateSummary(
   onProgress?: StreamCallback
 ): Promise<string> {
   // Build the prompt
-  const prompt = buildSummaryPrompt(resumeData, jobDescription);
+  const prompt = buildSummaryPrompt(resumeData, jobDescription)
 
   // Prepare the request
   const request: OpenAIRequest = {
     model: config.model,
     messages: [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are a professional resume writer with expertise in crafting compelling professional summaries that highlight candidate strengths and align with job requirements. You write concise, impactful, achievement-focused summaries.",
+          'You are a professional resume writer with expertise in crafting compelling professional summaries that highlight candidate strengths and align with job requirements. You write concise, impactful, achievement-focused summaries.',
       },
       {
-        role: "user",
+        role: 'user',
         content: prompt,
       },
     ],
     temperature: 0.7,
     max_tokens: 600, // Slightly lower than cover letter since summaries are shorter
     top_p: 0.9,
-  };
+  }
 
   // Use streaming if callback provided, otherwise use regular request
-  let generatedContent: string;
+  let generatedContent: string
 
   if (onProgress) {
-    generatedContent = await makeOpenAIStreamRequest(config, request, onProgress);
+    generatedContent = await makeOpenAIStreamRequest(
+      config,
+      request,
+      onProgress
+    )
   } else {
     // Make the API request (non-streaming for backward compatibility)
-    const response = await makeOpenAIRequest(config, request);
+    const response = await makeOpenAIRequest(config, request)
 
     // Extract the generated text
     if (!response.choices || response.choices.length === 0) {
       throw new OpenAIAPIError(
-        "AI generated an empty response. Please try again.",
-        "empty_response"
-      );
+        'AI generated an empty response. Please try again.',
+        'empty_response'
+      )
     }
 
-    generatedContent = response.choices[0].message.content;
+    generatedContent = response.choices[0].message.content
 
     if (!generatedContent || generatedContent.trim().length === 0) {
       throw new OpenAIAPIError(
-        "AI generated an empty response. Please try rephrasing the job description.",
-        "empty_content"
-      );
+        'AI generated an empty response. Please try rephrasing the job description.',
+        'empty_content'
+      )
     }
   }
 
   // Post-process the content
-  const processedContent = postProcessCoverLetter(generatedContent); // Reuse same post-processing
+  const processedContent = postProcessCoverLetter(generatedContent) // Reuse same post-processing
 
   // Validate the content
-  const validation = validateSummary(processedContent);
+  const validation = validateSummary(processedContent)
   if (!validation.isValid) {
-    console.warn("Summary validation warnings:", validation.errors);
+    console.warn('Summary validation warnings:', validation.errors)
     // Still return the content, but log warnings
   }
 
-  return processedContent;
+  return processedContent
 }
 
 /**
  * Saves API credentials and job description to localStorage
  */
 export function saveCredentials(credentials: StoredCredentials): void {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return
 
   if (credentials.rememberCredentials) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials))
   } else {
     // Clear credentials but keep job description if it was provided
     if (credentials.lastJobDescription) {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
-          apiUrl: "",
-          apiKey: "",
+          apiUrl: '',
+          apiKey: '',
           rememberCredentials: false,
           lastJobDescription: credentials.lastJobDescription,
         })
-      );
+      )
     } else {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEY)
     }
   }
 }
@@ -390,17 +398,17 @@ export function saveCredentials(credentials: StoredCredentials): void {
  * Loads API credentials from localStorage
  */
 export function loadCredentials(): StoredCredentials | null {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null
 
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return null;
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (!stored) return null
 
-    const credentials: StoredCredentials = JSON.parse(stored);
-    return credentials;
+    const credentials: StoredCredentials = JSON.parse(stored)
+    return credentials
   } catch (error) {
-    console.error("Failed to load credentials:", error);
-    return null;
+    console.error('Failed to load credentials:', error)
+    return null
   }
 }
 
@@ -408,8 +416,8 @@ export function loadCredentials(): StoredCredentials | null {
  * Clears stored API credentials
  */
 export function clearCredentials(): void {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(STORAGE_KEY);
+  if (typeof window === 'undefined') return
+  localStorage.removeItem(STORAGE_KEY)
 }
 
 /**
@@ -421,16 +429,16 @@ export async function testConnection(config: OpenAIConfig): Promise<boolean> {
       model: config.model,
       messages: [
         {
-          role: "user",
-          content: "Hello",
+          role: 'user',
+          content: 'Hello',
         },
       ],
       max_tokens: 5,
-    };
+    }
 
-    await makeOpenAIRequest(config, request);
-    return true;
+    await makeOpenAIRequest(config, request)
+    return true
   } catch (error) {
-    return false;
+    return false
   }
 }

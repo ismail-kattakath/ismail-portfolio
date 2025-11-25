@@ -1,34 +1,36 @@
-import React, { useContext, useState } from "react";
-import { ResumeContext } from "@/lib/contexts/DocumentContext";
-import AIGenerateSummaryModal from "./AIGenerateSummaryModal";
-import AITextAreaWithButton from "@/components/document-builder/shared-forms/AITextAreaWithButton";
+import React, { useContext, useState } from 'react'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import AIGenerateSummaryModal from './AIGenerateSummaryModal'
+import AITextAreaWithButton from '@/components/document-builder/shared-forms/AITextAreaWithButton'
 
 const Summary = () => {
-  const { resumeData, setResumeData, handleChange } = useContext(ResumeContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { resumeData, setResumeData, handleChange } = useContext(ResumeContext)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleToggleSummary = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setResumeData({ ...resumeData, showSummary: e.target.checked });
-  };
+    setResumeData({ ...resumeData, showSummary: e.target.checked })
+  }
 
   const handleGenerate = (generatedSummary: string) => {
-    setResumeData({ ...resumeData, summary: generatedSummary });
-  };
+    setResumeData({ ...resumeData, summary: generatedSummary })
+  }
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div className="flex items-center gap-2">
-          <div className="w-1 h-6 bg-gradient-to-b from-amber-500 to-orange-500 rounded-full"></div>
-          <h2 className="text-lg text-white font-semibold">Professional Summary</h2>
+          <div className="h-6 w-1 rounded-full bg-gradient-to-b from-amber-500 to-orange-500"></div>
+          <h2 className="text-lg font-semibold text-white">
+            Professional Summary
+          </h2>
         </div>
-        <label className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg cursor-pointer transition-colors border border-white/10">
+        <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 transition-colors hover:bg-white/10">
           <input
             type="checkbox"
             id="showSummary"
             checked={resumeData.showSummary}
             onChange={handleToggleSummary}
-            className="w-4 h-4 accent-amber-500 cursor-pointer rounded"
+            className="h-4 w-4 cursor-pointer rounded accent-amber-500"
           />
           <span className="text-sm text-white/90">Display Section</span>
         </label>
@@ -53,7 +55,7 @@ const Summary = () => {
         resumeData={resumeData}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Summary;
+export default Summary

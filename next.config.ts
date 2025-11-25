@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
   distDir: 'out',
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -18,6 +18,6 @@ const nextConfig: NextConfig = {
   // If not using custom domain, uncomment these lines:
   // assetPrefix: process.env.NODE_ENV === 'production' ? '/jsonresume-to-everything' : '',
   // basePath: process.env.NODE_ENV === 'production' ? '/jsonresume-to-everything' : '',
-};
+}
 
-export default nextConfig;
+export default nextConfig

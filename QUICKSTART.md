@@ -80,18 +80,14 @@ This file follows the [JSON Resume](https://jsonresume.org) standard and control
       "position": "Your Job Title",
       "url": "https://company.com",
       "startDate": "2020-01-15",
-      "endDate": "",  // Empty string = Present
+      "endDate": "", // Empty string = Present
       "summary": "Brief description of the company/role",
       "highlights": [
         "Achievement 1 with metrics (e.g., reduced costs by 25%)",
         "Achievement 2 with impact",
         "Achievement 3 with results"
       ],
-      "keywords": [
-        "Technology 1",
-        "Technology 2",
-        "Technology 3"
-      ]
+      "keywords": ["Technology 1", "Technology 2", "Technology 3"]
     }
   ]
 }
@@ -107,11 +103,7 @@ This file follows the [JSON Resume](https://jsonresume.org) standard and control
   "skills": [
     {
       "name": "Category Name",
-      "keywords": [
-        "Skill 1",
-        "Skill 2",
-        "Skill 3"
-      ]
+      "keywords": ["Skill 1", "Skill 2", "Skill 3"]
     },
     {
       "name": "Another Category",
@@ -122,6 +114,7 @@ This file follows the [JSON Resume](https://jsonresume.org) standard and control
 ```
 
 **Examples:**
+
 - "Frontend Development" → ["React", "Next.js", "TypeScript"]
 - "Cloud Services" → ["AWS", "Google Cloud", "Azure"]
 
@@ -176,6 +169,7 @@ git push origin main
 ```
 
 **Result:** GitHub Actions automatically:
+
 1. Runs tests
 2. Builds your site
 3. Deploys to GitHub Pages
@@ -194,6 +188,7 @@ git push origin main
 **To enable password protection:**
 
 1. **Generate password hash:**
+
    ```bash
    node scripts/generate-password-hash.js "your-password"
    ```
@@ -215,6 +210,7 @@ git push origin main
 **Want** `portfolio.yourdomain.com` **instead of** `username.github.io/repo`?
 
 1. **Add CNAME file to project root:**
+
    ```bash
    echo "portfolio.yourdomain.com" > CNAME
    git add CNAME
@@ -223,6 +219,7 @@ git push origin main
    ```
 
 2. **Configure DNS** (with your domain provider):
+
    ```
    Type: CNAME
    Host: portfolio (or @)
@@ -251,6 +248,7 @@ git push origin main
    - Local: Run Ollama/vLLM locally
 
 2. **Access Cover Letter Editor:**
+
    ```
    https://YOUR-SITE.com/cover-letter/edit
    ```
@@ -265,6 +263,7 @@ git push origin main
 **Privacy:** API credentials stored locally (browser only, never on server)
 
 **Compatible APIs:**
+
 - OpenAI (`https://api.openai.com`)
 - OpenRouter (`https://openrouter.ai/api`)
 - Ollama (`http://localhost:11434`)
@@ -326,6 +325,7 @@ npm run dev
 ### Modify Homepage Sections
 
 **Files:**
+
 - `src/components/sections/Hero.tsx` - Hero section
 - `src/components/sections/About.tsx` - About section
 - `src/components/sections/Skills.tsx` - Skills display
@@ -341,11 +341,13 @@ npm run dev
 ### 1. Site Not Loading
 
 **Check:**
+
 - GitHub Pages enabled? (Settings → Pages → Source: GitHub Actions)
 - Deployment successful? (Actions tab → latest workflow should be ✅)
 - DNS propagated? (if using custom domain, wait 30 minutes)
 
 **Fix:**
+
 ```bash
 # Trigger manual deployment
 git commit --allow-empty -m "Trigger deployment"
@@ -357,6 +359,7 @@ git push origin main
 **Cause:** Browser cache
 
 **Fix:**
+
 - Hard refresh: `Ctrl+Shift+R` (Windows) or `Cmd+Shift+R` (Mac)
 - Clear browser cache
 - Wait 2-3 minutes for deployment
@@ -368,6 +371,7 @@ git push origin main
 **Cause:** Syntax error in `resume.json`
 
 **Fix:**
+
 ```bash
 # Validate JSON locally
 cat src/data/resume.json | python -m json.tool
@@ -376,6 +380,7 @@ cat src/data/resume.json | python -m json.tool
 ```
 
 **Common mistakes:**
+
 - Missing comma between fields
 - Trailing comma before closing `}`
 - Unescaped quotes in strings (use `\"`)
@@ -385,6 +390,7 @@ cat src/data/resume.json | python -m json.tool
 **Cause:** JavaScript disabled or ad blocker
 
 **Fix:**
+
 - Enable JavaScript in browser
 - Disable ad blocker for your site
 - Try different browser (Chrome, Firefox, Safari)
@@ -392,11 +398,13 @@ cat src/data/resume.json | python -m json.tool
 ### 5. Password Protection Not Working
 
 **Check:**
+
 - `NEXT_PUBLIC_EDIT_PASSWORD_HASH` set in GitHub Secrets?
 - Redeploy after adding secret
 - Clear browser cache
 
 **Generate new hash:**
+
 ```bash
 node scripts/generate-password-hash.js "new-password"
 ```
@@ -422,7 +430,7 @@ node scripts/generate-password-hash.js "new-password"
 ### Example Sites
 
 - **Original:** https://ismail.kattakath.com
-- *Add yours by submitting a PR!*
+- _Add yours by submitting a PR!_
 
 ---
 
@@ -445,6 +453,7 @@ After basic setup:
 ### What Works Out of the Box
 
 ✅ **Homepage**
+
 - Hero section with name, title, contact buttons
 - Professional summary
 - Skills organized by category
@@ -452,6 +461,7 @@ After basic setup:
 - Contact information
 
 ✅ **Resume Builder** (`/resume/edit`)
+
 - Interactive form with live preview
 - Drag-and-drop section reordering
 - Import/export JSON Resume
@@ -459,21 +469,25 @@ After basic setup:
 - Auto-save to localStorage
 
 ✅ **Cover Letter Editor** (`/cover-letter/edit`)
+
 - Personal info auto-populated from resume
 - AI-powered generation (requires API key)
 - Live preview
 - Print functionality
 
 ✅ **Print-Optimized Resume** (`/resume`)
+
 - Auto-triggers browser print dialog
 - Clean print layout
 - Keyboard shortcut (Ctrl/Cmd+P)
 
 ✅ **Calendar Booking** (`/book`)
+
 - Redirects to your booking link
 - Configurable in resume.json
 
 ✅ **SEO & Performance**
+
 - Auto-generated sitemap
 - Robots.txt
 - OpenGraph images

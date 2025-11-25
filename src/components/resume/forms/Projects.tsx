@@ -1,15 +1,15 @@
-import FormButton from "@/components/resume-builder/form/FormButton";
-import React, { useContext } from "react";
-import { ResumeContext } from "@/lib/contexts/DocumentContext";
+import FormButton from '@/components/resume-builder/form/FormButton'
+import React, { useContext } from 'react'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
 
 const Projects = () => {
-  const { resumeData, setResumeData } = useContext(ResumeContext);
+  const { resumeData, setResumeData } = useContext(ResumeContext)
 
   const handleProjects = (e, index) => {
-    const newProjects = [...resumeData.projects];
-    newProjects[index][e.target.name] = e.target.value;
-    setResumeData({ ...resumeData, projects: newProjects });
-  };
+    const newProjects = [...resumeData.projects]
+    newProjects[index][e.target.name] = e.target.value
+    setResumeData({ ...resumeData, projects: newProjects })
+  }
 
   const addProjects = () => {
     setResumeData({
@@ -17,27 +17,27 @@ const Projects = () => {
       projects: [
         ...resumeData.projects,
         {
-          title: "",
-          link: "",
-          description: "",
-          keyAchievements: "",
-          startYear: "",
-          endYear: "",
+          title: '',
+          link: '',
+          description: '',
+          keyAchievements: '',
+          startYear: '',
+          endYear: '',
         },
       ],
-    });
-  };
+    })
+  }
 
   const removeProjects = (index) => {
-    const newProjects = [...resumeData.projects];
-    newProjects[index] = newProjects[newProjects.length - 1];
-    newProjects.pop();
-    setResumeData({ ...resumeData, projects: newProjects });
-  };
+    const newProjects = [...resumeData.projects]
+    newProjects[index] = newProjects[newProjects.length - 1]
+    newProjects.pop()
+    setResumeData({ ...resumeData, projects: newProjects })
+  }
 
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-base text-white font-semibold">Projects</h2>
+      <h2 className="text-base font-semibold text-white">Projects</h2>
       {resumeData.projects.map((project, index) => (
         <div key={index} className="flex flex-col">
           <div className="floating-label-group mb-2">
@@ -45,7 +45,7 @@ const Projects = () => {
               type="text"
               placeholder="Project Name"
               name="name"
-              className="w-full px-2 py-1 bg-white text-gray-950 rounded"
+              className="w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.name}
               onChange={(e) => handleProjects(e, index)}
             />
@@ -56,7 +56,7 @@ const Projects = () => {
               type="text"
               placeholder="Link"
               name="link"
-              className="w-full px-2 py-1 bg-white text-gray-950 rounded"
+              className="w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.link}
               onChange={(e) => handleProjects(e, index)}
             />
@@ -67,7 +67,7 @@ const Projects = () => {
               type="text"
               placeholder="Description"
               name="description"
-              className="w-full px-2 py-1 bg-white text-gray-950 rounded h-32"
+              className="h-32 w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.description}
               maxLength="250"
               onChange={(e) => handleProjects(e, index)}
@@ -79,7 +79,7 @@ const Projects = () => {
               type="text"
               placeholder="Key Achievements"
               name="keyAchievements"
-              className="w-full px-2 py-1 bg-white text-gray-950 rounded h-40"
+              className="h-40 w-full rounded bg-white px-2 py-1 text-gray-950"
               value={project.keyAchievements}
               onChange={(e) => handleProjects(e, index)}
             />
@@ -91,7 +91,7 @@ const Projects = () => {
                 type="date"
                 placeholder="Start Year"
                 name="startYear"
-                className="px-2 py-1 bg-white text-gray-950 rounded"
+                className="rounded bg-white px-2 py-1 text-gray-950"
                 value={project.startYear}
                 onChange={(e) => handleProjects(e, index)}
               />
@@ -102,7 +102,7 @@ const Projects = () => {
                 type="date"
                 placeholder="End Year"
                 name="endYear"
-                className="px-2 py-1 bg-white text-gray-950 rounded"
+                className="rounded bg-white px-2 py-1 text-gray-950"
                 value={project.endYear}
                 onChange={(e) => handleProjects(e, index)}
               />
@@ -118,7 +118,7 @@ const Projects = () => {
         label="Project"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Projects;
+export default Projects

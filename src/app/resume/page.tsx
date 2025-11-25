@@ -1,44 +1,46 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import Preview from "@/components/resume/preview/Preview";
-import { ResumeContext } from "@/lib/contexts/DocumentContext";
-import defaultResumeData from "@/lib/resumeAdapter";
-import PrintButton from "@/components/document-builder/ui/PrintButton";
-import "@/styles/document-builder.css";
-import "@/styles/resume-preview.css";
+import { useEffect, useState } from 'react'
+import Preview from '@/components/resume/preview/Preview'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import defaultResumeData from '@/lib/resumeAdapter'
+import PrintButton from '@/components/document-builder/ui/PrintButton'
+import '@/styles/document-builder.css'
+import '@/styles/resume-preview.css'
 
 export default function ResumeDownloadPage() {
-  const [resumeData, setResumeData] = useState(defaultResumeData);
+  const [resumeData, setResumeData] = useState(defaultResumeData)
 
   useEffect(() => {
     // Load resume data from localStorage if available
-    const storedData = localStorage.getItem("resumeData");
-    let loadedData = defaultResumeData;
+    const storedData = localStorage.getItem('resumeData')
+    let loadedData = defaultResumeData
     if (storedData) {
-      loadedData = JSON.parse(storedData);
-      setResumeData(loadedData);
+      loadedData = JSON.parse(storedData)
+      setResumeData(loadedData)
     }
 
     // Set document title for PDF filename
     const formatName = (name: string) => {
       return name
         .split(/[\s_-]+/)
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join("");
-    };
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join('')
+    }
 
     if (loadedData.name) {
-      document.title = `${formatName(loadedData.name)}-Resume`;
+      document.title = `${formatName(loadedData.name)}-Resume`
     }
 
     // Auto-trigger print dialog after a short delay
     const timer = setTimeout(() => {
-      window.print();
-    }, 500);
+      window.print()
+    }, 500)
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <ResumeContext.Provider
@@ -52,17 +54,17 @@ export default function ResumeDownloadPage() {
     >
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 print:bg-white">
         {/* Floating Print Button - Hidden on print */}
-        <div className="exclude-print fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-auto md:left-auto md:bottom-8 md:right-8 md:translate-x-0 md:translate-y-0 z-50">
+        <div className="exclude-print fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 md:top-auto md:right-8 md:bottom-8 md:left-auto md:translate-x-0 md:translate-y-0">
           <PrintButton name={resumeData.name} documentType="Resume" />
         </div>
 
         {/* Resume Content */}
-        <div className="py-8 px-4 flex items-start justify-center min-h-screen print:py-0 print:px-0">
+        <div className="flex min-h-screen items-start justify-center px-4 py-8 print:px-0 print:py-0">
           <div className="w-full max-w-4xl">
             <Preview />
           </div>
         </div>
       </div>
     </ResumeContext.Provider>
-  );
+  )
 }

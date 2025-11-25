@@ -1,19 +1,19 @@
-import { MdPictureAsPdf } from "react-icons/md";
+import { MdPictureAsPdf } from 'react-icons/md'
 
 const WinPrint = () => {
   const print = () => {
-    window.print();
-  };
+    window.print()
+  }
 
   return (
     <button
       aria-label="Download Resume"
-      className="exclude-print fixed bottom-5 right-10 font-bold rounded-full bg-white text-red-800 cursor-pointer shadow-lg border-2 border-white"
+      className="exclude-print fixed right-10 bottom-5 cursor-pointer rounded-full border-2 border-white bg-white font-bold text-red-800 shadow-lg"
       onClick={print}
     >
-      <MdPictureAsPdf className="w-10 h-10" title="Download Resume" />
+      <MdPictureAsPdf className="h-10 w-10" title="Download Resume" />
     </button>
-  );
-};
+  )
+}
 
-export default WinPrint;
+export default WinPrint

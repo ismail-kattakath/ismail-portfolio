@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 import {
   FaGithub,
   FaLinkedin,
@@ -15,155 +14,159 @@ import {
   FaAlignRight,
   FaUnderline,
   FaGlobe,
-} from "react-icons/fa";
-import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
-import { CgWebsite } from "react-icons/cg";
-import Skills from "@/components/resume/preview/Skills";
-import DateRange from "@/components/resume-builder/utility/DateRange";
-import ContactInfo from "@/components/document-builder/shared-preview/ContactInfo";
-import { formatUrl } from "@/components/resume-builder/utility/formatUrl";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useContext, useState } from "react";
-import { ResumeContext } from "@/lib/contexts/DocumentContext";
-import dynamic from "next/dynamic";
-import Language from "@/components/resume-builder/preview/Language";
-import Certification from "@/components/resume-builder/preview/Certification";
-import useKeyboardShortcut from "@/hooks/useKeyboardShortcut";
+} from 'react-icons/fa'
+import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md'
+import { CgWebsite } from 'react-icons/cg'
+import Skills from '@/components/resume/preview/Skills'
+import DateRange from '@/components/resume-builder/utility/DateRange'
+import ContactInfo from '@/components/document-builder/shared-preview/ContactInfo'
+import { formatUrl } from '@/components/resume-builder/utility/formatUrl'
+import Image from 'next/image'
+import Link from 'next/link'
+import React, { useContext, useState } from 'react'
+import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import dynamic from 'next/dynamic'
+import Language from '@/components/resume-builder/preview/Language'
+import Certification from '@/components/resume-builder/preview/Certification'
+import useKeyboardShortcut from '@/hooks/useKeyboardShortcut'
 
 const DragDropContext = dynamic(
   () =>
-    import("@hello-pangea/dnd").then((mod) => {
-      return mod.DragDropContext;
+    import('@hello-pangea/dnd').then((mod) => {
+      return mod.DragDropContext
     }),
   { ssr: false }
-);
+)
 const Droppable = dynamic(
   () =>
-    import("@hello-pangea/dnd").then((mod) => {
-      return mod.Droppable;
+    import('@hello-pangea/dnd').then((mod) => {
+      return mod.Droppable
     }),
   { ssr: false }
-);
+)
 const Draggable = dynamic(
   () =>
-    import("@hello-pangea/dnd").then((mod) => {
-      return mod.Draggable;
+    import('@hello-pangea/dnd').then((mod) => {
+      return mod.Draggable
     }),
   { ssr: false }
-);
+)
 const HighlightMenu = dynamic(
   () =>
-    import("react-highlight-menu").then((mod) => {
-      return mod.HighlightMenu;
+    import('react-highlight-menu').then((mod) => {
+      return mod.HighlightMenu
     }),
   { ssr: false }
-);
+)
 
 const Preview = () => {
-  const { resumeData, setResumeData, editable = true } = useContext(ResumeContext);
-  const [content, setContent] = useState(resumeData);
+  const {
+    resumeData,
+    setResumeData,
+    editable = true,
+  } = useContext(ResumeContext)
+  const [content, setContent] = useState(resumeData)
   const icons = [
-    { name: "github", icon: <FaGithub /> },
-    { name: "linkedin", icon: <FaLinkedin /> },
-    { name: "twitter", icon: <FaTwitter /> },
-    { name: "facebook", icon: <FaFacebook /> },
-    { name: "instagram", icon: <FaInstagram /> },
-    { name: "youtube", icon: <FaYoutube /> },
-    { name: "website", icon: <FaGlobe /> },
-  ];
+    { name: 'github', icon: <FaGithub /> },
+    { name: 'linkedin', icon: <FaLinkedin /> },
+    { name: 'twitter', icon: <FaTwitter /> },
+    { name: 'facebook', icon: <FaFacebook /> },
+    { name: 'instagram', icon: <FaInstagram /> },
+    { name: 'youtube', icon: <FaYoutube /> },
+    { name: 'website', icon: <FaGlobe /> },
+  ]
 
   const onDragEnd = (result) => {
-    const { destination, source } = result;
+    const { destination, source } = result
 
-    if (!destination) return;
+    if (!destination) return
 
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     )
-      return;
+      return
 
-    if (source.droppableId === "work-experience") {
-      const newWorkExperience = [...resumeData.workExperience];
-      const [removed] = newWorkExperience.splice(source.index, 1);
-      newWorkExperience.splice(destination.index, 0, removed);
-      setResumeData({ ...resumeData, workExperience: newWorkExperience });
+    if (source.droppableId === 'work-experience') {
+      const newWorkExperience = [...resumeData.workExperience]
+      const [removed] = newWorkExperience.splice(source.index, 1)
+      newWorkExperience.splice(destination.index, 0, removed)
+      setResumeData({ ...resumeData, workExperience: newWorkExperience })
     }
 
-    if (source.droppableId.includes("WORK_EXPERIENCE_KEY_ACHIEVEMENT")) {
-      const newWorkExperience = [...resumeData.workExperience];
-      const workExperienceIndex = parseInt(source.droppableId.split("-")[1]);
+    if (source.droppableId.includes('WORK_EXPERIENCE_KEY_ACHIEVEMENT')) {
+      const newWorkExperience = [...resumeData.workExperience]
+      const workExperienceIndex = parseInt(source.droppableId.split('-')[1])
       const keyAchievements =
-        newWorkExperience[workExperienceIndex].keyAchievements.split("\n");
-      const [removed] = keyAchievements.splice(source.index, 1);
-      keyAchievements.splice(destination.index, 0, removed);
+        newWorkExperience[workExperienceIndex].keyAchievements.split('\n')
+      const [removed] = keyAchievements.splice(source.index, 1)
+      keyAchievements.splice(destination.index, 0, removed)
       newWorkExperience[workExperienceIndex].keyAchievements =
-        keyAchievements.join("\n");
-      setResumeData({ ...resumeData, workExperience: newWorkExperience });
+        keyAchievements.join('\n')
+      setResumeData({ ...resumeData, workExperience: newWorkExperience })
     }
 
-    if (source.droppableId === "skills") {
-      const newSkills = [...resumeData.skills];
-      const [removed] = newSkills.splice(source.index, 1);
-      newSkills.splice(destination.index, 0, removed);
-      setResumeData({ ...resumeData, skills: newSkills });
+    if (source.droppableId === 'skills') {
+      const newSkills = [...resumeData.skills]
+      const [removed] = newSkills.splice(source.index, 1)
+      newSkills.splice(destination.index, 0, removed)
+      setResumeData({ ...resumeData, skills: newSkills })
     }
 
-    if (source.droppableId.includes("projects")) {
-      const newProjects = [...resumeData.projects];
-      const [removed] = newProjects.splice(source.index, 1);
-      newProjects.splice(destination.index, 0, removed);
-      setResumeData({ ...resumeData, projects: newProjects });
+    if (source.droppableId.includes('projects')) {
+      const newProjects = [...resumeData.projects]
+      const [removed] = newProjects.splice(source.index, 1)
+      newProjects.splice(destination.index, 0, removed)
+      setResumeData({ ...resumeData, projects: newProjects })
     }
 
-    if (source.droppableId.includes("PROJECTS_KEY_ACHIEVEMENT")) {
-      const newProjects = [...resumeData.projects];
-      const projectIndex = parseInt(source.droppableId.split("-")[1]);
+    if (source.droppableId.includes('PROJECTS_KEY_ACHIEVEMENT')) {
+      const newProjects = [...resumeData.projects]
+      const projectIndex = parseInt(source.droppableId.split('-')[1])
       const keyAchievements =
-        newProjects[projectIndex].keyAchievements.split("\n");
-      const [removed] = keyAchievements.splice(source.index, 1);
-      keyAchievements.splice(destination.index, 0, removed);
-      newProjects[projectIndex].keyAchievements = keyAchievements.join("\n");
-      setResumeData({ ...resumeData, projects: newProjects });
+        newProjects[projectIndex].keyAchievements.split('\n')
+      const [removed] = keyAchievements.splice(source.index, 1)
+      keyAchievements.splice(destination.index, 0, removed)
+      newProjects[projectIndex].keyAchievements = keyAchievements.join('\n')
+      setResumeData({ ...resumeData, projects: newProjects })
     }
-  };
+  }
 
   const MenuButton = ({ title, icon, onClick }) => (
     <button
       onClick={onClick}
       title={title}
-      className="p-2 hover:bg-gray-200 rounded font-semibold"
+      className="rounded p-2 font-semibold hover:bg-gray-200"
     >
       {icon}
     </button>
-  );
+  )
 
   const formatText = (command, value = null) => {
-    document.execCommand(command, false, value);
-  };
+    document.execCommand(command, false, value)
+  }
 
-  const toggleBold = () => formatText("bold");
-  const toggleItalic = () => formatText("italic");
-  const toggleUnderline = () => formatText("underline");
-  const changeFontSize = (size) => formatText("fontSize", size);
-  const alignText = (alignment) => formatText(`justify${alignment}`);
+  const toggleBold = () => formatText('bold')
+  const toggleItalic = () => formatText('italic')
+  const toggleUnderline = () => formatText('underline')
+  const changeFontSize = (size) => formatText('fontSize', size)
+  const alignText = (alignment) => formatText(`justify${alignment}`)
 
-  useKeyboardShortcut("b", true, toggleBold);
-  useKeyboardShortcut("i", true, toggleItalic);
-  useKeyboardShortcut("u", true, toggleUnderline);
+  useKeyboardShortcut('b', true, toggleBold)
+  useKeyboardShortcut('i', true, toggleItalic)
+  useKeyboardShortcut('u', true, toggleUnderline)
 
   return (
-    <div className="w-full md:w-[8.5in] md:sticky md:top-0 preview rm-padding-print p-6 md:overflow-y-scroll md:h-screen bg-white text-black font-[sans-serif]">
+    <div className="preview rm-padding-print w-full bg-white p-6 font-[sans-serif] text-black md:sticky md:top-0 md:h-screen md:w-[8.5in] md:overflow-y-scroll">
       <A4PageWrapper>
         <HighlightMenu
           styles={{
-            borderColor: "#C026D3",
-            backgroundColor: "#C026D3",
-            boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.15)",
+            borderColor: '#C026D3',
+            backgroundColor: '#C026D3',
+            boxShadow: '0px 5px 5px 0px rgba(0, 0, 0, 0.15)',
             zIndex: 10,
-            borderRadius: "5px",
-            padding: "3px",
+            borderRadius: '5px',
+            padding: '3px',
           }}
           target="body"
           menu={() => (
@@ -197,36 +200,48 @@ const Preview = () => {
               <MenuButton
                 title="Align Left"
                 icon={<FaAlignLeft />}
-                onClick={() => alignText("Left")}
+                onClick={() => alignText('Left')}
               />
               <MenuButton
                 title="Align Center"
                 icon={<FaAlignCenter />}
-                onClick={() => alignText("Center")}
+                onClick={() => alignText('Center')}
               />
               <MenuButton
                 title="Align Right"
                 icon={<FaAlignRight />}
-                onClick={() => alignText("Right")}
+                onClick={() => alignText('Right')}
               />
             </>
           )}
         />
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="flex flex-col items-center mb-2 pb-1 border-b-2 border-gray-300 border-dashed">
+          <div className="mb-2 flex flex-col items-center border-b-2 border-dashed border-gray-300 pb-1">
             {resumeData.profilePicture.length > 0 && (
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[black]">
+              <div className="h-24 w-24 overflow-hidden rounded-full border-2 border-[black]">
                 <Image
                   src={resumeData.profilePicture}
                   alt="profile"
                   width={100}
                   height={100}
-                  className="object-cover h-full w-full"
+                  className="h-full w-full object-cover"
                 />
               </div>
             )}
-            <h1 className="name editable" contentEditable={editable} suppressContentEditableWarning>{resumeData.name}</h1>
-            <h2 className="profession editable" contentEditable={editable} suppressContentEditableWarning>{resumeData.position}</h2>
+            <h1
+              className="name editable"
+              contentEditable={editable}
+              suppressContentEditableWarning
+            >
+              {resumeData.name}
+            </h1>
+            <h2
+              className="profession editable"
+              contentEditable={editable}
+              suppressContentEditableWarning
+            >
+              {resumeData.position}
+            </h2>
             <ContactInfo
               mainclass="flex flex-row gap-1 mb-1 contact"
               linkclass="inline-flex items-center gap-1"
@@ -240,10 +255,10 @@ const Preview = () => {
             <div className="grid grid-cols-3 gap-1">
               {resumeData.socialMedia.map((socialMedia, index) => {
                 const handleSocialMediaBlur = (e) => {
-                  const newSocialMedia = [...resumeData.socialMedia];
-                  newSocialMedia[index].link = e.target.innerText;
-                  setResumeData({ ...resumeData, socialMedia: newSocialMedia });
-                };
+                  const newSocialMedia = [...resumeData.socialMedia]
+                  newSocialMedia[index].link = e.target.innerText
+                  setResumeData({ ...resumeData, socialMedia: newSocialMedia })
+                }
 
                 return (
                   <a
@@ -253,7 +268,7 @@ const Preview = () => {
                     title={socialMedia.socialMedia}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 content align-center justify-center text-blue-700 hover:underline editable"
+                    className="content align-center editable inline-flex items-center justify-center gap-1 text-blue-700 hover:underline"
                     contentEditable={editable}
                     suppressContentEditableWarning
                     onBlur={handleSocialMediaBlur}
@@ -263,12 +278,12 @@ const Preview = () => {
                   >
                     {icons.map((icon, index) => {
                       if (icon.name === socialMedia.socialMedia.toLowerCase()) {
-                        return <span key={index}>{icon.icon}</span>;
+                        return <span key={index}>{icon.icon}</span>
                       }
                     })}
                     {socialMedia.link}
                   </a>
-                );
+                )
               })}
             </div>
           </div>
@@ -277,21 +292,41 @@ const Preview = () => {
             <div className="col-span-1 space-y-2">
               {resumeData.showSummary && resumeData.summary.length > 0 && (
                 <div className="mb-1">
-                  <h2 className="section-title mb-1 border-b-2 border-gray-300 border-dashed editable" contentEditable={editable} suppressContentEditableWarning>
+                  <h2
+                    className="section-title editable mb-1 border-b-2 border-dashed border-gray-300"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                  >
                     Summary
                   </h2>
-                  <p className="content break-words editable" contentEditable={editable} suppressContentEditableWarning>{resumeData.summary}</p>
+                  <p
+                    className="content editable break-words"
+                    contentEditable={editable}
+                    suppressContentEditableWarning
+                  >
+                    {resumeData.summary}
+                  </p>
                 </div>
               )}
               <div>
                 {resumeData.education.length > 0 && (
                   <div className="mb-1">
-                    <h2 className="section-title mb-1 border-b-2 border-gray-300 border-dashed editable" contentEditable={editable} suppressContentEditableWarning>
+                    <h2
+                      className="section-title editable mb-1 border-b-2 border-dashed border-gray-300"
+                      contentEditable={editable}
+                      suppressContentEditableWarning
+                    >
                       Education
                     </h2>
                     {resumeData.education.map((item, index) => (
                       <div key={index} className="mb-1">
-                        <p className="content i-bold editable" contentEditable={editable} suppressContentEditableWarning>{item.degree}</p>
+                        <p
+                          className="content i-bold editable"
+                          contentEditable={editable}
+                          suppressContentEditableWarning
+                        >
+                          {item.degree}
+                        </p>
                         {item.url ? (
                           <a
                             href={formatUrl(item.url)}
@@ -333,7 +368,7 @@ const Preview = () => {
                             {...provided.dragHandleProps}
                             className={`mb-1 cursor-grab active:cursor-grabbing ${
                               snapshot.isDragging &&
-                              "outline-dashed outline-2 outline-gray-400 bg-white"
+                              'bg-white outline-2 outline-gray-400 outline-dashed'
                             }`}
                           >
                             <Skills title={skill.title} skills={skill.skills} />
@@ -360,7 +395,7 @@ const Preview = () => {
                   {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                       <h2
-                        className="section-title mb-1 border-b-2 border-gray-300 border-dashed editable"
+                        className="section-title editable mb-1 border-b-2 border-dashed border-gray-300"
                         contentEditable={editable}
                         suppressContentEditableWarning
                       >
@@ -379,15 +414,15 @@ const Preview = () => {
                               {...provided.dragHandleProps}
                               className={`mb-2 cursor-grab active:cursor-grabbing ${
                                 snapshot.isDragging &&
-                                "outline-dashed outline-2 outline-gray-400 bg-white"
+                                'bg-white outline-2 outline-gray-400 outline-dashed'
                               }`}
                             >
                               <div className="flex flex-row justify-between space-y-1">
                                 <a
-                                  href={item.url ? formatUrl(item.url) : "#"}
-                                  target={item.url ? "_blank" : "_self"}
-                                  rel={item.url ? "noreferrer" : undefined}
-                                  className="content i-bold text-blue-700 hover:underline editable"
+                                  href={item.url ? formatUrl(item.url) : '#'}
+                                  target={item.url ? '_blank' : '_self'}
+                                  rel={item.url ? 'noreferrer' : undefined}
+                                  className="content i-bold editable text-blue-700 hover:underline"
                                   contentEditable={editable}
                                   suppressContentEditableWarning
                                 >
@@ -399,8 +434,18 @@ const Preview = () => {
                                   id={`work-experience-start-end-date`}
                                 />
                               </div>
-                              <p className="content i-bold editable" contentEditable={editable} suppressContentEditableWarning>{item.position}</p>
-                              <p className="content editable" contentEditable={editable} suppressContentEditableWarning>
+                              <p
+                                className="content i-bold editable"
+                                contentEditable={editable}
+                                suppressContentEditableWarning
+                              >
+                                {item.position}
+                              </p>
+                              <p
+                                className="content editable"
+                                contentEditable={editable}
+                                suppressContentEditableWarning
+                              >
                                 {item.description}
                               </p>
                               <Droppable
@@ -409,13 +454,13 @@ const Preview = () => {
                               >
                                 {(provided) => (
                                   <ul
-                                    className="list-disc ps-3.5 content"
+                                    className="content list-disc ps-3.5"
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                   >
-                                    {typeof item.keyAchievements === "string" &&
+                                    {typeof item.keyAchievements === 'string' &&
                                       item.keyAchievements
-                                        .split("\n")
+                                        .split('\n')
                                         .map((achievement, subIndex) => (
                                           <Draggable
                                             key={`${item.company}-${index}-${subIndex}`}
@@ -427,13 +472,10 @@ const Preview = () => {
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
-                                                className={`
-                                          cursor-grab active:cursor-grabbing
-                                          hover:outline-dashed hover:outline-2 hover:outline-gray-400
-                                          ${
-                                            snapshot.isDragging &&
-                                            "outline-dashed outline-2 outline-gray-400 bg-white"
-                                          }`}
+                                                className={`cursor-grab hover:outline-2 hover:outline-gray-400 hover:outline-dashed active:cursor-grabbing ${
+                                                  snapshot.isDragging &&
+                                                  'bg-white outline-2 outline-gray-400 outline-dashed'
+                                                }`}
                                               >
                                                 <div
                                                   dangerouslySetInnerHTML={{
@@ -463,24 +505,24 @@ const Preview = () => {
         </DragDropContext>
       </A4PageWrapper>
     </div>
-  );
-};
+  )
+}
 
 const A4PageWrapper = ({ children }) => {
   const alertA4Size = () => {
-    const preview = document.querySelector(".preview");
-    const previewHeight = preview.offsetHeight;
-    console.log(previewHeight);
+    const preview = document.querySelector('.preview')
+    const previewHeight = preview.offsetHeight
+    console.log(previewHeight)
     if (previewHeight > 1122) {
-      alert("A4 size exceeded");
+      alert('A4 size exceeded')
     }
-  };
+  }
 
   return (
     <div className="w-8.5in" onLoad={alertA4Size}>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default Preview;
+export default Preview

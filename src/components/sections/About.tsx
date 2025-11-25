@@ -6,73 +6,78 @@ import { Award, Users, Rocket, TrendingUp, Code2, Globe } from 'lucide-react'
 
 export default function About() {
   // Parse summary into sentences for better display
-  const sentences = summary.split(/\.(?!\d)/).filter(s => s.trim())
+  const sentences = summary.split(/\.(?!\d)/).filter((s) => s.trim())
   const mainSummary = sentences.slice(0, 2).join('.') + '.'
-  const achievements = sentences.slice(2).join('.') + (sentences.length > 2 ? '' : '')
+  const achievements =
+    sentences.slice(2).join('.') + (sentences.length > 2 ? '' : '')
 
   const stats = [
     {
       icon: Code2,
-      value: "15+",
-      label: "Years Experience",
-      color: "text-[var(--md-sys-color-primary)]"
+      value: '15+',
+      label: 'Years Experience',
+      color: 'text-[var(--md-sys-color-primary)]',
     },
     {
       icon: Rocket,
-      value: "50+",
-      label: "Projects Delivered",
-      color: "text-[var(--md-sys-color-secondary)]"
+      value: '50+',
+      label: 'Projects Delivered',
+      color: 'text-[var(--md-sys-color-secondary)]',
     },
     {
       icon: Users,
-      value: "100K+",
-      label: "Users Impacted",
-      color: "text-[var(--md-sys-color-tertiary)]"
+      value: '100K+',
+      label: 'Users Impacted',
+      color: 'text-[var(--md-sys-color-tertiary)]',
     },
     {
       icon: TrendingUp,
-      value: "99.5%",
-      label: "System Uptime",
-      color: "text-[var(--md-sys-color-primary)]"
-    }
-  ];
+      value: '99.5%',
+      label: 'System Uptime',
+      color: 'text-[var(--md-sys-color-primary)]',
+    },
+  ]
 
   return (
-    <section id="about" className="py-24 backdrop-blur-sm relative overflow-hidden">
+    <section
+      id="about"
+      className="relative overflow-hidden py-24 backdrop-blur-sm"
+    >
       {/* Decorative background elements */}
-      <div className="absolute top-0 right-1/4 w-64 h-64 bg-[var(--md-sys-color-secondary)]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-[var(--md-sys-color-primary)]/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-1/4 h-64 w-64 rounded-full bg-[var(--md-sys-color-secondary)]/5 blur-3xl"></div>
+      <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-[var(--md-sys-color-primary)]/5 blur-3xl"></div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--md-sys-color-primary-container)] rounded-full mb-4"
+            className="mb-4 inline-flex items-center gap-2 rounded-full bg-[var(--md-sys-color-primary-container)] px-4 py-2"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Globe size={16} className="text-[var(--md-sys-color-on-primary-container)]" />
-            <span className="md3-label-medium text-[var(--md-sys-color-on-primary-container)] font-medium">
+            <Globe
+              size={16}
+              className="text-[var(--md-sys-color-on-primary-container)]"
+            />
+            <span className="md3-label-medium font-medium text-[var(--md-sys-color-on-primary-container)]">
               Principal Software Engineer
             </span>
           </motion.div>
 
-          <h2 className="md3-headline-large mb-4">
-            About Me
-          </h2>
-          <p className="md3-body-medium md3-on-surface-variant max-w-2xl mx-auto">
+          <h2 className="md3-headline-large mb-4">About Me</h2>
+          <p className="md3-body-medium md3-on-surface-variant mx-auto max-w-2xl">
             Transforming ideas into scalable, high-performance solutions
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        <div className="mb-12 grid gap-8 lg:grid-cols-2">
           {/* Main summary card */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -82,14 +87,16 @@ export default function About() {
             className="md3-card overflow-hidden"
           >
             <div className="p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] rounded-xl flex items-center justify-center shadow-lg">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] shadow-lg">
                   <Award className="text-white" size={24} />
                 </div>
-                <h3 className="md3-title-large font-semibold">Professional Journey</h3>
+                <h3 className="md3-title-large font-semibold">
+                  Professional Journey
+                </h3>
               </div>
 
-              <p className="md3-body-large leading-relaxed text-[var(--md-sys-color-on-surface)] mb-4">
+              <p className="md3-body-large mb-4 leading-relaxed text-[var(--md-sys-color-on-surface)]">
                 {mainSummary}
               </p>
 
@@ -120,15 +127,15 @@ export default function About() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -4 }}
-                className="md3-card p-6 text-center group cursor-default"
+                className="md3-card group cursor-default p-6 text-center"
               >
-                <div className="flex justify-center mb-3">
-                  <div className="w-14 h-14 bg-[var(--md-sys-color-surface-container-high)] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="mb-3 flex justify-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--md-sys-color-surface-container-high)] transition-transform group-hover:scale-110">
                     <stat.icon className={stat.color} size={28} />
                   </div>
                 </div>
 
-                <div className="md3-display-small font-bold mb-1 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent">
+                <div className="md3-display-small mb-1 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text font-bold text-transparent">
                   {stat.value}
                 </div>
 
@@ -148,25 +155,30 @@ export default function About() {
           viewport={{ once: true }}
           className="md3-card p-8"
         >
-          <h3 className="md3-title-large font-semibold mb-6 text-center">Core Competencies</h3>
+          <h3 className="md3-title-large mb-6 text-center font-semibold">
+            Core Competencies
+          </h3>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-3">
             {[
               {
-                title: "GenAI & LLMOps",
-                description: "Production-grade AI inference infrastructure with vLLM, Kubernetes, and multi-GPU optimization",
-                icon: Rocket
+                title: 'GenAI & LLMOps',
+                description:
+                  'Production-grade AI inference infrastructure with vLLM, Kubernetes, and multi-GPU optimization',
+                icon: Rocket,
               },
               {
-                title: "Full-Stack Development",
-                description: "Modern web applications with Next.js, React, Node.js, and cloud-native architectures",
-                icon: Code2
+                title: 'Full-Stack Development',
+                description:
+                  'Modern web applications with Next.js, React, Node.js, and cloud-native architectures',
+                icon: Code2,
               },
               {
-                title: "Technical Leadership",
-                description: "Leading teams, mentoring developers, and establishing engineering best practices at scale",
-                icon: Users
-              }
+                title: 'Technical Leadership',
+                description:
+                  'Leading teams, mentoring developers, and establishing engineering best practices at scale',
+                icon: Users,
+              },
             ].map((competency, index) => (
               <motion.div
                 key={competency.title}
@@ -174,11 +186,16 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative p-6 bg-[var(--md-sys-color-surface-container-low)] rounded-2xl"
+                className="relative rounded-2xl bg-[var(--md-sys-color-surface-container-low)] p-6"
               >
-                <competency.icon className="text-[var(--md-sys-color-primary)] mb-4" size={24} />
-                <h4 className="md3-title-medium font-semibold mb-2">{competency.title}</h4>
-                <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)] leading-relaxed">
+                <competency.icon
+                  className="mb-4 text-[var(--md-sys-color-primary)]"
+                  size={24}
+                />
+                <h4 className="md3-title-medium mb-2 font-semibold">
+                  {competency.title}
+                </h4>
+                <p className="md3-body-small leading-relaxed text-[var(--md-sys-color-on-surface-variant)]">
                   {competency.description}
                 </p>
               </motion.div>

@@ -26,9 +26,5 @@ export default function ResumeLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Quick navigation to project documentation:**
 
-| Document | Purpose | Audience |
-|----------|---------|----------|
-| **[QUICKSTART.md](./QUICKSTART.md)** | Deploy in 10 minutes | 👤 End Users |
-| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | Complete technical deep-dive | 👨‍💻 Developers |
-| **[CONTRIBUTING.md](./CONTRIBUTING.md)** | Contribution guidelines | 🤝 Contributors |
-| **[CHANGELOG.md](./CHANGELOG.md)** | Version history | 📋 Everyone |
-| **[docs/](./docs/)** | Feature-specific guides | 📖 All |
+| Document                                 | Purpose                      | Audience        |
+| ---------------------------------------- | ---------------------------- | --------------- |
+| **[QUICKSTART.md](./QUICKSTART.md)**     | Deploy in 10 minutes         | 👤 End Users    |
+| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | Complete technical deep-dive | 👨‍💻 Developers   |
+| **[CONTRIBUTING.md](./CONTRIBUTING.md)** | Contribution guidelines      | 🤝 Contributors |
+| **[CHANGELOG.md](./CHANGELOG.md)**       | Version history              | 📋 Everyone     |
+| **[docs/](./docs/)**                     | Feature-specific guides      | 📖 All          |
 
 **💡 For detailed technical architecture, see [ARCHITECTURE.md](./ARCHITECTURE.md)**
 
@@ -42,8 +42,10 @@ npm test             # Run all tests
 npm test:watch       # Run tests in watch mode
 npm test:coverage    # Run tests with coverage
 
-# Quality
-npm run lint         # Run linter
+# Quality & Formatting
+npm run lint         # Run ESLint
+npm run format       # Format code with Prettier + Tailwind
+npm run format:check # Check formatting without changes
 npx tsc --noEmit     # Check TypeScript types
 
 # Deployment
@@ -60,6 +62,7 @@ git push origin main # Auto-deploy via GitHub Actions
 The entire portfolio is driven by **`src/data/resume.json`**, which follows the [JSON Resume](https://jsonresume.org) v1.0.0 standard format.
 
 **Data Flow:**
+
 ```mermaid
 flowchart TD
     A["src/data/resume.json
@@ -169,6 +172,7 @@ types/cover-letter.ts, types/openai.ts
 **User Request:** "Update my work experience"
 
 **Action:**
+
 ```typescript
 // Edit src/data/resume.json
 {
@@ -190,6 +194,7 @@ types/cover-letter.ts, types/openai.ts
 ```
 
 **Verify:**
+
 ```bash
 npm run dev
 # Check http://localhost:3000 (homepage)
@@ -199,6 +204,7 @@ npm run dev
 ### 2. Add New Homepage Section
 
 **Steps:**
+
 1. Add data to `resume.json`
 2. Create component in `src/components/sections/`
 3. Import in `src/app/page.tsx`
@@ -222,6 +228,7 @@ npm run build
 ### 4. Modify Password Protection
 
 **Enable:**
+
 ```bash
 # Generate hash
 node scripts/generate-password-hash.js "password"
@@ -234,6 +241,7 @@ npm run dev
 ```
 
 **Disable:**
+
 ```bash
 # Remove from .env.local or set to empty
 NEXT_PUBLIC_EDIT_PASSWORD_HASH=""
@@ -262,23 +270,27 @@ npm test:coverage
 **CRITICAL:** When making code changes, always update related artifacts:
 
 **Documentation Updates:**
+
 - Update `ARCHITECTURE.md` for architectural changes
 - Update `docs/` feature guides for feature changes
 - Update inline comments for complex logic
 - Update JSDoc for public APIs
 
 **Test Updates:**
+
 - Add tests for new functionality
 - Update tests for changed behavior
 - Ensure tests pass before committing
 - Maintain test coverage above 85%
 
 **Type Updates:**
+
 - Update TypeScript interfaces in `src/types/`
 - Update adapter logic in `src/lib/resumeAdapter.ts`
 - Ensure type safety across the codebase
 
 **Example Workflow:**
+
 ```bash
 # 1. Make code change
 # 2. Update related tests
@@ -306,12 +318,14 @@ git commit -m "feat: feature with tests and docs"
 **Scope:** `/resume/edit` and `/cover-letter/edit`
 
 **Architecture:**
+
 - Client-side bcrypt validation (cost factor: 10)
 - sessionStorage for 24-hour sessions
 - Shared session across edit pages
 - Enable by setting `NEXT_PUBLIC_EDIT_PASSWORD_HASH`
 
 **Files:**
+
 - `src/config/password.ts` - Config logic
 - `src/components/auth/PasswordProtection.tsx` - Component
 - `scripts/generate-password-hash.js` - Hash generator
@@ -324,12 +338,14 @@ git commit -m "feat: feature with tests and docs"
 **Compatibility:** OpenAI, OpenRouter, Ollama, vLLM (any OpenAI-compatible API)
 
 **Architecture:**
+
 - Client-side API calls (no server)
 - Streaming SSE responses
 - Credential storage in localStorage
 - Prompt engineering with validation
 
 **Files:**
+
 - `src/lib/ai/openai-client.ts` - API client
 - `src/lib/ai/document-prompts.ts` - Prompts
 - `src/types/openai.ts` - Types
@@ -339,22 +355,64 @@ git commit -m "feat: feature with tests and docs"
 ### Testing Infrastructure
 
 **Stats:**
+
 - 25 test files
 - 500+ total tests
 - 89.6% pass rate (4 intentionally skipped)
 - Jest 30.2.0 + RTL 16.3.0
 
 **Test Types:**
+
 - Unit tests: Component/function level
 - Integration tests: Page workflows
 - E2E tests: Complete user journeys
 
 **Location:**
+
 - Unit: `src/**/__tests__/*.test.tsx`
 - Integration: `src/app/**/__tests__/*.integration.test.tsx`
 - E2E: `src/__tests__/*-e2e.test.tsx`
 
 **Docs:** See [docs/PASSWORD_PROTECTION_TESTS.md](./docs/PASSWORD_PROTECTION_TESTS.md)
+
+---
+
+## Code Quality & Formatting
+
+### Automated Formatting (Git Hooks)
+
+**Pre-commit hooks automatically enforce code quality:**
+
+1. **ESLint** - Lints and auto-fixes JavaScript/TypeScript
+2. **Prettier** - Formats all files with strict opinionated style
+3. **Tailwind CSS** - Automatically sorts utility classes
+
+**Configuration:**
+
+- **Prettier:** `.prettierrc.json` (strict, single quotes, no semicolons)
+- **Tailwind CSS:** `prettier-plugin-tailwindcss` (automatic class sorting)
+- **Git Hooks:** Husky + lint-staged (runs on `git commit`)
+
+**Manual Commands:**
+
+```bash
+# Format entire codebase
+npm run format
+
+# Check formatting without modifying files
+npm run format:check
+
+# Run linter
+npm run lint
+```
+
+**What Gets Formatted:**
+
+- JavaScript/TypeScript files: ESLint + Prettier
+- JSON, Markdown, CSS, HTML, YAML: Prettier only
+- Tailwind classes: Automatically sorted by importance
+
+**⚠️ IMPORTANT:** Never bypass git hooks. All code must pass formatting before commit.
 
 ---
 
@@ -414,9 +472,15 @@ npm run dev
 
 ### Pre-Commit Checklist
 
+**Note:** Git hooks automatically run lint-staged on commit, which handles:
+
+- ✅ ESLint fixes (`eslint --fix`)
+- ✅ Prettier formatting (includes Tailwind CSS class sorting)
+
+**Manual checks before committing:**
+
 - [ ] Tests passing (`npm test`)
 - [ ] TypeScript compiles (`npm run build`)
-- [ ] No linting errors (`npm run lint`)
 - [ ] Changes tested in dev server
 - [ ] Documentation updated (ARCHITECTURE.md, docs/, inline comments)
 - [ ] Tests added/updated for new/changed functionality
@@ -489,7 +553,7 @@ const experience = resumeData.workExperience
 
 // ❌ Bad
 import jsonResume from '@/data/resume.json'
-const experience = jsonResume.work  // Wrong format!
+const experience = jsonResume.work // Wrong format!
 ```
 
 ### State Management
@@ -525,10 +589,10 @@ const experience = jsonResume.work  // Wrong format!
 
 ```typescript
 // ❌ Bad
-resumeData.name = "New Name"
+resumeData.name = 'New Name'
 
 // ✅ Good
-setResumeData({ ...resumeData, name: "New Name" })
+setResumeData({ ...resumeData, name: 'New Name' })
 ```
 
 ---
@@ -538,27 +602,32 @@ setResumeData({ ...resumeData, name: "New Name" })
 ### Core Tools - Use These Extensively
 
 **File Operations:**
+
 - **Read** - For ANY file (images, PDFs, notebooks, text)
 - **Edit** - Precise changes to existing files
 - **Glob** - Find files by pattern (`**/*.test.tsx`)
 - **Grep** - Search file contents with regex
 
 **Code Search:**
+
 - **Task tool with Explore agent** - For "How does X work?" questions
 - Specify thoroughness: "quick", "medium", "very thorough"
 
 **Testing:**
+
 - **Bash** - Run terminal commands (git, npm, docker)
 - Use `run_in_background: true` for long-running processes
 - **BashOutput** - Monitor background processes
 
 **Task Planning:**
+
 - **TodoWrite** - ALWAYS use for multi-step tasks (3+ steps)
 - Track progress, demonstrate thoroughness
 - Mark todos in_progress BEFORE starting
 - Mark completed IMMEDIATELY after finishing
 
 **User Interaction:**
+
 - **AskUserQuestion** - Clarify requirements, get decisions
 
 ### Best Practices
@@ -582,15 +651,15 @@ setResumeData({ ...resumeData, name: "New Name" })
 
 ### Key Files
 
-| Task | File |
-|------|------|
-| **Update content** | `src/data/resume.json` |
-| **Add homepage section** | `src/components/sections/` |
-| **Modify editor** | `src/components/resume/forms/` |
-| **Change types** | `src/types/` |
-| **Update metadata** | `src/config/metadata.ts` |
-| **Modify auth** | `src/components/auth/PasswordProtection.tsx` |
-| **AI prompts** | `src/lib/ai/document-prompts.ts` |
+| Task                     | File                                         |
+| ------------------------ | -------------------------------------------- |
+| **Update content**       | `src/data/resume.json`                       |
+| **Add homepage section** | `src/components/sections/`                   |
+| **Modify editor**        | `src/components/resume/forms/`               |
+| **Change types**         | `src/types/`                                 |
+| **Update metadata**      | `src/config/metadata.ts`                     |
+| **Modify auth**          | `src/components/auth/PasswordProtection.tsx` |
+| **AI prompts**           | `src/lib/ai/document-prompts.ts`             |
 
 ### Essential Commands
 
@@ -598,7 +667,9 @@ setResumeData({ ...resumeData, name: "New Name" })
 npm run dev          # Dev server
 npm test             # Run tests
 npm run build        # Production build
-npm run lint         # Check code style
+npm run lint         # Run ESLint
+npm run format       # Format with Prettier + Tailwind
+npm run format:check # Check formatting
 
 node scripts/generate-password-hash.js "password"  # Generate hash
 npx tsc --noEmit     # Type check
@@ -695,6 +766,8 @@ npm test -- --clearCache
 - **Validation:** AJV 8.17.1 (JSON Resume schema)
 - **Auth:** bcryptjs 3.0.3 (client-side)
 - **Testing:** Jest 30.2.0 + RTL 16.3.0
+- **Code Quality:** ESLint 9 + Prettier 3.6.2 + prettier-plugin-tailwindcss
+- **Git Hooks:** Husky 9.1.7 + lint-staged 16.2.7
 - **SEO:** next-sitemap 4.2.3
 - **Deployment:** GitHub Pages + GitHub Actions
 

@@ -1,114 +1,118 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import bcrypt from 'bcryptjs';
-import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { getPasswordHash, isPasswordProtectionEnabled } from '@/config/password';
+import { useState, useEffect } from 'react'
+import bcrypt from 'bcryptjs'
+import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
+import { getPasswordHash, isPasswordProtectionEnabled } from '@/config/password'
 
-const SESSION_KEY = 'edit-auth-token';
-const SESSION_EXPIRY_KEY = 'edit-auth-expiry';
-const SESSION_DURATION = 1000 * 60 * 60 * 24; // 24 hours
+const SESSION_KEY = 'edit-auth-token'
+const SESSION_EXPIRY_KEY = 'edit-auth-expiry'
+const SESSION_DURATION = 1000 * 60 * 60 * 24 // 24 hours
 
 interface PasswordProtectionProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-export default function PasswordProtection({ children }: PasswordProtectionProps) {
-  const passwordHash = getPasswordHash();
-  const isProtectionEnabled = isPasswordProtectionEnabled();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+export default function PasswordProtection({
+  children,
+}: PasswordProtectionProps) {
+  const passwordHash = getPasswordHash()
+  const isProtectionEnabled = isPasswordProtectionEnabled()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isChecking, setIsChecking] = useState(true)
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // If password protection is not enabled, grant immediate access
     if (!isProtectionEnabled) {
-      setIsAuthenticated(true);
-      setIsChecking(false);
-      return;
+      setIsAuthenticated(true)
+      setIsChecking(false)
+      return
     }
 
     // Check sessionStorage for existing valid auth
     const checkAuth = () => {
       try {
-        const token = sessionStorage.getItem(SESSION_KEY);
-        const expiry = sessionStorage.getItem(SESSION_EXPIRY_KEY);
+        const token = sessionStorage.getItem(SESSION_KEY)
+        const expiry = sessionStorage.getItem(SESSION_EXPIRY_KEY)
 
         if (token === 'authenticated' && expiry) {
-          const expiryTime = parseInt(expiry, 10);
-          const now = Date.now();
+          const expiryTime = parseInt(expiry, 10)
+          const now = Date.now()
 
           if (now < expiryTime) {
-            setIsAuthenticated(true);
+            setIsAuthenticated(true)
           } else {
             // Session expired
-            sessionStorage.removeItem(SESSION_KEY);
-            sessionStorage.removeItem(SESSION_EXPIRY_KEY);
+            sessionStorage.removeItem(SESSION_KEY)
+            sessionStorage.removeItem(SESSION_EXPIRY_KEY)
           }
         }
       } catch (err) {
-        console.error('Auth check error:', err);
+        console.error('Auth check error:', err)
       } finally {
-        setIsChecking(false);
+        setIsChecking(false)
       }
-    };
+    }
 
-    checkAuth();
-  }, [isProtectionEnabled]);
+    checkAuth()
+  }, [isProtectionEnabled])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+    e.preventDefault()
+    setError('')
+    setIsLoading(true)
 
     try {
       // Check if password hash is configured
       if (!passwordHash) {
-        setError('Password protection is not configured. Please set NEXT_PUBLIC_EDIT_PASSWORD_HASH.');
-        setIsLoading(false);
-        return;
+        setError(
+          'Password protection is not configured. Please set NEXT_PUBLIC_EDIT_PASSWORD_HASH.'
+        )
+        setIsLoading(false)
+        return
       }
 
       // Compare password with hash
-      const isValid = await bcrypt.compare(password, passwordHash);
+      const isValid = await bcrypt.compare(password, passwordHash)
 
       if (isValid) {
         // Set authenticated state with expiry
-        const expiryTime = Date.now() + SESSION_DURATION;
-        sessionStorage.setItem(SESSION_KEY, 'authenticated');
-        sessionStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString());
-        setIsAuthenticated(true);
-        setError('');
-        setPassword('');
+        const expiryTime = Date.now() + SESSION_DURATION
+        sessionStorage.setItem(SESSION_KEY, 'authenticated')
+        sessionStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString())
+        setIsAuthenticated(true)
+        setError('')
+        setPassword('')
       } else {
-        setError('Incorrect password. Please try again.');
-        setPassword('');
+        setError('Incorrect password. Please try again.')
+        setPassword('')
       }
     } catch (err) {
-      console.error('Authentication error:', err);
-      setError('Authentication error. Please try again.');
+      console.error('Authentication error:', err)
+      setError('Authentication error. Please try again.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleLogout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    sessionStorage.removeItem(SESSION_EXPIRY_KEY);
-    setIsAuthenticated(false);
-    setPassword('');
-  };
+    sessionStorage.removeItem(SESSION_KEY)
+    sessionStorage.removeItem(SESSION_EXPIRY_KEY)
+    setIsAuthenticated(false)
+    setPassword('')
+  }
 
   // Show loading state while checking authentication
   if (isChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
-        <div className="text-white text-xl">Verifying access...</div>
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
+        <div className="text-xl text-white">Verifying access...</div>
       </div>
-    );
+    )
   }
 
   // Show protected content if authenticated
@@ -120,7 +124,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
           <div className="exclude-print fixed top-4 right-4 z-50">
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-all shadow-lg cursor-pointer"
+              className="cursor-pointer rounded-lg bg-red-600 px-4 py-2 text-sm text-white shadow-lg transition-all hover:bg-red-700"
               title="Logout from edit mode"
             >
               Logout
@@ -129,23 +133,25 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
         )}
         {children}
       </>
-    );
+    )
   }
 
   // Show password entry form
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4">
-      <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-full max-w-md border border-white/20">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 p-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-lg">
         {/* Lock Icon */}
-        <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg">
-            <FaLock className="text-white text-3xl" />
+        <div className="mb-6 flex justify-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg">
+            <FaLock className="text-3xl text-white" />
           </div>
         </div>
 
         {/* Header */}
-        <h2 className="text-2xl font-bold text-white mb-2 text-center">Protected Area</h2>
-        <p className="text-white/60 text-sm text-center mb-6">
+        <h2 className="mb-2 text-center text-2xl font-bold text-white">
+          Protected Area
+        </h2>
+        <p className="mb-6 text-center text-sm text-white/60">
           Enter password to access the editor
         </p>
 
@@ -154,7 +160,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-white/80 mb-2"
+              className="mb-2 block text-sm font-medium text-white/80"
             >
               Password
             </label>
@@ -164,7 +170,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 pr-12 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 pr-12 text-white placeholder-white/40 transition-all focus:border-transparent focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 placeholder="Enter password"
                 autoFocus
                 autoComplete="off"
@@ -173,7 +179,7 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-white/60 transition-colors hover:text-white"
                 tabIndex={-1}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -183,8 +189,8 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
 
           {/* Error Message */}
           {error && (
-            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-              <p className="text-red-400 text-sm">{error}</p>
+            <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-3">
+              <p className="text-sm text-red-400">{error}</p>
             </div>
           )}
 
@@ -192,19 +198,19 @@ export default function PasswordProtection({ children }: PasswordProtectionProps
           <button
             type="submit"
             disabled={isLoading || !password}
-            className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:from-purple-700 hover:to-pink-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? 'Verifying...' : 'Unlock'}
           </button>
         </form>
 
         {/* Info */}
-        <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-          <p className="text-blue-300 text-xs text-center">
+        <div className="mt-6 rounded-lg border border-blue-500/20 bg-blue-500/10 p-4">
+          <p className="text-center text-xs text-blue-300">
             Session expires after 24 hours of inactivity
           </p>
         </div>
       </div>
     </div>
-  );
+  )
 }

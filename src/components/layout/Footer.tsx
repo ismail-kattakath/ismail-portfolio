@@ -1,9 +1,17 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Globe, Heart, Sparkles, ArrowUp } from 'lucide-react'
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Globe,
+  Heart,
+  Sparkles,
+  ArrowUp,
+} from 'lucide-react'
 import { contactInfo } from '@/lib/data/portfolio'
-import resumeData from "@/lib/resumeAdapter"
+import resumeData from '@/lib/resumeAdapter'
 import { Logo } from '@/components/Logo'
 import { navItems } from '@/config/navigation'
 
@@ -18,14 +26,14 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative backdrop-blur-md bg-[var(--md-sys-color-surface-container)]/60 border-t border-[var(--md-sys-color-outline-variant)]/30 overflow-hidden">
+    <footer className="relative overflow-hidden border-t border-[var(--md-sys-color-outline-variant)]/30 bg-[var(--md-sys-color-surface-container)]/60 backdrop-blur-md">
       {/* Decorative background elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--md-sys-color-primary)]/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[var(--md-sys-color-tertiary)]/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-[var(--md-sys-color-primary)]/5 blur-3xl"></div>
+      <div className="absolute right-1/4 bottom-0 h-80 w-80 rounded-full bg-[var(--md-sys-color-tertiary)]/5 blur-3xl"></div>
 
-      <div className="max-w-6xl mx-auto px-6 py-16 relative z-10">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-16">
         {/* Main Footer Content */}
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+        <div className="mb-12 grid gap-12 md:grid-cols-3">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -36,17 +44,21 @@ export default function Footer() {
           >
             <div className="mb-6">
               <motion.div
-                className="w-48 h-27 mb-4"
+                className="mb-4 h-27 w-48"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <Logo width={192} height={108} fill="var(--md-sys-color-primary)" />
+                <Logo
+                  width={192}
+                  height={108}
+                  fill="var(--md-sys-color-primary)"
+                />
               </motion.div>
-              <h3 className="md3-title-large font-semibold mb-2 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent">
+              <h3 className="md3-title-large mb-2 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text font-semibold text-transparent">
                 {resumeData.position}
               </h3>
             </div>
-            <p className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] mb-6 max-w-md leading-relaxed">
+            <p className="md3-body-medium mb-6 max-w-md leading-relaxed text-[var(--md-sys-color-on-surface-variant)]">
               {firstSentence}
             </p>
 
@@ -58,10 +70,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -4 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-3 rounded-xl overflow-hidden group"
+                className="group relative overflow-hidden rounded-xl p-3"
                 aria-label="GitHub"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900 opacity-90 transition-opacity group-hover:opacity-100"></div>
                 <Github size={20} className="relative text-white" />
               </motion.a>
 
@@ -71,10 +83,10 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -4 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-3 rounded-xl overflow-hidden group"
+                className="group relative overflow-hidden rounded-xl p-3"
                 aria-label="LinkedIn"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-700 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-700 opacity-90 transition-opacity group-hover:opacity-100"></div>
                 <Linkedin size={20} className="relative text-white" />
               </motion.a>
 
@@ -82,10 +94,10 @@ export default function Footer() {
                 href={`mailto:${contactInfo.email}`}
                 whileHover={{ scale: 1.1, y: -4 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-3 rounded-xl overflow-hidden group"
+                className="group relative overflow-hidden rounded-xl p-3"
                 aria-label="Email"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-90 transition-opacity group-hover:opacity-100"></div>
                 <Mail size={20} className="relative text-white" />
               </motion.a>
 
@@ -96,10 +108,10 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -4 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative p-3 rounded-xl overflow-hidden group"
+                  className="group relative overflow-hidden rounded-xl p-3"
                   aria-label="Website"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-green-500 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-green-500 opacity-90 transition-opacity group-hover:opacity-100"></div>
                   <Globe size={20} className="relative text-white" />
                 </motion.a>
               )}
@@ -113,9 +125,14 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles size={16} className="text-[var(--md-sys-color-primary)]" />
-              <h4 className="md3-title-medium font-semibold text-[var(--md-sys-color-primary)]">Navigate</h4>
+            <div className="mb-4 flex items-center gap-2">
+              <Sparkles
+                size={16}
+                className="text-[var(--md-sys-color-primary)]"
+              />
+              <h4 className="md3-title-medium font-semibold text-[var(--md-sys-color-primary)]">
+                Navigate
+              </h4>
             </div>
             <ul className="space-y-3">
               {navItems.map((item, index) => (
@@ -137,9 +154,9 @@ export default function Footer() {
                         window.location.href = item.href
                       }
                     }}
-                    className="md3-body-medium text-[var(--md-sys-color-on-surface-variant)] hover:text-[var(--md-sys-color-primary)] transition-colors flex items-center gap-2 group cursor-pointer"
+                    className="md3-body-medium group flex cursor-pointer items-center gap-2 text-[var(--md-sys-color-on-surface-variant)] transition-colors hover:text-[var(--md-sys-color-primary)]"
                   >
-                    <span className="w-0 group-hover:w-3 h-0.5 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] transition-all rounded-full"></span>
+                    <span className="h-0.5 w-0 rounded-full bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] transition-all group-hover:w-3"></span>
                     {item.name}
                   </button>
                 </motion.li>
@@ -151,7 +168,7 @@ export default function Footer() {
               onClick={scrollToTop}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[var(--md-sys-color-primary-container)] text-[var(--md-sys-color-on-primary-container)] rounded-full md3-label-medium font-medium shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              className="md3-label-medium mt-6 inline-flex cursor-pointer items-center gap-2 rounded-full bg-[var(--md-sys-color-primary-container)] px-4 py-2 font-medium text-[var(--md-sys-color-on-primary-container)] shadow-sm transition-shadow hover:shadow-md"
             >
               <ArrowUp size={16} />
               Back to Top
@@ -168,27 +185,30 @@ export default function Footer() {
           className="relative"
         >
           {/* Gradient divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-[var(--md-sys-color-primary)] to-transparent mb-8"></div>
+          <div className="mb-8 h-px bg-gradient-to-r from-transparent via-[var(--md-sys-color-primary)] to-transparent"></div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)] flex items-center gap-2">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <p className="md3-body-small flex items-center gap-2 text-[var(--md-sys-color-on-surface-variant)]">
               © {currentYear} {contactInfo.name}. All rights reserved.
             </p>
 
-            <p className="md3-body-small text-[var(--md-sys-color-on-surface-variant)] flex items-center gap-2 flex-wrap justify-center">
+            <p className="md3-body-small flex flex-wrap items-center justify-center gap-2 text-[var(--md-sys-color-on-surface-variant)]">
               <span className="flex items-center gap-1.5">
-                Built with <Heart size={14} className="text-red-500 animate-pulse" /> using
+                Built with{' '}
+                <Heart size={14} className="animate-pulse text-red-500" /> using
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[var(--md-sys-color-primary-container)] text-[var(--md-sys-color-on-primary-container)] rounded-full md3-label-small font-medium">
+              <span className="md3-label-small inline-flex items-center gap-1 rounded-full bg-[var(--md-sys-color-primary-container)] px-2 py-0.5 font-medium text-[var(--md-sys-color-on-primary-container)]">
                 Next.js
               </span>
-              <span className="text-[var(--md-sys-color-on-surface-variant)]">•</span>
+              <span className="text-[var(--md-sys-color-on-surface-variant)]">
+                •
+              </span>
               <span>Hosted on</span>
               <a
                 href="https://github.com/ismail-kattakath/jsonresume-to-everything"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2 py-0.5 bg-[var(--md-sys-color-secondary-container)] text-[var(--md-sys-color-on-secondary-container)] rounded-full md3-label-small font-medium hover:opacity-80 transition-opacity"
+                className="md3-label-small inline-flex items-center gap-1 rounded-full bg-[var(--md-sys-color-secondary-container)] px-2 py-0.5 font-medium text-[var(--md-sys-color-on-secondary-container)] transition-opacity hover:opacity-80"
               >
                 GitHub Pages
               </a>

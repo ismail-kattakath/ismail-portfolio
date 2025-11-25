@@ -1,22 +1,22 @@
-import Link from "next/link";
-import { GrOptimize, GrFingerPrint } from "react-icons/gr";
-import { MdMoneyOff } from "react-icons/md";
-import { DiResponsive } from "react-icons/di";
-import { FcDataBackup, FcUpload } from "react-icons/fc";
-import Image from "next/image";
-import { Typewriter } from "react-simple-typewriter";
+import Link from 'next/link'
+import { GrOptimize, GrFingerPrint } from 'react-icons/gr'
+import { MdMoneyOff } from 'react-icons/md'
+import { DiResponsive } from 'react-icons/di'
+import { FcDataBackup, FcUpload } from 'react-icons/fc'
+import Image from 'next/image'
+import { Typewriter } from 'react-simple-typewriter'
 
 export default function Hero() {
   return (
     <>
       <section className="bg-gray-100">
-        <div className="h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="mx-auto h-screen max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
             <div className="flex space-x-7">
               <div>
                 <Link
                   href="/"
-                  className="flex items-center py-4 px-2 text-gray-700 hover:text-gray-900"
+                  className="flex items-center px-2 py-4 text-gray-700 hover:text-gray-900"
                 >
                   <Image
                     src="/assets/resume-example.jpg"
@@ -26,34 +26,34 @@ export default function Hero() {
                   />
                 </Link>
               </div>
-              <div className="hidden md:flex items-center space-x-1">
+              <div className="hidden items-center space-x-1 md:flex">
                 <Link
                   href="/builder"
-                  className="py-4 px-2 text-gray-700 hover:text-gray-900"
+                  className="px-2 py-4 text-gray-700 hover:text-gray-900"
                 >
                   Builder
                 </Link>
                 <Link
                   href="/templates"
-                  className="py-4 px-2 text-gray-700 hover:text-gray-900"
+                  className="px-2 py-4 text-gray-700 hover:text-gray-900"
                 >
                   Templates
                 </Link>
                 <Link
                   href="/examples"
-                  className="py-4 px-2 text-gray-700 hover:text-gray-900"
+                  className="px-2 py-4 text-gray-700 hover:text-gray-900"
                 >
                   Examples
                 </Link>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center h-full text-center">
-            <h1 className="text-6xl font-bold text-gray-800 mb-2">
+          <div className="flex h-full flex-col items-center justify-center text-center">
+            <h1 className="mb-2 text-6xl font-bold text-gray-800">
               Get hired with an ATS <br />
               <span className="text-red">
                 <Typewriter
-                  words={["optimized", "Perfect", "Professional"]}
+                  words={['optimized', 'Perfect', 'Professional']}
                   loop={0}
                   cursor
                   cursorStyle="_"
@@ -65,7 +65,7 @@ export default function Hero() {
               <br />
               Resume.
             </h1>
-            <p className="text-gray-600 mb-4">
+            <p className="mb-4 text-gray-600">
               ATSResume is an innovative resume builder that helps job seekers
               create a professional and optimized resume for applicant tracking
               systems. Our platform uses cutting-edge technology to analyze and
@@ -76,7 +76,7 @@ export default function Hero() {
             </p>
             <Link
               href="/builder"
-              className="inline-block bg-red-800 text-red-800 cursor-pointer px-6 py-3 rounded-lg font-bold text-lg hover:bg-red-800 transition duration-200 hover:-translate-y-1 transform hover:shadow-lg"
+              className="inline-block transform cursor-pointer rounded-lg bg-red-800 px-6 py-3 text-lg font-bold text-red-800 transition duration-200 hover:-translate-y-1 hover:bg-red-800 hover:shadow-lg"
             >
               Make My Resume
             </Link>
@@ -85,18 +85,18 @@ export default function Hero() {
       </section>
       <About />
     </>
-  );
+  )
 }
 
 const About = () => {
   return (
     <section className="bg-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mt-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Features</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <GrOptimize className="text-8xl text-gray-800 mr-4" />
+          <h1 className="mb-2 text-4xl font-bold text-gray-800">Features</h1>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <GrOptimize className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">
                   ATS-optimized
@@ -108,8 +108,8 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <GrFingerPrint className="text-8xl text-gray-800 mr-4" />
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <GrFingerPrint className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">
                   Easy to use
@@ -121,8 +121,8 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <MdMoneyOff className="text-8xl text-gray-800 mr-4" />
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <MdMoneyOff className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">Free</h1>
                 <p className="text-gray-600">
@@ -132,8 +132,8 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <DiResponsive className="text-8xl text-gray-800 mr-4" />
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <DiResponsive className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">
                   Mobile-friendly
@@ -145,8 +145,8 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <FcDataBackup className="text-8xl text-gray-800 mr-4" />
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <FcDataBackup className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">
                   Download Backup Data
@@ -158,8 +158,8 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="flex bg-red-800 rounded-lg shadow-lg p-4">
-              <FcUpload className="text-8xl text-gray-800 mr-4" />
+            <div className="flex rounded-lg bg-red-800 p-4 shadow-lg">
+              <FcUpload className="mr-4 text-8xl text-gray-800" />
               <div className="flex flex-col gap-2">
                 <h1 className="text-2xl font-bold text-gray-800">
                   Upload Backup Data
@@ -175,5 +175,5 @@ const About = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

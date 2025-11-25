@@ -2,7 +2,18 @@
 
 import { motion } from 'framer-motion'
 import { skills } from '@/lib/data/portfolio'
-import { Brain, Cloud, Shield, Cog, Server, Code, Database, Network, Monitor, Sparkles } from 'lucide-react'
+import {
+  Brain,
+  Cloud,
+  Shield,
+  Cog,
+  Server,
+  Code,
+  Database,
+  Network,
+  Monitor,
+  Sparkles,
+} from 'lucide-react'
 
 const iconMap: { [key: string]: any } = {
   'AI/ML Stack': Brain,
@@ -11,8 +22,8 @@ const iconMap: { [key: string]: any } = {
   'DevOps & CI/CD': Cog,
   'Backend & APIs': Server,
   'Programming / Scripting': Code,
-  'Databases': Database,
-  'Protocols': Network,
+  Databases: Database,
+  Protocols: Network,
   'Web & Mobile UI': Monitor,
 }
 
@@ -23,52 +34,58 @@ const colorMap: { [key: string]: string } = {
   'DevOps & CI/CD': 'from-green-500 to-emerald-500',
   'Backend & APIs': 'from-indigo-500 to-purple-500',
   'Programming / Scripting': 'from-yellow-500 to-orange-500',
-  'Databases': 'from-teal-500 to-green-500',
-  'Protocols': 'from-pink-500 to-rose-500',
+  Databases: 'from-teal-500 to-green-500',
+  Protocols: 'from-pink-500 to-rose-500',
   'Web & Mobile UI': 'from-cyan-500 to-blue-500',
 }
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 backdrop-blur-sm relative overflow-hidden">
+    <section
+      id="skills"
+      className="relative overflow-hidden py-24 backdrop-blur-sm"
+    >
       {/* Decorative background */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[var(--md-sys-color-primary)]/5 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/3 right-0 w-80 h-80 bg-[var(--md-sys-color-tertiary)]/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-0 h-96 w-96 rounded-full bg-[var(--md-sys-color-primary)]/5 blur-3xl"></div>
+      <div className="absolute top-1/3 right-0 h-80 w-80 rounded-full bg-[var(--md-sys-color-tertiary)]/5 blur-3xl"></div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--md-sys-color-secondary-container)] rounded-full mb-4"
+            className="mb-4 inline-flex items-center gap-2 rounded-full bg-[var(--md-sys-color-secondary-container)] px-4 py-2"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Sparkles size={16} className="text-[var(--md-sys-color-on-secondary-container)]" />
-            <span className="md3-label-medium text-[var(--md-sys-color-on-secondary-container)] font-medium">
+            <Sparkles
+              size={16}
+              className="text-[var(--md-sys-color-on-secondary-container)]"
+            />
+            <span className="md3-label-medium font-medium text-[var(--md-sys-color-on-secondary-container)]">
               Tech Stack
             </span>
           </motion.div>
 
-          <h2 className="md3-headline-large mb-4">
-            Technical Expertise
-          </h2>
-          <p className="md3-body-large md3-on-surface-variant max-w-3xl mx-auto">
-            Comprehensive technical skills across AI/ML, cloud platforms,
-            and modern development frameworks built over 15+ years of experience.
+          <h2 className="md3-headline-large mb-4">Technical Expertise</h2>
+          <p className="md3-body-large md3-on-surface-variant mx-auto max-w-3xl">
+            Comprehensive technical skills across AI/ML, cloud platforms, and
+            modern development frameworks built over 15+ years of experience.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {skills.map((skillCategory, categoryIndex) => {
-            const Icon = iconMap[skillCategory.category] || Code;
-            const gradient = colorMap[skillCategory.category] || 'from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-secondary)]';
+            const Icon = iconMap[skillCategory.category] || Code
+            const gradient =
+              colorMap[skillCategory.category] ||
+              'from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-secondary)]'
 
             return (
               <motion.div
@@ -78,17 +95,19 @@ export default function Skills() {
                 transition={{ duration: 0.6, delay: categoryIndex * 0.08 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -6 }}
-                className="md3-card overflow-hidden group"
+                className="md3-card group overflow-hidden"
               >
                 {/* Header with gradient */}
-                <div className="relative p-6 pb-4 bg-gradient-to-br from-[var(--md-sys-color-surface-container-low)] to-[var(--md-sys-color-surface-container)]">
-                  <div className="flex items-center gap-3 mb-2">
+                <div className="relative bg-gradient-to-br from-[var(--md-sys-color-surface-container-low)] to-[var(--md-sys-color-surface-container)] p-6 pb-4">
+                  <div className="mb-2 flex items-center gap-3">
                     {/* Icon with gradient background */}
-                    <div className={`w-12 h-12 bg-gradient-to-br ${gradient} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                    <div
+                      className={`h-12 w-12 bg-gradient-to-br ${gradient} flex items-center justify-center rounded-xl shadow-lg transition-transform group-hover:scale-110`}
+                    >
                       <Icon className="text-white" size={24} />
                     </div>
 
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <h3 className="md3-title-medium font-semibold break-words">
                         {skillCategory.category}
                       </h3>
@@ -99,7 +118,9 @@ export default function Skills() {
                   </div>
 
                   {/* Accent line */}
-                  <div className={`h-1 mt-4 bg-gradient-to-r ${gradient} rounded-full`}></div>
+                  <div
+                    className={`mt-4 h-1 bg-gradient-to-r ${gradient} rounded-full`}
+                  ></div>
                 </div>
 
                 {/* Skills tags */}
@@ -113,7 +134,7 @@ export default function Skills() {
                         transition={{ duration: 0.3, delay: skillIndex * 0.02 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.05, y: -2 }}
-                        className="px-3 py-1.5 bg-[var(--md-sys-color-surface-container-high)] hover:bg-[var(--md-sys-color-surface-container-highest)] text-[var(--md-sys-color-on-surface-variant)] rounded-lg md3-label-small font-medium transition-colors cursor-default shadow-sm"
+                        className="md3-label-small cursor-default rounded-lg bg-[var(--md-sys-color-surface-container-high)] px-3 py-1.5 font-medium text-[var(--md-sys-color-on-surface-variant)] shadow-sm transition-colors hover:bg-[var(--md-sys-color-surface-container-highest)]"
                       >
                         {skill}
                       </motion.span>
@@ -121,7 +142,7 @@ export default function Skills() {
                   </div>
                 </div>
               </motion.div>
-            );
+            )
           })}
         </div>
 
@@ -133,9 +154,9 @@ export default function Skills() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-8 px-8 py-6 md3-card">
+          <div className="md3-card inline-flex flex-wrap items-center justify-center gap-8 px-8 py-6">
             <div className="text-center">
-              <div className="md3-headline-medium font-bold bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent mb-1">
+              <div className="md3-headline-medium mb-1 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text font-bold text-transparent">
                 {skills.length}
               </div>
               <div className="md3-label-medium text-[var(--md-sys-color-on-surface-variant)]">
@@ -143,10 +164,10 @@ export default function Skills() {
               </div>
             </div>
 
-            <div className="w-px h-12 bg-[var(--md-sys-color-outline-variant)]"></div>
+            <div className="h-12 w-px bg-[var(--md-sys-color-outline-variant)]"></div>
 
             <div className="text-center">
-              <div className="md3-headline-medium font-bold bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent mb-1">
+              <div className="md3-headline-medium mb-1 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text font-bold text-transparent">
                 {skills.reduce((acc, cat) => acc + cat.items.length, 0)}
               </div>
               <div className="md3-label-medium text-[var(--md-sys-color-on-surface-variant)]">
@@ -154,10 +175,10 @@ export default function Skills() {
               </div>
             </div>
 
-            <div className="w-px h-12 bg-[var(--md-sys-color-outline-variant)]"></div>
+            <div className="h-12 w-px bg-[var(--md-sys-color-outline-variant)]"></div>
 
             <div className="text-center">
-              <div className="md3-headline-medium font-bold bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text text-transparent mb-1">
+              <div className="md3-headline-medium mb-1 bg-gradient-to-r from-[var(--md-sys-color-primary)] to-[var(--md-sys-color-tertiary)] bg-clip-text font-bold text-transparent">
                 15+
               </div>
               <div className="md3-label-medium text-[var(--md-sys-color-on-surface-variant)]">

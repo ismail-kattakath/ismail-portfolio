@@ -266,12 +266,7 @@
     {
       "name": "Programming / Scripting",
       "level": "",
-      "keywords": [
-        "JavaScript",
-        "TypeScript",
-        "Python",
-        "Bash"
-      ]
+      "keywords": ["JavaScript", "TypeScript", "Python", "Bash"]
     },
     {
       "name": "Databases",
@@ -291,12 +286,7 @@
     {
       "name": "Protocols",
       "level": "",
-      "keywords": [
-        "HTTP/HTTPS",
-        "WebSocket",
-        "Server-Sent Events",
-        "WebRTC"
-      ]
+      "keywords": ["HTTP/HTTPS", "WebSocket", "Server-Sent Events", "WebRTC"]
     },
     {
       "name": "Web & Mobile UI",

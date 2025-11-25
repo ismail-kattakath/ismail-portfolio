@@ -19,7 +19,7 @@ export type {
   JSONResumePublication,
   JSONResumeReference,
   JSONResumeInterest,
-} from './json-resume';
+} from './json-resume'
 
 // Internal resume data types
 export type {
@@ -31,10 +31,10 @@ export type {
   SkillGroup,
   Project,
   Certification,
-} from './resume';
+} from './resume'
 
 // Cover letter types
-export type { CoverLetterData } from './cover-letter';
+export type { CoverLetterData } from './cover-letter'
 
 // OpenAI API types
 export type {
@@ -44,4 +44,4 @@ export type {
   OpenAIResponse,
   OpenAIError,
   StoredCredentials,
-} from './openai';
+} from './openai'
