@@ -257,6 +257,45 @@ npm test:watch
 npm test:coverage
 ```
 
+### 6. Maintain Related Documentation and Tests
+
+**CRITICAL:** When making code changes, always update related artifacts:
+
+**Documentation Updates:**
+- Update `ARCHITECTURE.md` for architectural changes
+- Update `docs/` feature guides for feature changes
+- Update inline comments for complex logic
+- Update JSDoc for public APIs
+
+**Test Updates:**
+- Add tests for new functionality
+- Update tests for changed behavior
+- Ensure tests pass before committing
+- Maintain test coverage above 85%
+
+**Type Updates:**
+- Update TypeScript interfaces in `src/types/`
+- Update adapter logic in `src/lib/resumeAdapter.ts`
+- Ensure type safety across the codebase
+
+**Example Workflow:**
+```bash
+# 1. Make code change
+# 2. Update related tests
+npm test -- path/to/changed-file.test.tsx
+
+# 3. Update documentation
+# Edit ARCHITECTURE.md or relevant docs/ file
+
+# 4. Verify everything works
+npm run build
+npm test
+
+# 5. Commit all related changes together
+git add .
+git commit -m "feat: feature with tests and docs"
+```
+
 ---
 
 ## Key Features
@@ -379,7 +418,9 @@ npm run dev
 - [ ] TypeScript compiles (`npm run build`)
 - [ ] No linting errors (`npm run lint`)
 - [ ] Changes tested in dev server
-- [ ] Documentation updated (if needed)
+- [ ] Documentation updated (ARCHITECTURE.md, docs/, inline comments)
+- [ ] Tests added/updated for new/changed functionality
+- [ ] Type definitions updated (if data structures changed)
 
 ### Deployment Workflow
 
@@ -529,6 +570,11 @@ setResumeData({ ...resumeData, name: "New Name" })
 5. **Dev Server Always Running** - Keep `npm run dev` running in background on port 3000
    - Kill port conflicts forcefully: `kill -9 $(lsof -ti:3000)`
    - Hard reset (new/removed files): Stop server → `rm -rf .next/` → Restart
+6. **Maintain Related Artifacts** - When making code changes, intelligently update:
+   - Documentation (README.md, ARCHITECTURE.md, feature docs in `docs/`)
+   - Tests (unit, integration, e2e)
+   - Type definitions
+   - Comments and JSDoc
 
 ---
 
