@@ -276,12 +276,63 @@ git push origin main
 
 **Want to test changes locally before deploying?**
 
+### Option 1: Dev Container (Recommended)
+
+The fastest way to get started with a consistent development environment:
+
+**Prerequisites:**
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [VS Code](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+**Setup:**
+
 ```bash
 # Clone your fork
 git clone https://github.com/YOUR-USERNAME/jsonresume-to-everything.git
 cd jsonresume-to-everything
 
-# Install dependencies
+# Open in VS Code
+code .
+
+# When prompted, click "Reopen in Container"
+# OR press F1 → "Dev Containers: Reopen in Container"
+```
+
+The container will automatically:
+
+- Install Node.js 20 and dependencies
+- Configure VS Code with recommended extensions
+- Set up pre-commit hooks
+- Start ready for development
+
+Then run:
+
+```bash
+npm run dev
+```
+
+**See:** [.devcontainer/README.md](./.devcontainer/README.md) for full details
+
+### Option 2: GitHub Codespaces (Cloud)
+
+Develop entirely in the cloud, no local setup needed:
+
+1. Go to the repository on GitHub
+2. Click "Code" → "Codespaces" → "Create codespace on main"
+3. Wait 2-3 minutes for automatic setup
+4. Run `npm run dev` in the terminal
+
+**Free tier:** 60 hours/month
+
+### Option 3: Traditional Local Setup
+
+```bash
+# Clone your fork
+git clone https://github.com/YOUR-USERNAME/jsonresume-to-everything.git
+cd jsonresume-to-everything
+
+# Install dependencies (requires Node.js 18+)
 npm install
 
 # Start dev server
