@@ -146,61 +146,58 @@ function UnifiedEditor() {
                     Resume Generator
                   </h1>
                   <p className="text-sm text-white/60">
-                    Build targeted resumes and cover letters
+                    Edit once, preview as resume or cover letter
                   </p>
                 </div>
               </div>
 
-              {/* Tab Switcher */}
-              <div className="flex gap-2 rounded-lg bg-white/5 p-1">
-                <button
-                  type="button"
-                  onClick={() => setMode('resume')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
-                    mode === 'resume'
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                      : 'text-white/60 hover:text-white/80'
-                  }`}
-                >
-                  <span>📄</span>
-                  Resume
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMode('coverLetter')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
-                    mode === 'coverLetter'
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                      : 'text-white/60 hover:text-white/80'
-                  }`}
-                >
-                  <span>✉️</span>
-                  Cover Letter
-                </button>
+              {/* Preview Switcher */}
+              <div className="flex flex-col gap-2">
+                <p className="text-xs font-medium tracking-wider text-white/40 uppercase">
+                  Preview Mode
+                </p>
+                <div className="flex gap-2 rounded-lg bg-white/5 p-1">
+                  <button
+                    type="button"
+                    onClick={() => setMode('resume')}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
+                      mode === 'resume'
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : 'text-white/60 hover:text-white/80'
+                    }`}
+                  >
+                    <span>📄</span>
+                    Resume
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMode('coverLetter')}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
+                      mode === 'coverLetter'
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : 'text-white/60 hover:text-white/80'
+                    }`}
+                  >
+                    <span>✉️</span>
+                    Cover Letter
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Shared Components */}
+            {/* All Form Sections - Always Visible */}
             <ImportExport preserveContent={mode === 'coverLetter'} />
             <PersonalInformation />
             <SocialMedia />
-
-            {/* Resume-specific components */}
-            {mode === 'resume' && (
-              <>
-                <Summary />
-                <Education />
-                <WorkExperience />
-                {resumeData.skills.map((skill, index) => (
-                  <Skill title={skill.title} key={index} />
-                ))}
-                <Language />
-                <Certification />
-              </>
-            )}
-
-            {/* Cover Letter-specific components */}
-            {mode === 'coverLetter' && <CoverLetterContent />}
+            <Summary />
+            <CoverLetterContent />
+            <Education />
+            <WorkExperience />
+            {resumeData.skills.map((skill, index) => (
+              <Skill title={skill.title} key={index} />
+            ))}
+            <Language />
+            <Certification />
           </form>
 
           {/* Conditional Preview */}
