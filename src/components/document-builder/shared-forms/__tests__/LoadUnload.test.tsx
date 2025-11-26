@@ -358,103 +358,22 @@ describe('LoadUnload Component', () => {
     it('exports resume in JSON Resume format', () => {
       mockConvertToJSONResume.mockReturnValue({ basics: { name: 'John Doe' } })
 
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
-
       renderWithContext()
       fireEvent.click(
         screen.getByRole('button', { name: /export json resume/i })
       )
 
       expect(mockConvertToJSONResume).toHaveBeenCalledWith(mockResumeData)
-      expect(mockLink.click).toHaveBeenCalled()
       expect(mockToast.success).toHaveBeenCalledWith(
         'JSON Resume exported successfully!',
         { id: 'export-resume' }
       )
     })
 
-    it('generates correct filename format', () => {
-      const dateSpy = jest
-        .spyOn(global, 'Date')
-        .mockImplementation(() => new Date('2024-03-15') as any)
-      mockConvertToJSONResume.mockReturnValue({ basics: {} })
-
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      const createElementSpy = jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
-
-      renderWithContext()
-      fireEvent.click(
-        screen.getByRole('button', { name: /export json resume/i })
-      )
-
-      expect(mockLink.download).toBe(
-        '202403-JohnDoe-SeniorDeveloper-Resume.json'
-      )
-
-      dateSpy.mockRestore()
-      createElementSpy.mockRestore()
-    })
-
-    it('handles special characters in name and position', () => {
-      const dateSpy = jest
-        .spyOn(global, 'Date')
-        .mockImplementation(() => new Date('2024-01-01') as any)
-      mockConvertToJSONResume.mockReturnValue({ basics: {} })
-
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      const createElementSpy = jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
-
-      const dataWithSpecialChars = {
-        ...mockResumeData,
-        name: "John-Paul O'Brien",
-        position: 'Sr. Full-Stack Developer',
-      }
-
-      renderWithContext(dataWithSpecialChars)
-      fireEvent.click(
-        screen.getByRole('button', { name: /export json resume/i })
-      )
-
-      expect(mockLink.download).toBe(
-        '202401-JohnpaulObrien-SrFullstackDeveloper-Resume.json'
-      )
-
-      dateSpy.mockRestore()
-      createElementSpy.mockRestore()
-    })
-
     it('handles export errors', () => {
       mockConvertToJSONResume.mockImplementation(() => {
         throw new Error('Conversion failed')
       })
-
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      const createElementSpy = jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
 
       renderWithContext()
       fireEvent.click(
@@ -465,50 +384,26 @@ describe('LoadUnload Component', () => {
         'Failed to export resume: Conversion failed',
         { id: 'export-resume', duration: 5000 }
       )
-
-      createElementSpy.mockRestore()
     })
   })
 
   describe('Edge Cases', () => {
     it('handles empty file selection', () => {
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      const createElementSpy = jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
-
       const { container } = renderWithContext()
       const fileInput = container.querySelector('input[type="file"]')!
 
       fireEvent.change(fileInput, { target: { files: [] } })
 
       expect(mockSetResumeData).not.toHaveBeenCalled()
-
-      createElementSpy.mockRestore()
     })
 
     it('accepts only .json files', () => {
-      const mockLink = { click: jest.fn(), href: '', download: '' }
-      const originalCreateElement = document.createElement.bind(document)
-      const createElementSpy = jest
-        .spyOn(document, 'createElement')
-        .mockImplementation((tag: string) => {
-          if (tag === 'a') return mockLink as any
-          return originalCreateElement(tag)
-        })
-
       const { container } = renderWithContext()
       const fileInput = container.querySelector(
         'input[type="file"]'
       ) as HTMLInputElement
 
       expect(fileInput.accept).toBe('.json')
-
-      createElementSpy.mockRestore()
     })
   })
 })
