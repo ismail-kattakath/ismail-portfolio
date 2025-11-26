@@ -17,6 +17,16 @@ export function buildSummaryPrompt(
     skillsCount: skills?.length || 0,
   })
 
+  // Calculate total years of experience
+  const firstJobYear = workExperience?.[workExperience.length - 1]?.startDate
+    ? new Date(
+        workExperience[workExperience.length - 1].startDate
+      ).getFullYear()
+    : null
+  const yearsExperience = firstJobYear
+    ? new Date().getFullYear() - firstJobYear
+    : null
+
   // Build comprehensive work experience with ALL achievements
   const experienceSummary =
     workExperience
@@ -42,45 +52,66 @@ export function buildSummaryPrompt(
 
   const prompt = `You are an expert tech recruiter and senior engineer who writes extremely concise, technically accurate, and high-impact professional summaries.
 
-CANDIDATE'S JSON RESUME DATA:
+CANDIDATE'S COMPLETE JSON RESUME:
 
 Name: ${name}
 Current Role: ${position}
+Total Experience: ${yearsExperience ? `${yearsExperience}+ years` : 'Not specified'}
 
-COMPLETE WORK EXPERIENCE:
+COMPLETE WORK HISTORY (chronological):
 ${experienceSummary}
 
-COMPLETE TECHNICAL SKILLS:
+ALL TECHNICAL SKILLS (by category):
 ${skillsList}
 
-CURRENT SUMMARY (for length reference - aim for similar character count):
+CURRENT PROFESSIONAL SUMMARY (reference for style and length):
 ${summary}
 
-JOB DESCRIPTION:
+TARGET JOB DESCRIPTION:
 ${jobDescription}
 
-TASK:
-Write a professional summary that makes ${name} the ideal candidate for this position.
+YOUR TASK:
+Write a professional summary that positions ${name} as the IDEAL candidate for this specific role.
 
-CHARACTER LIMIT:
-Match the length of the CURRENT SUMMARY above (~${summary?.length || 675} characters).
+CRITICAL INSTRUCTIONS - READ CAREFULLY:
 
-CRITICAL RULES:
-1. Use ONLY data from the JSON Resume above - no fabrication
-2. Every skill, achievement, metric, company, or technology MUST appear in the data above
-3. If the job requires something not in the resume, focus on what IS there
-4. Be 100% truthful to the resume data
+1. ACCURACY (Non-negotiable):
+   • Use ONLY information explicitly stated in the resume above
+   • Every achievement, metric, skill, company, and technology MUST appear verbatim in the data
+   • If the job requires something not in the resume, DO NOT claim it—focus on relevant strengths
+   • Years of experience: Use "${yearsExperience ? `${yearsExperience}+ years` : 'extensive'}" (never less)
 
-WRITING STYLE:
-• Extremely concise - every word must earn its place
-• Technically accurate - use precise terminology
-• High-impact - lead with strongest, most relevant achievements
-• Single paragraph - use semicolons to separate major sections
-• Metrics-driven - include specific numbers from achievements
-• Tailored - emphasize experience/skills matching the job description
+2. JOB ALIGNMENT (Critical):
+   • Study the job description's exact language and mirror it naturally
+   • Identify the TOP 3-4 requirements and lead with matching achievements
+   • Use storytelling: "Led [specific project] at [company], transforming [problem] into [result with metric]"
+   • Emphasize soft skills mentioned in job description (e.g., "customer-obsessed", "pragmatic", "end-to-end ownership")
+
+3. CONTENT PRIORITIZATION:
+   • Lead with career span and strongest technical fit (e.g., "15+ years delivering full-stack React/Next.js solutions")
+   • Feature 2-3 narrative achievements with context: [company] → [challenge] → [solution] → [measurable impact]
+   • Include user-scale metrics (e.g., "100,000+ users") over internal metrics (e.g., "4h→20m deployments")
+   • End with forward-looking capabilities that directly address job needs
+
+4. WRITING STYLE:
+   • Natural, flowing prose with personality—NOT a tech-spec list
+   • Single paragraph format (semicolons for major transitions, commas for flow)
+   • Use active, confident language: "Led", "Architected", "Transformed", "Known for"
+   • Balance technical precision with human readability
+   • Quality over arbitrary length—aim for ${summary?.length || 900} characters but prioritize impact
+
+5. WHAT TO AVOID:
+   ❌ Opening with generic role titles without context
+   ❌ Listing technologies in comma-separated lists at the end
+   ❌ Emphasizing irrelevant achievements (even if impressive)
+   ❌ Robotic, resume-speak tone ("proficient in", "skilled at")
+   ❌ Backend/infrastructure focus when job emphasizes frontend/UI
+
+EXAMPLE STRUCTURE (adapt to candidate's actual data):
+"[Role] with [X]+ years [key specialty matching job]. Led [specific high-impact project] at [company], [transforming context] into [result] serving [user scale] with [reliability metric]. Expert at [job's core requirement]—[specific example with outcome]. [Additional relevant achievement with metric]. Currently [current role focus]. Deep expertise in [job-critical skills]. Known for [soft skills from job description that match resume evidence]."
 
 OUTPUT:
-Return ONLY the professional summary as plain text (no formatting, no code blocks, no explanations).`
+Return ONLY the professional summary as plain text (no formatting, no code blocks, no preamble).`
 
   return prompt
 }
