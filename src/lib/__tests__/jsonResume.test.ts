@@ -189,6 +189,181 @@ describe('JSON Resume Conversion', () => {
       expect(result.work[0].url).toBe('https://techcorp.com')
       expect(result.education[0].url).toBe('https://utoronto.ca')
     })
+
+    it('should handle empty URL fields', () => {
+      const dataWithEmptyUrls = {
+        ...mockResumeData,
+        socialMedia: [
+          { socialMedia: 'Github', link: '' },
+          { socialMedia: 'LinkedIn', link: '' },
+        ],
+        workExperience: [
+          {
+            ...mockResumeData.workExperience[0],
+            url: '',
+          },
+        ],
+        education: [
+          {
+            ...mockResumeData.education[0],
+            url: '',
+          },
+        ],
+      }
+
+      const result = convertToJSONResume(dataWithEmptyUrls)
+
+      const githubProfile = result.basics.profiles.find(
+        (p) => p.network === 'Github'
+      )
+      // Empty URLs become https:// when converted
+      expect(githubProfile?.url).toBe('https://')
+
+      // Empty URLs are undefined when falsy
+      expect(result.work[0].url).toBeUndefined()
+      expect(result.education[0].url).toBeUndefined()
+    })
+
+    it('should handle location with only street address', () => {
+      const dataWithOnlyStreet = {
+        ...mockResumeData,
+        address: 'Only Street Address',
+      }
+
+      const result = convertToJSONResume(dataWithOnlyStreet)
+
+      // When parsing fails, empty strings are used
+      expect(result.basics.location.address).toBe('Only Street Address')
+    })
+
+    it('should handle empty work experience array', () => {
+      const dataWithNoWork = {
+        ...mockResumeData,
+        workExperience: [],
+      }
+
+      const result = convertToJSONResume(dataWithNoWork)
+
+      expect(result.work).toEqual([])
+    })
+
+    it('should handle empty education array', () => {
+      const dataWithNoEducation = {
+        ...mockResumeData,
+        education: [],
+      }
+
+      const result = convertToJSONResume(dataWithNoEducation)
+
+      expect(result.education).toEqual([])
+    })
+
+    it('should handle empty skills array', () => {
+      const dataWithNoSkills = {
+        ...mockResumeData,
+        skills: [],
+      }
+
+      const result = convertToJSONResume(dataWithNoSkills)
+
+      expect(result.skills).toEqual([])
+    })
+
+    it('should handle empty languages array', () => {
+      const dataWithNoLanguages = {
+        ...mockResumeData,
+        languages: [],
+      }
+
+      const result = convertToJSONResume(dataWithNoLanguages)
+
+      expect(result.languages).toEqual([])
+    })
+
+    it('should handle empty certifications array', () => {
+      const dataWithNoCerts = {
+        ...mockResumeData,
+        certifications: [],
+      }
+
+      const result = convertToJSONResume(dataWithNoCerts)
+
+      expect(result.certificates).toEqual([])
+    })
+
+    it('should handle work experience with empty keyAchievements', () => {
+      const dataWithNoAchievements = {
+        ...mockResumeData,
+        workExperience: [
+          {
+            ...mockResumeData.workExperience[0],
+            keyAchievements: '',
+          },
+        ],
+      }
+
+      const result = convertToJSONResume(dataWithNoAchievements)
+
+      expect(result.work[0].highlights).toEqual([])
+    })
+
+    it('should handle work experience with single line keyAchievement', () => {
+      const dataWithSingleAchievement = {
+        ...mockResumeData,
+        workExperience: [
+          {
+            ...mockResumeData.workExperience[0],
+            keyAchievements: 'Single achievement',
+          },
+        ],
+      }
+
+      const result = convertToJSONResume(dataWithSingleAchievement)
+
+      expect(result.work[0].highlights).toEqual(['Single achievement'])
+    })
+
+    it('should handle certifications with empty URLs', () => {
+      const dataWithCertNoUrl = {
+        ...mockResumeData,
+        certifications: [
+          {
+            name: 'Test Cert',
+            date: '2023',
+            issuer: 'Test Issuer',
+            url: '',
+          },
+        ],
+      }
+
+      const result = convertToJSONResume(dataWithCertNoUrl)
+
+      // URL field is not added when empty
+      expect(result.certificates[0].url).toBeUndefined()
+    })
+
+    it('should handle missing profile picture', () => {
+      const dataWithNoPicture = {
+        ...mockResumeData,
+        profilePicture: '',
+      }
+
+      const result = convertToJSONResume(dataWithNoPicture)
+
+      expect(result.basics.image).toBe('')
+    })
+
+    it('should handle missing calendar link', () => {
+      const dataWithNoCalendar = {
+        ...mockResumeData,
+        calendarLink: '',
+      }
+
+      const result = convertToJSONResume(dataWithNoCalendar)
+
+      // Calendar link is not in JSON Resume standard, so no assertion needed
+      expect(result).toBeDefined()
+    })
   })
 
   describe('convertFromJSONResume', () => {
@@ -414,6 +589,220 @@ describe('JSON Resume Conversion', () => {
       const result = convertFromJSONResume(invalidJSONResume)
 
       expect(result).toBeNull()
+    })
+
+    it('should handle JSON Resume with empty profiles array', () => {
+      const resumeWithNoProfiles = {
+        ...mockJSONResume,
+        basics: {
+          ...mockJSONResume.basics,
+          profiles: [],
+        },
+      }
+      // Remove url to avoid validation error
+      delete resumeWithNoProfiles.basics.url
+
+      const result = convertFromJSONResume(resumeWithNoProfiles)
+
+      expect(result).not.toBeNull()
+      expect(result.socialMedia).toEqual([])
+    })
+
+    it('should handle JSON Resume with missing location fields', () => {
+      const resumeWithPartialLocation = {
+        ...mockJSONResume,
+        basics: {
+          ...mockJSONResume.basics,
+          location: {
+            address: '123 Street',
+          },
+        },
+      }
+
+      const result = convertFromJSONResume(resumeWithPartialLocation)
+
+      expect(result.address).toBe('123 Street')
+    })
+
+    it('should handle JSON Resume with empty work array', () => {
+      const resumeWithNoWork = {
+        ...mockJSONResume,
+        work: [],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoWork)
+
+      expect(result.workExperience).toEqual([])
+    })
+
+    it('should handle JSON Resume with empty education array', () => {
+      const resumeWithNoEducation = {
+        ...mockJSONResume,
+        education: [],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoEducation)
+
+      expect(result.education).toEqual([])
+    })
+
+    it('should handle JSON Resume with empty skills array', () => {
+      const resumeWithNoSkills = {
+        ...mockJSONResume,
+        skills: [],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoSkills)
+
+      expect(result.skills).toHaveLength(1)
+      expect(result.skills[0].skills).toEqual([])
+    })
+
+    it('should handle JSON Resume with empty languages array', () => {
+      const resumeWithNoLanguages = {
+        ...mockJSONResume,
+        languages: [],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoLanguages)
+
+      expect(result.languages).toEqual([])
+    })
+
+    it('should handle JSON Resume with empty certificates array', () => {
+      const resumeWithNoCerts = {
+        ...mockJSONResume,
+        certificates: [],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoCerts)
+
+      expect(result.certifications).toEqual([])
+    })
+
+    it('should handle work with empty highlights array', () => {
+      const resumeWithNoHighlights = {
+        ...mockJSONResume,
+        work: [
+          {
+            ...mockJSONResume.work[0],
+            highlights: [],
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoHighlights)
+
+      expect(result.workExperience[0].keyAchievements).toBe('')
+    })
+
+    it('should handle work with single highlight', () => {
+      const resumeWithSingleHighlight = {
+        ...mockJSONResume,
+        work: [
+          {
+            ...mockJSONResume.work[0],
+            highlights: ['Single highlight'],
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithSingleHighlight)
+
+      expect(result.workExperience[0].keyAchievements).toBe('Single highlight')
+    })
+
+    it('should handle work with empty keywords array', () => {
+      const resumeWithNoKeywords = {
+        ...mockJSONResume,
+        work: [
+          {
+            ...mockJSONResume.work[0],
+            keywords: [],
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoKeywords)
+
+      expect(result.workExperience[0].technologies).toEqual([])
+    })
+
+    it('should handle skills with empty keywords array', () => {
+      const resumeWithNoSkillKeywords = {
+        ...mockJSONResume,
+        skills: [
+          {
+            name: 'Test Skill',
+            keywords: [],
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoSkillKeywords)
+
+      expect(result.skills[0].skills).toEqual([])
+    })
+
+    it('should handle certificates without URL field', () => {
+      const resumeWithCertNoUrl = {
+        ...mockJSONResume,
+        certificates: [
+          {
+            name: mockJSONResume.certificates[0].name,
+            date: mockJSONResume.certificates[0].date,
+            issuer: mockJSONResume.certificates[0].issuer,
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithCertNoUrl)
+
+      expect(result).not.toBeNull()
+      // Missing URL field results in undefined, which becomes empty string
+      expect(result.certifications[0].url).toBeUndefined()
+    })
+
+    it('should handle work with missing URL field', () => {
+      const resumeWithNoWorkUrl = {
+        ...mockJSONResume,
+        work: [
+          {
+            name: mockJSONResume.work[0].name,
+            position: mockJSONResume.work[0].position,
+            startDate: mockJSONResume.work[0].startDate,
+            endDate: mockJSONResume.work[0].endDate,
+            summary: mockJSONResume.work[0].summary,
+            highlights: mockJSONResume.work[0].highlights,
+            keywords: mockJSONResume.work[0].keywords,
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoWorkUrl)
+
+      expect(result).not.toBeNull()
+      expect(result.workExperience[0].url).toBe('')
+    })
+
+    it('should handle education with missing URL field', () => {
+      const resumeWithNoEduUrl = {
+        ...mockJSONResume,
+        education: [
+          {
+            institution: mockJSONResume.education[0].institution,
+            area: mockJSONResume.education[0].area,
+            studyType: mockJSONResume.education[0].studyType,
+            startDate: mockJSONResume.education[0].startDate,
+            endDate: mockJSONResume.education[0].endDate,
+          },
+        ],
+      }
+
+      const result = convertFromJSONResume(resumeWithNoEduUrl)
+
+      expect(result).not.toBeNull()
+      expect(result.education[0].url).toBe('')
     })
   })
 })
