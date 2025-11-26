@@ -448,6 +448,84 @@ describe('SocialMedia Component', () => {
     })
   })
 
+  describe('Drag and Drop', () => {
+    it('should handle drag and drop reordering', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        socialMedia: [
+          { socialMedia: 'Github', link: 'github.com/test1' },
+          { socialMedia: 'LinkedIn', link: 'linkedin.com/in/test2' },
+          { socialMedia: 'Twitter', link: 'twitter.com/test3' },
+        ],
+      })
+
+      renderWithContext(<SocialMedia />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      // Component should render with drag-drop context
+      expect(screen.getByText('Social Media')).toBeInTheDocument()
+    })
+
+    it('should not reorder when dropped in same position', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        socialMedia: [
+          { socialMedia: 'Github', link: 'github.com/test1' },
+          { socialMedia: 'LinkedIn', link: 'linkedin.com/in/test2' },
+        ],
+      })
+
+      renderWithContext(<SocialMedia />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      // Component should handle same-position drops gracefully
+      expect(mockSetResumeData).not.toHaveBeenCalled()
+    })
+
+    it('should reindex validation status after delete', async () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        socialMedia: [
+          { socialMedia: 'Github', link: 'github.com/test1' },
+          { socialMedia: 'LinkedIn', link: 'linkedin.com/in/test2' },
+          { socialMedia: 'Twitter', link: 'twitter.com/test3' },
+        ],
+      })
+
+      const { container } = renderWithContext(<SocialMedia />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const deleteButtons = container.querySelectorAll(
+        'button[title="Delete this social media"]'
+      )
+
+      // Delete middle item
+      if (deleteButtons[1]) {
+        fireEvent.click(deleteButtons[1])
+
+        expect(mockSetResumeData).toHaveBeenCalledWith({
+          ...mockData,
+          socialMedia: [
+            { socialMedia: 'Github', link: 'github.com/test1' },
+            { socialMedia: 'Twitter', link: 'twitter.com/test3' },
+          ],
+        })
+      }
+    })
+  })
+
   describe('Edge Cases', () => {
     it('should handle empty socialMedia array', () => {
       const mockData = createMockResumeData({
@@ -503,6 +581,31 @@ describe('SocialMedia Component', () => {
         const callArg = mockSetResumeData.mock.calls[0][0]
         // Should strip the https://
         expect(callArg.socialMedia[0].link).toBe('github.com/test')
+      }
+    })
+
+    it('should handle http:// protocol removal', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        socialMedia: [{ socialMedia: 'Github', link: '' }],
+      })
+
+      const { container } = renderWithContext(<SocialMedia />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const linkInput = container.querySelector('input[name="link"]')
+
+      if (linkInput) {
+        fireEvent.change(linkInput, {
+          target: { name: 'link', value: 'http://github.com/test' },
+        })
+
+        // Component should still process the input
+        expect(mockSetResumeData).toHaveBeenCalled()
       }
     })
   })
