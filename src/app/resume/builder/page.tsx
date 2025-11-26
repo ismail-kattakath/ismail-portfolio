@@ -239,9 +239,9 @@ function UnifiedEditor() {
             </form>
 
             {/* Preview Section with Switcher */}
-            <div className="exclude-print flex flex-col md:w-[8.5in]">
+            <div className="flex flex-col md:w-[8.5in]">
               {/* Preview Mode Switcher */}
-              <div className="flex bg-gradient-to-br from-gray-900 via-black to-gray-900">
+              <div className="exclude-print flex bg-gradient-to-br from-gray-900 via-black to-gray-900">
                 <button
                   type="button"
                   onClick={() => setMode('resume')}
