@@ -24,6 +24,7 @@ import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import { Toaster } from 'sonner'
 import { useDocumentHandlers } from '@/hooks/useDocumentHandlers'
 import PasswordProtection from '@/components/auth/PasswordProtection'
+import Footer from '@/components/layout/Footer'
 import type { CoverLetterData } from '@/types'
 import {
   User,
@@ -134,141 +135,150 @@ function UnifiedEditor() {
     <>
       <Toaster position="top-right" richColors closeButton />
       <ResumeContext.Provider value={currentContext}>
-        <div className="relative flex flex-col overflow-x-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 md:h-screen md:flex-row">
-          {/* Floating Print Button - Hidden on print */}
-          <div className="exclude-print fixed right-8 bottom-8 z-50">
-            <PrintButton
-              name={mode === 'resume' ? resumeData.name : coverLetterData.name}
-              documentType={mode === 'resume' ? 'Resume' : 'CoverLetter'}
-            />
-          </div>
-
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="exclude-print flex-1 space-y-6 p-4 md:h-screen md:space-y-8 md:overflow-y-auto md:p-6 lg:p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 hover:[&::-webkit-scrollbar-thumb]:bg-white/30 [&::-webkit-scrollbar-track]:bg-white/5"
-          >
-            {/* Header with Tab Switcher */}
-            <div className="space-y-4 border-b border-white/10 pb-6">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-white">
-                    Resume Generator
-                  </h1>
-                  <p className="text-sm text-white/60">
-                    Edit once, preview as resume or cover letter
-                  </p>
-                </div>
-              </div>
-
-              {/* Preview Switcher */}
-              <div className="flex flex-col gap-2">
-                <p className="text-xs font-medium tracking-wider text-white/40 uppercase">
-                  Preview Mode
-                </p>
-                <div className="flex gap-2 rounded-lg bg-white/5 p-1">
-                  <button
-                    type="button"
-                    onClick={() => setMode('resume')}
-                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
-                      mode === 'resume'
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                        : 'text-white/60 hover:text-white/80'
-                    }`}
-                  >
-                    <span>📄</span>
-                    Resume
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMode('coverLetter')}
-                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
-                      mode === 'coverLetter'
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                        : 'text-white/60 hover:text-white/80'
-                    }`}
-                  >
-                    <span>✉️</span>
-                    Cover Letter
-                  </button>
-                </div>
-              </div>
+        <div className="flex min-h-screen flex-col bg-gradient-to-br from-gray-900 via-black to-gray-900">
+          <div className="relative flex flex-1 flex-col overflow-x-hidden md:flex-row">
+            {/* Floating Print Button - Hidden on print */}
+            <div className="exclude-print fixed right-8 bottom-8 z-50">
+              <PrintButton
+                name={
+                  mode === 'resume' ? resumeData.name : coverLetterData.name
+                }
+                documentType={mode === 'resume' ? 'Resume' : 'CoverLetter'}
+              />
             </div>
 
-            {/* All Form Sections - Always Visible */}
-            <ImportExport preserveContent={mode === 'coverLetter'} />
-
-            <CollapsibleSection
-              title="Personal Information"
-              icon={<User className="h-5 w-5 text-blue-400" />}
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="exclude-print flex-1 space-y-6 p-4 md:space-y-8 md:overflow-y-auto md:p-6 lg:p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 hover:[&::-webkit-scrollbar-thumb]:bg-white/30 [&::-webkit-scrollbar-track]:bg-white/5"
             >
-              <PersonalInformation />
-            </CollapsibleSection>
+              {/* Header with Tab Switcher */}
+              <div className="space-y-4 border-b border-white/10 pb-6">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+                    <span className="text-2xl">🎯</span>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-white">
+                      Resume Generator
+                    </h1>
+                    <p className="text-sm text-white/60">
+                      Edit once, preview as resume or cover letter
+                    </p>
+                  </div>
+                </div>
 
-            <CollapsibleSection
-              title="Social Media"
-              icon={<Share2 className="h-5 w-5 text-blue-400" />}
-            >
-              <SocialMedia />
-            </CollapsibleSection>
+                {/* Preview Switcher */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-xs font-medium tracking-wider text-white/40 uppercase">
+                    Preview Mode
+                  </p>
+                  <div className="flex gap-2 rounded-lg bg-white/5 p-1">
+                    <button
+                      type="button"
+                      onClick={() => setMode('resume')}
+                      className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
+                        mode === 'resume'
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                          : 'text-white/60 hover:text-white/80'
+                      }`}
+                    >
+                      <span>📄</span>
+                      Resume
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMode('coverLetter')}
+                      className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-all ${
+                        mode === 'coverLetter'
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                          : 'text-white/60 hover:text-white/80'
+                      }`}
+                    >
+                      <span>✉️</span>
+                      Cover Letter
+                    </button>
+                  </div>
+                </div>
+              </div>
 
-            <CollapsibleSection
-              title="Professional Summary"
-              icon={<FileText className="h-5 w-5 text-blue-400" />}
-            >
-              <Summary />
-            </CollapsibleSection>
+              {/* All Form Sections - Always Visible */}
+              <ImportExport preserveContent={mode === 'coverLetter'} />
 
-            <CollapsibleSection
-              title="Cover Letter"
-              icon={<Mail className="h-5 w-5 text-blue-400" />}
-            >
-              <CoverLetterContent />
-            </CollapsibleSection>
-
-            <CollapsibleSection
-              title="Education"
-              icon={<GraduationCap className="h-5 w-5 text-blue-400" />}
-            >
-              <Education />
-            </CollapsibleSection>
-
-            <CollapsibleSection
-              title="Work Experience"
-              icon={<Briefcase className="h-5 w-5 text-blue-400" />}
-            >
-              <WorkExperience />
-            </CollapsibleSection>
-
-            {resumeData.skills.map((skill, index) => (
               <CollapsibleSection
-                key={index}
-                title={skill.title}
-                icon={<Code className="h-5 w-5 text-blue-400" />}
+                title="Personal Information"
+                icon={<User className="h-5 w-5 text-blue-400" />}
               >
-                <Skill title={skill.title} />
+                <PersonalInformation />
               </CollapsibleSection>
-            ))}
 
-            <CollapsibleSection
-              title="Languages"
-              icon={<Languages className="h-5 w-5 text-blue-400" />}
-            >
-              <Language />
-            </CollapsibleSection>
+              <CollapsibleSection
+                title="Social Media"
+                icon={<Share2 className="h-5 w-5 text-blue-400" />}
+              >
+                <SocialMedia />
+              </CollapsibleSection>
 
-            <CollapsibleSection
-              title="Certifications"
-              icon={<Award className="h-5 w-5 text-blue-400" />}
-            >
-              <Certification />
-            </CollapsibleSection>
-          </form>
+              <CollapsibleSection
+                title="Professional Summary"
+                icon={<FileText className="h-5 w-5 text-blue-400" />}
+              >
+                <Summary />
+              </CollapsibleSection>
 
-          {/* Conditional Preview */}
-          {mode === 'resume' ? <Preview /> : <CoverLetterPreview />}
+              <CollapsibleSection
+                title="Cover Letter"
+                icon={<Mail className="h-5 w-5 text-blue-400" />}
+              >
+                <CoverLetterContent />
+              </CollapsibleSection>
+
+              <CollapsibleSection
+                title="Education"
+                icon={<GraduationCap className="h-5 w-5 text-blue-400" />}
+              >
+                <Education />
+              </CollapsibleSection>
+
+              <CollapsibleSection
+                title="Work Experience"
+                icon={<Briefcase className="h-5 w-5 text-blue-400" />}
+              >
+                <WorkExperience />
+              </CollapsibleSection>
+
+              {resumeData.skills.map((skill, index) => (
+                <CollapsibleSection
+                  key={index}
+                  title={skill.title}
+                  icon={<Code className="h-5 w-5 text-blue-400" />}
+                >
+                  <Skill title={skill.title} />
+                </CollapsibleSection>
+              ))}
+
+              <CollapsibleSection
+                title="Languages"
+                icon={<Languages className="h-5 w-5 text-blue-400" />}
+              >
+                <Language />
+              </CollapsibleSection>
+
+              <CollapsibleSection
+                title="Certifications"
+                icon={<Award className="h-5 w-5 text-blue-400" />}
+              >
+                <Certification />
+              </CollapsibleSection>
+            </form>
+
+            {/* Conditional Preview */}
+            {mode === 'resume' ? <Preview /> : <CoverLetterPreview />}
+          </div>
+
+          {/* Footer - Hidden on print */}
+          <div className="exclude-print">
+            <Footer />
+          </div>
         </div>
       </ResumeContext.Provider>
     </>
