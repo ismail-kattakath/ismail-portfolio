@@ -3,6 +3,17 @@ import { toHaveNoViolations } from 'jest-axe'
 
 expect.extend(toHaveNoViolations)
 
+// Mock IntersectionObserver for framer-motion
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  takeRecords() {
+    return []
+  }
+  unobserve() {}
+}
+
 // Suppress React act() warnings and intentional test console.errors
 const originalError = console.error
 beforeAll(() => {
