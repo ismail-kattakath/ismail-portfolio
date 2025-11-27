@@ -1,6 +1,5 @@
 import React from 'react'
 import FormButton from '@/components/ui/FormButton'
-import { DeleteButton } from '@/components/ui/DeleteButton'
 import {
   DnDContext,
   DnDDroppable,
@@ -18,7 +17,7 @@ interface SkillProps {
  * Uses reusable drag-and-drop components
  */
 const Skill = ({ title }: SkillProps) => {
-  const { skills, handleChange, add, remove, reorder } = useSkillsForm(title)
+  const { skills, add, remove, reorder } = useSkillsForm(title)
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result
@@ -48,24 +47,19 @@ const Skill = ({ title }: SkillProps) => {
                   index={index}
                   outlineColor="pink"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="floating-label-group flex-1">
-                      <input
-                        type="text"
-                        placeholder={`Enter ${title.toLowerCase()}`}
-                        name={title}
-                        className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white transition-all outline-none placeholder:text-white/40 focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20"
-                        value={skill.text}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <label className="floating-label">{title}</label>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <span className="flex-1 px-3 py-2 text-sm text-white">
+                      {skill.text}
+                    </span>
 
-                    <DeleteButton
+                    <button
+                      type="button"
                       onClick={() => remove(index)}
-                      label="Delete this skill"
-                      className="p-2"
-                    />
+                      className="flex-shrink-0 cursor-pointer rounded px-2 py-1 text-white/60 transition-all hover:bg-red-400/10 hover:text-red-400"
+                      title="Remove skill"
+                    >
+                      ✕
+                    </button>
                   </div>
                 </DraggableCard>
               ))}
