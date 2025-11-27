@@ -7,10 +7,16 @@ import { FormInput } from '@/components/ui/FormInput'
 import { FormTextarea } from '@/components/ui/FormTextarea'
 
 const AISettings: React.FC = () => {
-  const { settings, updateSettings, isConfigured, connectionStatus } =
-    useAISettings()
+  const {
+    settings,
+    updateSettings,
+    isConfigured,
+    connectionStatus,
+    jobDescriptionStatus,
+  } = useAISettings()
 
   const getStatusDisplay = () => {
+    // Testing connection
     if (connectionStatus === 'testing') {
       return {
         icon: <Loader2 className="h-4 w-4 animate-spin text-blue-400" />,
@@ -20,6 +26,7 @@ const AISettings: React.FC = () => {
       }
     }
 
+    // Invalid connection
     if (connectionStatus === 'invalid') {
       return {
         icon: <AlertCircle className="h-4 w-4 text-red-400" />,
@@ -29,6 +36,27 @@ const AISettings: React.FC = () => {
       }
     }
 
+    // Connection valid, testing JD
+    if (connectionStatus === 'valid' && jobDescriptionStatus === 'testing') {
+      return {
+        icon: <Loader2 className="h-4 w-4 animate-spin text-blue-400" />,
+        text: 'Validating job description...',
+        className: 'border-blue-500/20 bg-blue-500/10',
+        textClassName: 'text-blue-300',
+      }
+    }
+
+    // Connection valid, JD invalid
+    if (connectionStatus === 'valid' && jobDescriptionStatus === 'invalid') {
+      return {
+        icon: <AlertCircle className="h-4 w-4 text-red-400" />,
+        text: 'Invalid job description. Please paste a real job posting.',
+        className: 'border-red-500/20 bg-red-500/10',
+        textClassName: 'text-red-300',
+      }
+    }
+
+    // All valid
     if (isConfigured) {
       return {
         icon: <CheckCircle className="h-4 w-4 text-green-400" />,
@@ -38,15 +66,17 @@ const AISettings: React.FC = () => {
       }
     }
 
+    // Connection valid, waiting for JD validation
     if (connectionStatus === 'valid') {
       return {
         icon: <AlertCircle className="h-4 w-4 text-amber-400" />,
-        text: 'API connected. Add a job description to continue.',
+        text: 'API connected. Add a valid job description to continue.',
         className: 'border-amber-500/20 bg-amber-500/10',
         textClassName: 'text-amber-300',
       }
     }
 
+    // Default idle state
     return {
       icon: <AlertCircle className="h-4 w-4 text-amber-400" />,
       text: 'Configure settings below to enable AI generation',

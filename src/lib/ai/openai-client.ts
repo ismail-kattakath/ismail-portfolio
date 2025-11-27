@@ -438,3 +438,52 @@ export async function testConnection(config: OpenAIConfig): Promise<boolean> {
     return false
   }
 }
+
+/**
+ * Validates if the provided text is a valid job description
+ * Returns true if the text appears to be a job description
+ */
+export async function validateJobDescription(
+  config: OpenAIConfig,
+  text: string
+): Promise<boolean> {
+  if (!text || text.trim().length < 50) {
+    return false
+  }
+
+  try {
+    const request: OpenAIRequest = {
+      model: config.model,
+      messages: [
+        {
+          role: 'system',
+          content: `You are a job description validator. Analyze the provided text and determine if it is a valid job description or job posting.
+
+A valid job description typically includes some of these elements:
+- Job title or role name
+- Company information
+- Responsibilities or duties
+- Requirements or qualifications
+- Skills needed
+- Benefits or perks
+- Location or work arrangement
+
+Respond with ONLY "YES" if this is a valid job description, or "NO" if it is not. Do not include any other text.`,
+        },
+        {
+          role: 'user',
+          content: text,
+        },
+      ],
+      max_tokens: 10,
+      temperature: 0,
+    }
+
+    const response = await makeOpenAIRequest(config, request)
+    const answer = response.choices[0]?.message?.content?.trim().toUpperCase()
+    return answer === 'YES'
+  } catch {
+    // If validation fails, assume it's not valid
+    return false
+  }
+}
