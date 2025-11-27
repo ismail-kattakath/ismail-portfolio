@@ -1,5 +1,5 @@
-import { VscJson } from 'react-icons/vsc'
 import React, { useContext } from 'react'
+import { VscJson } from 'react-icons/vsc'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
 import { convertToJSONResume, convertFromJSONResume } from '@/lib/jsonResume'
 import { validateJSONResume } from '@/lib/jsonResumeSchema'
@@ -168,21 +168,7 @@ const ImportExport = ({ preserveContent = false }: ImportExportProps) => {
   }
 
   return (
-    <div className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10">
-      <div className="mb-6 flex items-start justify-between">
-        <div>
-          <h2 className="mb-2 text-xl font-semibold text-white">
-            Import / Export
-          </h2>
-          <p className="text-sm text-white/60">
-            Load or save your resume data in JSON Resume format
-          </p>
-        </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20">
-          <VscJson className="text-xl text-blue-400" />
-        </div>
-      </div>
-
+    <div className="group">
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="group/btn inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-3 text-sm font-medium text-white transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]">
           <VscJson className="text-lg transition-transform group-hover/btn:rotate-12" />
