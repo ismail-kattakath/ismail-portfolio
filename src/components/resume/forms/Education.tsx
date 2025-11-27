@@ -1,36 +1,20 @@
 import React, { useContext } from 'react'
-import dynamic from 'next/dynamic'
 import FormButton from '@/components/ui/FormButton'
 import { FormInput } from '@/components/ui/FormInput'
-import { DeleteButton } from '@/components/ui/DeleteButton'
+import { AccordionCard, AccordionHeader } from '@/components/ui/AccordionCard'
 import { useArrayForm } from '@/hooks/useArrayForm'
+import { useAccordion } from '@/hooks/useAccordion'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
-
-const DragDropContext = dynamic(
-  () =>
-    import('@hello-pangea/dnd').then((mod) => {
-      return mod.DragDropContext
-    }),
-  { ssr: false }
-)
-const Droppable = dynamic(
-  () =>
-    import('@hello-pangea/dnd').then((mod) => {
-      return mod.Droppable
-    }),
-  { ssr: false }
-)
-const Draggable = dynamic(
-  () =>
-    import('@hello-pangea/dnd').then((mod) => {
-      return mod.Draggable
-    }),
-  { ssr: false }
-)
+import {
+  DnDContext,
+  DnDDroppable,
+  DnDDraggable,
+} from '@/components/ui/DragAndDrop'
+import type { DropResult } from '@hello-pangea/dnd'
 
 /**
- * Education form component - REFACTORED
- * Reduced from 146 lines to ~100 lines using reusable components
+ * Education form component
+ * Card-based layout with collapsible entries
  */
 const Education = () => {
   const { resumeData, setResumeData } = useContext(ResumeContext)
@@ -46,49 +30,63 @@ const Education = () => {
     { urlFields: ['url'] }
   )
 
-  const onDragEnd = (result: any) => {
+  const { isExpanded, toggleExpanded, expandNew, updateAfterReorder } =
+    useAccordion()
+
+  const handleAdd = () => {
+    add()
+    expandNew(data.length)
+  }
+
+  const onDragEnd = (result: DropResult) => {
     const { destination, source } = result
 
     if (!destination) return
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return
+    if (destination.index === source.index) return
 
     const newEducation = [...resumeData.education]
     const [removed] = newEducation.splice(source.index, 1)
     newEducation.splice(destination.index, 0, removed)
     setResumeData({ ...resumeData, education: newEducation })
+
+    updateAfterReorder(source.index, destination.index)
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="education">
+      <DnDContext onDragEnd={onDragEnd}>
+        <DnDDroppable droppableId="education">
           {(provided) => (
             <div
-              className="flex flex-col gap-3"
+              className="space-y-3"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
               {data.map((education, index) => (
-                <Draggable
+                <DnDDraggable
                   key={`EDUCATION-${index}`}
                   draggableId={`EDUCATION-${index}`}
                   index={index}
                 >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className={`group flex cursor-grab flex-col gap-3 rounded-lg border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 active:cursor-grabbing ${
-                        snapshot.isDragging
-                          ? 'bg-white/20 outline-2 outline-indigo-400 outline-dashed'
-                          : ''
-                      }`}
+                  {(dragProvided, snapshot) => (
+                    <AccordionCard
+                      isDragging={snapshot.isDragging}
+                      isExpanded={isExpanded(index)}
+                      theme="indigo"
+                      innerRef={dragProvided.innerRef}
+                      draggableProps={dragProvided.draggableProps}
+                      header={
+                        <AccordionHeader
+                          title={education.school}
+                          subtitle={education.degree}
+                          placeholder="New Education"
+                          isExpanded={isExpanded(index)}
+                          onToggle={() => toggleExpanded(index)}
+                          onDelete={() => remove(index)}
+                          deleteTitle="Delete education"
+                          dragHandleProps={dragProvided.dragHandleProps}
+                        />
+                      }
                     >
                       <FormInput
                         label="Institution Name"
@@ -136,23 +134,18 @@ const Education = () => {
                           variant="indigo"
                           className="flex-1"
                         />
-
-                        <DeleteButton
-                          onClick={() => remove(index)}
-                          label="Delete this education"
-                        />
                       </div>
-                    </div>
+                    </AccordionCard>
                   )}
-                </Draggable>
+                </DnDDraggable>
               ))}
               {provided.placeholder}
             </div>
           )}
-        </Droppable>
-      </DragDropContext>
+        </DnDDroppable>
+      </DnDContext>
 
-      <FormButton size={data.length} add={add} label="Education" />
+      <FormButton size={data.length} add={handleAdd} label="Education" />
     </div>
   )
 }

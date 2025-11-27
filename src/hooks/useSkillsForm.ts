@@ -33,10 +33,11 @@ export function useSkillsForm(title: string) {
   }
 
   /**
-   * Add new skill to the group
+   * Add new skill to the group with specified text
    */
-  const add = () => {
-    const newSkill: Skill = { text: '' }
+  const add = (text: string) => {
+    if (!text.trim()) return
+    const newSkill: Skill = { text: text.trim() }
     const newSkills = [...skillType.skills, newSkill]
 
     setResumeData((prevData) => ({
