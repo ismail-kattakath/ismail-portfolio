@@ -137,60 +137,28 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     }
   }, [settings.apiUrl, settings.apiKey, settings.model])
 
-  // Validate job description using AI
-  const validateJD = useCallback(async () => {
+  // Validate job description (simple character count check)
+  const validateJD = useCallback(() => {
     const jd = settings.jobDescription.trim()
-
-    if (!jd) {
-      setJobDescriptionStatus('invalid')
-      return false
-    }
 
     // Skip validation if JD hasn't changed
     if (jd === lastValidatedJD.current && jobDescriptionStatus !== 'idle') {
       return jobDescriptionStatus === 'valid'
     }
 
-    // Need valid connection to validate JD
-    if (connectionStatus !== 'valid') {
-      setJobDescriptionStatus('idle')
-      return false
-    }
+    const isValid = validateJobDescription(jd)
 
-    setJobDescriptionStatus('testing')
-
-    try {
-      const isValid = await validateJobDescription(
-        {
-          baseURL: settings.apiUrl,
-          apiKey: settings.apiKey,
-          model: settings.model,
-        },
-        jd
-      )
-
-      lastValidatedJD.current = jd
-      setJobDescriptionStatus(isValid ? 'valid' : 'invalid')
-      return isValid
-    } catch {
-      setJobDescriptionStatus('invalid')
-      return false
-    }
-  }, [
-    settings.jobDescription,
-    settings.apiUrl,
-    settings.apiKey,
-    settings.model,
-    connectionStatus,
-    jobDescriptionStatus,
-  ])
+    lastValidatedJD.current = jd
+    setJobDescriptionStatus(isValid ? 'valid' : 'invalid')
+    return isValid
+  }, [settings.jobDescription, jobDescriptionStatus])
 
   // Validate all settings
   const validateAll = useCallback(async () => {
     const connectionValid = await validateConnection()
     if (!connectionValid) return false
 
-    const jdValid = await validateJD()
+    const jdValid = validateJD()
     return jdValid
   }, [validateConnection, validateJD])
 
@@ -224,19 +192,19 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(timeoutId)
   }, [settings.apiUrl, settings.apiKey, settings.model, isInitialized, validateConnection])
 
-  // Validate JD when it changes AND connection is valid (with debounce)
+  // Validate JD when it changes (with debounce)
   useEffect(() => {
-    if (!isInitialized || connectionStatus !== 'valid') return
+    if (!isInitialized) return
 
     const jd = settings.jobDescription.trim()
     if (jd === lastValidatedJD.current) return
 
     const timeoutId = setTimeout(() => {
       validateJD()
-    }, 1000) // Longer debounce for JD validation (costs more tokens)
+    }, 300) // Short debounce for simple length check
 
     return () => clearTimeout(timeoutId)
-  }, [settings.jobDescription, connectionStatus, isInitialized, validateJD])
+  }, [settings.jobDescription, isInitialized, validateJD])
 
   // Save credentials when they change
   useEffect(() => {

@@ -441,56 +441,15 @@ export async function testConnection(config: OpenAIConfig): Promise<boolean> {
 
 /**
  * Validates if the provided text is a valid job description
- * Returns true if the text appears to be a job description
+ * Returns true if text is non-empty and has reasonable length
  */
-export async function validateJobDescription(
-  config: OpenAIConfig,
-  text: string
-): Promise<boolean> {
-  if (!text || text.trim().length < 50) {
+export function validateJobDescription(text: string): boolean {
+  const MIN_JD_LENGTH = 100 // Minimum characters for a valid job description
+
+  if (!text) {
     return false
   }
 
-  try {
-    const request: OpenAIRequest = {
-      model: config.model,
-      messages: [
-        {
-          role: 'system',
-          content: `You are a job description validator. Analyze the provided text and determine if it is a valid job description or job posting.
-
-A valid job description typically includes some of these elements:
-- Job title or role name
-- Company information
-- Responsibilities or duties
-- Requirements or qualifications
-- Skills needed
-- Benefits or perks
-- Location or work arrangement
-
-Respond with ONLY "YES" if this is a valid job description, or "NO" if it is not. Do not include any other text.`,
-        },
-        {
-          role: 'user',
-          content: text,
-        },
-      ],
-      max_tokens: 50, // Increased to allow for thinking/reasoning models
-      temperature: 0,
-    }
-
-    const response = await makeOpenAIRequest(config, request)
-    const message = response.choices[0]?.message
-
-    // Some models use reasoning field, get the actual content
-    const answer = (message?.content || '').trim().toUpperCase()
-
-    // Be lenient - accept various affirmative responses
-    // Some models may respond with "YES.", "Yes", "YES!", "TRUE", etc.
-    const positiveResponses = ['YES', 'TRUE', 'VALID', 'Y']
-    return positiveResponses.some((pos) => answer.startsWith(pos))
-  } catch {
-    // If validation fails, assume it's not valid
-    return false
-  }
+  const trimmed = text.trim()
+  return trimmed.length >= MIN_JD_LENGTH
 }
