@@ -22,7 +22,11 @@ import CollapsibleSection from '@/components/document-builder/ui/CollapsibleSect
 import { AccordionCard } from '@/components/ui/AccordionCard'
 import AISettings from '@/components/document-builder/shared-forms/AISettings'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
-import { AISettingsProvider } from '@/lib/contexts/AISettingsContext'
+import {
+  AISettingsProvider,
+  useAISettings,
+} from '@/lib/contexts/AISettingsContext'
+import { CheckCircle, XCircle } from 'lucide-react'
 import { Toaster } from 'sonner'
 import { useDocumentHandlers } from '@/hooks/useDocumentHandlers'
 import { useSkillGroupsManagement } from '@/hooks/useSkillGroupsManagement'
@@ -60,6 +64,20 @@ const DEFAULT_COVER_LETTER_CONTENT =
   "I'm a Toronto-based Principal Software Engineer with 7+ years delivering production-ready full-stack applications using React, React Native, Node.js, and MongoDB—the exact stack you're seeking. At Homewood Health, I transformed an abandoned MEAN application into a nationally-deployed platform serving 100,000+ users with 99.5% uptime, implemented enterprise OAuth/SAML authentication, and led the AngularJS-to-Next.js migration while reducing deployment time by 92%. My experience architecting REST APIs with Express.js, integrating external SDKs, implementing security protocols, and managing agile sprints directly aligns with your requirements. Having built FDA-compliant healthcare systems and worked with cross-functional teams across multiple countries, I understand the rigorous standards and fast-paced environment of innovative startups like Speer. I'm excited to leverage my proven track record in building scalable, testable code to help deliver your groundbreaking technologies—let's discuss how I can contribute to your mission this week."
 
 type EditorMode = 'resume' | 'coverLetter'
+
+/**
+ * AI Settings Status Indicator
+ * Shows valid/invalid status in the section header
+ */
+function AISettingsStatusIndicator() {
+  const { isConfigured } = useAISettings()
+
+  return isConfigured ? (
+    <CheckCircle className="mr-1 h-4 w-4 text-green-400" />
+  ) : (
+    <XCircle className="mr-1 h-4 w-4 text-red-400" />
+  )
+}
 
 /**
  * Skill Group Header Component
@@ -524,6 +542,7 @@ function UnifiedEditor() {
                   icon={<Sparkles className="h-5 w-5 text-amber-400" />}
                   isExpanded={expandedSection === 'ai-settings'}
                   onToggle={createToggleHandler('ai-settings')}
+                  action={<AISettingsStatusIndicator />}
                 >
                   <AISettings />
                 </CollapsibleSection>
