@@ -589,7 +589,7 @@ function UnifiedEditor() {
                     </CollapsibleSection>
 
                     <CollapsibleSection
-                      title="Work Experience"
+                      title="Experience"
                       icon={<Briefcase className="h-5 w-5 text-blue-400" />}
                       isExpanded={expandedSection === 'work-experience'}
                       onToggle={createToggleHandler('work-experience')}
