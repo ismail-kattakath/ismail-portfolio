@@ -7,59 +7,9 @@ import {
   fireEvent,
 } from '@/lib/__tests__/test-utils'
 
-// Store the onDragEnd callback for testing
-let capturedOnDragEnd: ((result: unknown) => void) | null = null
-
-// Mock drag-and-drop components
-jest.mock('@hello-pangea/dnd', () => ({
-  DragDropContext: ({ children, onDragEnd }: any) => {
-    capturedOnDragEnd = onDragEnd
-    return (
-      <div data-testid="drag-drop-context" onDragEnd={onDragEnd}>
-        {children}
-      </div>
-    )
-  },
-  Droppable: ({ children, droppableId }: any) => {
-    const provided = {
-      droppableProps: {
-        'data-droppable-id': droppableId,
-      },
-      innerRef: jest.fn(),
-      placeholder: null,
-    }
-    const snapshot = {
-      isDraggingOver: false,
-    }
-    return (
-      <div data-testid="droppable" {...provided.droppableProps}>
-        {children(provided, snapshot)}
-      </div>
-    )
-  },
-  Draggable: ({ children, draggableId, index }: any) => {
-    const provided = {
-      draggableProps: {
-        'data-draggable-id': draggableId,
-        'data-index': index,
-      },
-      dragHandleProps: {},
-      innerRef: jest.fn(),
-    }
-    const snapshot = {
-      isDragging: false,
-    }
-    return (
-      <div data-testid="draggable" {...provided.draggableProps}>
-        {children(provided, snapshot)}
-      </div>
-    )
-  },
-}))
-
 describe('Skill Component', () => {
   describe('Rendering', () => {
-    it('should render skills as text labels', async () => {
+    it('should render skills as inline tags', () => {
       const mockData = createMockResumeData({
         skills: [
           {
@@ -72,9 +22,6 @@ describe('Skill Component', () => {
       renderWithContext(<Skill title="Technical Skills" />, {
         contextValue: { resumeData: mockData },
       })
-
-      // Wait a tick for dynamic imports to resolve
-      await new Promise((resolve) => setTimeout(resolve, 0))
 
       expect(screen.getByText('JavaScript')).toBeInTheDocument()
       expect(screen.getByText('TypeScript')).toBeInTheDocument()
@@ -231,7 +178,7 @@ describe('Skill Component', () => {
   })
 
   describe('Layout and Styling', () => {
-    it('should apply hover effects to skill containers', () => {
+    it('should use flex-wrap layout for inline tags', () => {
       const mockData = createMockResumeData({
         skills: [
           {
@@ -245,15 +192,11 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      const skillContainer = container.querySelector('.group')
-
-      expect(skillContainer).toHaveClass(
-        'hover:border-white/20',
-        'hover:bg-white/10'
-      )
+      const flexContainer = container.querySelector('.flex.flex-wrap')
+      expect(flexContainer).toBeInTheDocument()
     })
 
-    it('should layout text label and remove button in row', () => {
+    it('should render skills as rounded pill tags', () => {
       const mockData = createMockResumeData({
         skills: [
           {
@@ -267,11 +210,8 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      const skillContainer = container.querySelector('.group')
-
-      // Structure uses flex items-center inside the card
-      const innerContainer = skillContainer?.querySelector('.flex.items-center')
-      expect(innerContainer).toBeInTheDocument()
+      const skillTag = container.querySelector('.rounded-full')
+      expect(skillTag).toBeInTheDocument()
     })
   })
 
@@ -430,152 +370,6 @@ describe('Skill Component', () => {
       })
 
       expect(screen.getByText(longSkillText)).toBeInTheDocument()
-    })
-  })
-
-  describe('Drag and Drop Functionality', () => {
-    it('should reorder skills from first to last position', () => {
-      const mockData = createMockResumeData({
-        skills: [
-          {
-            title: 'Skills',
-            skills: [
-              { text: 'JavaScript' },
-              { text: 'Python' },
-              { text: 'Java' },
-            ],
-          },
-        ],
-      })
-      const mockSetResumeData = jest.fn()
-
-      renderWithContext(<Skill title="Skills" />, {
-        contextValue: {
-          resumeData: mockData,
-          setResumeData: mockSetResumeData,
-        },
-      })
-
-      capturedOnDragEnd!({
-        source: { droppableId: 'skills-Skills', index: 0 },
-        destination: { droppableId: 'skills-Skills', index: 2 },
-      })
-
-      expect(mockSetResumeData).toHaveBeenCalled()
-      const updater = mockSetResumeData.mock.calls[0][0]
-      const result = updater(mockData)
-
-      expect(result).toEqual({
-        ...mockData,
-        skills: [
-          {
-            title: 'Skills',
-            skills: [
-              { text: 'Python' },
-              { text: 'Java' },
-              { text: 'JavaScript' },
-            ],
-          },
-        ],
-      })
-    })
-
-    it('should reorder skills from last to first position', () => {
-      const mockData = createMockResumeData({
-        skills: [
-          {
-            title: 'Skills',
-            skills: [
-              { text: 'JavaScript' },
-              { text: 'Python' },
-              { text: 'Java' },
-            ],
-          },
-        ],
-      })
-      const mockSetResumeData = jest.fn()
-
-      renderWithContext(<Skill title="Skills" />, {
-        contextValue: {
-          resumeData: mockData,
-          setResumeData: mockSetResumeData,
-        },
-      })
-
-      capturedOnDragEnd!({
-        source: { droppableId: 'skills-Skills', index: 2 },
-        destination: { droppableId: 'skills-Skills', index: 0 },
-      })
-
-      expect(mockSetResumeData).toHaveBeenCalled()
-      const updater = mockSetResumeData.mock.calls[0][0]
-      const result = updater(mockData)
-
-      expect(result).toEqual({
-        ...mockData,
-        skills: [
-          {
-            title: 'Skills',
-            skills: [
-              { text: 'Java' },
-              { text: 'JavaScript' },
-              { text: 'Python' },
-            ],
-          },
-        ],
-      })
-    })
-
-    it('should not reorder when dropped in same position', () => {
-      const mockData = createMockResumeData({
-        skills: [
-          {
-            title: 'Skills',
-            skills: [{ text: 'JavaScript' }, { text: 'Python' }],
-          },
-        ],
-      })
-      const mockSetResumeData = jest.fn()
-
-      renderWithContext(<Skill title="Skills" />, {
-        contextValue: {
-          resumeData: mockData,
-          setResumeData: mockSetResumeData,
-        },
-      })
-
-      capturedOnDragEnd!({
-        source: { droppableId: 'skills-Skills', index: 0 },
-        destination: { droppableId: 'skills-Skills', index: 0 },
-      })
-
-      expect(mockSetResumeData).not.toHaveBeenCalled()
-    })
-
-    it('should not reorder when dropped outside droppable area', () => {
-      const mockData = createMockResumeData({
-        skills: [
-          {
-            title: 'Skills',
-            skills: [{ text: 'JavaScript' }, { text: 'Python' }],
-          },
-        ],
-      })
-      const mockSetResumeData = jest.fn()
-
-      renderWithContext(<Skill title="Skills" />, {
-        contextValue: {
-          resumeData: mockData,
-          setResumeData: mockSetResumeData,
-        },
-      })
-
-      capturedOnDragEnd!({
-        source: { droppableId: 'skills-Skills', index: 0 },
-        destination: null,
-      })
-
-      expect(mockSetResumeData).not.toHaveBeenCalled()
     })
   })
 })
