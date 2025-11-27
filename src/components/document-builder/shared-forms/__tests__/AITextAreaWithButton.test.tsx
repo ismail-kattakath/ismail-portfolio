@@ -116,9 +116,9 @@ describe('AITextAreaWithButton Component', () => {
       expect(textarea).toHaveAttribute('name', 'testField')
     })
 
-    it('should render Generate with AI button', () => {
+    it('should render floating AI button', () => {
       renderWithProviders(<AITextAreaWithButton {...defaultProps} />)
-      const button = screen.getByRole('button', { name: /Generate with AI/i })
+      const button = screen.getByRole('button')
       expect(button).toBeInTheDocument()
     })
 
@@ -159,17 +159,19 @@ describe('AITextAreaWithButton Component', () => {
       expect(textarea).toHaveAttribute('rows', '18')
     })
 
-    it('should show configure hint when AI is not configured', () => {
+    it('should show configure hint in button title when AI is not configured', () => {
       renderWithProviders(<AITextAreaWithButton {...defaultProps} />)
-      expect(screen.getByText('(Configure AI first)')).toBeInTheDocument()
+      const button = screen.getByRole('button')
+      expect(button).toHaveAttribute('title', 'Configure AI settings first')
     })
 
-    it('should not show configure hint when AI is configured', () => {
+    it('should show generate hint in button title when AI is configured', () => {
       renderWithProviders(
         <AITextAreaWithButton {...defaultProps} />,
         mockConfiguredAISettings
       )
-      expect(screen.queryByText('(Configure AI first)')).not.toBeInTheDocument()
+      const button = screen.getByRole('button')
+      expect(button).toHaveAttribute('title', 'Generate with AI')
     })
   })
 
@@ -214,35 +216,27 @@ describe('AITextAreaWithButton Component', () => {
       expect(textarea).toBeInTheDocument()
     })
 
-    it('should have rounded top on textarea and flat bottom', () => {
+    it('should have fully rounded textarea', () => {
       const { container } = renderWithProviders(
         <AITextAreaWithButton {...defaultProps} />
       )
-      const textarea = container.querySelector('.rounded-t-lg.rounded-b-none')
+      const textarea = container.querySelector('.rounded-lg')
       expect(textarea).toBeInTheDocument()
     })
 
-    it('should have flat top on button and rounded bottom', () => {
+    it('should have floating button at bottom-right', () => {
       const { container } = renderWithProviders(
         <AITextAreaWithButton {...defaultProps} />
       )
-      const button = container.querySelector('.rounded-t-none.rounded-b-lg')
+      const button = container.querySelector('.absolute.right-3.bottom-3')
       expect(button).toBeInTheDocument()
     })
 
-    it('should have no bottom border on textarea', () => {
+    it('should have round floating button', () => {
       const { container } = renderWithProviders(
         <AITextAreaWithButton {...defaultProps} />
       )
-      const textarea = container.querySelector('.border-b-0')
-      expect(textarea).toBeInTheDocument()
-    })
-
-    it('should have no top border on button', () => {
-      const { container } = renderWithProviders(
-        <AITextAreaWithButton {...defaultProps} />
-      )
-      const button = container.querySelector('.border-t-0')
+      const button = container.querySelector('.rounded-full')
       expect(button).toBeInTheDocument()
     })
 
@@ -275,7 +269,7 @@ describe('AITextAreaWithButton Component', () => {
       const { container } = renderWithProviders(
         <AITextAreaWithButton {...defaultProps} />
       )
-      const button = container.querySelector('.from-gray-500.to-gray-600')
+      const button = container.querySelector('.bg-gray-500\\/50')
       expect(button).toBeInTheDocument()
     })
   })
@@ -318,16 +312,19 @@ describe('AITextAreaWithButton Component', () => {
   })
 
   describe('Accessibility', () => {
-    it('should have accessible button with icon and text', () => {
-      renderWithProviders(<AITextAreaWithButton {...defaultProps} />)
-      const button = screen.getByRole('button', { name: /Generate with AI/i })
+    it('should have accessible button with title', () => {
+      renderWithProviders(
+        <AITextAreaWithButton {...defaultProps} />,
+        mockConfiguredAISettings
+      )
+      const button = screen.getByRole('button')
       expect(button).toBeInTheDocument()
-      expect(button).toHaveTextContent('Generate with AI')
+      expect(button).toHaveAttribute('title', 'Generate with AI')
     })
 
     it('should have button type set to button', () => {
       renderWithProviders(<AITextAreaWithButton {...defaultProps} />)
-      const button = screen.getByRole('button', { name: /Generate with AI/i })
+      const button = screen.getByRole('button')
       expect(button).toHaveAttribute('type', 'button')
     })
 
@@ -345,6 +342,21 @@ describe('AITextAreaWithButton Component', () => {
       )
       const textarea = screen.getByPlaceholderText('Test placeholder')
       expect(textarea).toHaveAttribute('maxLength', '500')
+    })
+
+    it('should disable button when AI is not configured', () => {
+      renderWithProviders(<AITextAreaWithButton {...defaultProps} />)
+      const button = screen.getByRole('button')
+      expect(button).toBeDisabled()
+    })
+
+    it('should enable button when AI is configured', () => {
+      renderWithProviders(
+        <AITextAreaWithButton {...defaultProps} />,
+        mockConfiguredAISettings
+      )
+      const button = screen.getByRole('button')
+      expect(button).not.toBeDisabled()
     })
   })
 

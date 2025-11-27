@@ -3,10 +3,58 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import CoverLetterContent from '@/components/cover-letter/forms/CoverLetterContent'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import { AISettingsContext } from '@/lib/contexts/AISettingsContext'
 import {
   renderWithContext,
   createMockResumeData,
+  createMockAISettingsContext,
 } from '@/lib/__tests__/test-utils'
+
+// Mock the openai-client module
+jest.mock('@/lib/ai/openai-client', () => ({
+  generateCoverLetter: jest.fn(),
+  generateSummary: jest.fn(),
+  OpenAIAPIError: class OpenAIAPIError extends Error {
+    constructor(
+      message: string,
+      public code?: string,
+      public type?: string
+    ) {
+      super(message)
+      this.name = 'OpenAIAPIError'
+    }
+  },
+}))
+
+// Mock sonner toast
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}))
+
+// Helper to render with both contexts for tests that need custom setResumeData
+const renderWithBothContexts = (
+  mockData: ReturnType<typeof createMockResumeData>,
+  mockSetResumeData: jest.Mock
+) => {
+  const mockAISettings = createMockAISettingsContext()
+  return render(
+    <AISettingsContext.Provider value={mockAISettings}>
+      <ResumeContext.Provider
+        value={{
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+          handleProfilePicture: jest.fn(),
+          handleChange: jest.fn(),
+        }}
+      >
+        <CoverLetterContent />
+      </ResumeContext.Provider>
+    </AISettingsContext.Provider>
+  )
+}
 
 describe('CoverLetterContent Component', () => {
   describe('Rendering', () => {
@@ -26,9 +74,9 @@ describe('CoverLetterContent Component', () => {
       expect(screen.getByText('0')).toBeInTheDocument()
     })
 
-    it('should render Generate with AI button', () => {
+    it('should render floating AI button', () => {
       renderWithContext(<CoverLetterContent />)
-      const button = screen.getByRole('button', { name: /Generate with AI/i })
+      const button = screen.getByRole('button')
       expect(button).toBeInTheDocument()
     })
 
@@ -63,18 +111,7 @@ describe('CoverLetterContent Component', () => {
       const mockData = createMockResumeData({ content: '' })
       const mockSetResumeData = jest.fn()
 
-      render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: mockSetResumeData,
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
-      )
+      renderWithBothContexts(mockData, mockSetResumeData)
 
       const textarea = screen.getByPlaceholderText(
         /Write your compelling cover letter here/i
@@ -93,18 +130,7 @@ describe('CoverLetterContent Component', () => {
       const mockData = createMockResumeData({ content: 'Existing content' })
       const mockSetResumeData = jest.fn()
 
-      render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: mockSetResumeData,
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
-      )
+      renderWithBothContexts(mockData, mockSetResumeData)
 
       const textarea = screen.getByPlaceholderText(
         /Write your compelling cover letter here/i
@@ -121,18 +147,7 @@ describe('CoverLetterContent Component', () => {
       const mockData = createMockResumeData({ content: '' })
       const mockSetResumeData = jest.fn()
 
-      render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: mockSetResumeData,
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
-      )
+      renderWithBothContexts(mockData, mockSetResumeData)
 
       const multilineContent =
         'First paragraph\n\nSecond paragraph\n\nThird paragraph'
@@ -151,17 +166,20 @@ describe('CoverLetterContent Component', () => {
   describe('Character Counter', () => {
     it('should update character count when content changes', () => {
       const mockData = createMockResumeData({ content: 'Test' })
+      const mockAISettings = createMockAISettingsContext()
       const { rerender } = render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: jest.fn(),
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
+        <AISettingsContext.Provider value={mockAISettings}>
+          <ResumeContext.Provider
+            value={{
+              resumeData: mockData,
+              setResumeData: jest.fn(),
+              handleProfilePicture: jest.fn(),
+              handleChange: jest.fn(),
+            }}
+          >
+            <CoverLetterContent />
+          </ResumeContext.Provider>
+        </AISettingsContext.Provider>
       )
 
       expect(screen.getByText('4')).toBeInTheDocument()
@@ -169,16 +187,18 @@ describe('CoverLetterContent Component', () => {
       // Update content
       const updatedData = { ...mockData, content: 'Updated content' }
       rerender(
-        <ResumeContext.Provider
-          value={{
-            resumeData: updatedData,
-            setResumeData: jest.fn(),
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
+        <AISettingsContext.Provider value={mockAISettings}>
+          <ResumeContext.Provider
+            value={{
+              resumeData: updatedData,
+              setResumeData: jest.fn(),
+              handleProfilePicture: jest.fn(),
+              handleChange: jest.fn(),
+            }}
+          >
+            <CoverLetterContent />
+          </ResumeContext.Provider>
+        </AISettingsContext.Provider>
       )
 
       expect(screen.getByText('15')).toBeInTheDocument()
@@ -245,9 +265,11 @@ describe('CoverLetterContent Component', () => {
     })
 
     it('should have minimum height set', () => {
-      const { container } = renderWithContext(<CoverLetterContent />)
-      const textarea = container.querySelector('.min-h-\\[300px\\]')
-      expect(textarea).toBeInTheDocument()
+      renderWithContext(<CoverLetterContent />)
+      const textarea = screen.getByPlaceholderText(
+        /Write your compelling cover letter here/i
+      )
+      expect(textarea).toHaveStyle({ minHeight: '300px' })
     })
   })
 
@@ -302,18 +324,7 @@ describe('CoverLetterContent Component', () => {
       const mockData = createMockResumeData({ content: specialContent })
       const mockSetResumeData = jest.fn()
 
-      render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: mockSetResumeData,
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
-      )
+      renderWithBothContexts(mockData, mockSetResumeData)
 
       const textarea = screen.getByPlaceholderText(
         /Write your compelling cover letter here/i
@@ -365,18 +376,7 @@ describe('CoverLetterContent Component', () => {
       const mockData = createMockResumeData({ content: '' })
       const mockSetResumeData = jest.fn()
 
-      render(
-        <ResumeContext.Provider
-          value={{
-            resumeData: mockData,
-            setResumeData: mockSetResumeData,
-            handleProfilePicture: jest.fn(),
-            handleChange: jest.fn(),
-          }}
-        >
-          <CoverLetterContent />
-        </ResumeContext.Provider>
-      )
+      renderWithBothContexts(mockData, mockSetResumeData)
 
       const textarea = screen.getByPlaceholderText(
         /Write your compelling cover letter here/i

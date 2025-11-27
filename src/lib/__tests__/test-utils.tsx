@@ -4,6 +4,10 @@ import {
   DocumentContext,
   DocumentContextType,
 } from '@/lib/contexts/DocumentContext'
+import {
+  AISettingsContext,
+  AISettingsContextType,
+} from '@/lib/contexts/AISettingsContext'
 import resumeData from '@/lib/resumeAdapter'
 import type { ResumeData } from '@/types'
 
@@ -49,30 +53,57 @@ export const createMockResumeData = (
   }
 }
 
+/**
+ * Creates a mock AISettingsContext value for testing
+ */
+export const createMockAISettingsContext = (
+  overrides?: Partial<AISettingsContextType>
+): AISettingsContextType => {
+  return {
+    settings: {
+      apiUrl: 'https://api.openai.com',
+      apiKey: '',
+      model: 'gpt-4o-mini',
+      jobDescription: '',
+    },
+    updateSettings: jest.fn(),
+    isConfigured: false,
+    connectionStatus: 'idle',
+    jobDescriptionStatus: 'idle',
+    validateAll: jest.fn().mockResolvedValue(false),
+    ...overrides,
+  }
+}
+
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   contextValue?: Partial<DocumentContextType>
+  aiSettingsValue?: Partial<AISettingsContextType>
 }
 
 /**
- * Custom render function that wraps components with DocumentContext
+ * Custom render function that wraps components with DocumentContext and AISettingsContext
  */
 export const renderWithContext = (
   ui: ReactElement,
   options?: CustomRenderOptions
 ) => {
-  const { contextValue, ...renderOptions } = options || {}
+  const { contextValue, aiSettingsValue, ...renderOptions } = options || {}
 
   const mockContextValue = createMockDocumentContext(contextValue)
+  const mockAISettingsValue = createMockAISettingsContext(aiSettingsValue)
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <DocumentContext.Provider value={mockContextValue}>
-      {children}
-    </DocumentContext.Provider>
+    <AISettingsContext.Provider value={mockAISettingsValue}>
+      <DocumentContext.Provider value={mockContextValue}>
+        {children}
+      </DocumentContext.Provider>
+    </AISettingsContext.Provider>
   )
 
   return {
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
     mockContextValue,
+    mockAISettingsValue,
   }
 }
 
