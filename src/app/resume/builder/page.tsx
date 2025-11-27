@@ -42,6 +42,7 @@ import {
   GripVertical,
   ChevronDown,
   ChevronUp,
+  ArrowDownUp,
 } from 'lucide-react'
 import { MdAddCircle } from 'react-icons/md'
 import {
@@ -502,7 +503,14 @@ function UnifiedEditor() {
               </div>
 
               {/* Form Sections - Conditionally rendered based on mode */}
-              <ImportExport preserveContent={mode === 'coverLetter'} />
+              <CollapsibleSection
+                title="Import / Export"
+                icon={<ArrowDownUp className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'import-export'}
+                onToggle={createToggleHandler('import-export')}
+              >
+                <ImportExport preserveContent={mode === 'coverLetter'} />
+              </CollapsibleSection>
 
               <CollapsibleSection
                 title="Personal Information"
