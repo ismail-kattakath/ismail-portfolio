@@ -351,6 +351,90 @@ describe('LoadUnload Component', () => {
         )
       })
     })
+
+    it('preserves skills already in new format during migration', async () => {
+      const mixedSkillsData = {
+        name: 'Test',
+        skills: [
+          {
+            category: 'Languages',
+            skills: [
+              'JavaScript',
+              { text: 'TypeScript', underline: true },
+              { text: 'Python', highlight: true }, // Already in new format
+            ],
+          },
+        ],
+      }
+
+      const { container } = renderWithContext()
+      const fileInput = container.querySelector('input[type="file"]')!
+
+      const file = new File([JSON.stringify(mixedSkillsData)], 'resume.json', {
+        type: 'application/json',
+      })
+
+      fireEvent.change(fileInput, { target: { files: [file] } })
+
+      await waitFor(() => {
+        expect(mockSetResumeData).toHaveBeenCalledWith(
+          expect.objectContaining({
+            skills: [
+              {
+                category: 'Languages',
+                skills: [
+                  { text: 'JavaScript', highlight: false },
+                  { text: 'TypeScript', highlight: true },
+                  { text: 'Python', highlight: true }, // Preserved as-is
+                ],
+              },
+            ],
+          })
+        )
+      })
+    })
+
+    it('preserves content when importing internal format with preserveContent flag', async () => {
+      const internalFormatData = {
+        name: 'Test User',
+        email: 'test@example.com',
+        skills: [
+          {
+            title: 'Programming',
+            skills: [{ text: 'JavaScript', highlight: false }],
+          },
+        ],
+      }
+
+      const resumeWithContent = {
+        ...mockResumeData,
+        content: 'My existing cover letter content',
+      }
+
+      const { container } = renderWithContext(resumeWithContent, {
+        preserveContent: true,
+      })
+      const fileInput = container.querySelector('input[type="file"]')!
+
+      const file = new File(
+        [JSON.stringify(internalFormatData)],
+        'resume.json',
+        {
+          type: 'application/json',
+        }
+      )
+
+      fireEvent.change(fileInput, { target: { files: [file] } })
+
+      await waitFor(() => {
+        expect(mockSetResumeData).toHaveBeenCalledWith(
+          expect.objectContaining({
+            content: 'My existing cover letter content',
+            name: 'Test User',
+          })
+        )
+      })
+    })
   })
 
   describe('Export Functionality', () => {
