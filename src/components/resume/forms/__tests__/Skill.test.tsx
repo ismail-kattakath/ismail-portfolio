@@ -27,6 +27,24 @@ describe('Skill Component', () => {
       expect(screen.getByText('TypeScript')).toBeInTheDocument()
     })
 
+    it('should render inline input for adding skills', () => {
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Languages',
+            skills: [{ text: 'Python' }],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Languages" />, {
+        contextValue: { resumeData: mockData },
+      })
+
+      const input = screen.getByPlaceholderText('Add languages...')
+      expect(input).toBeInTheDocument()
+    })
+
     it('should display skill text as non-editable labels', () => {
       const mockData = createMockResumeData({
         skills: [
@@ -41,30 +59,18 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      // Should not have any input elements
-      const inputs = container.querySelectorAll('input')
-      expect(inputs.length).toBe(0)
-
-      // Should display text as label
+      // Should display text as label (not editable input for existing skills)
       expect(screen.getByText('Python')).toBeInTheDocument()
-    })
 
-    it('should render add button with FormButton', () => {
-      const mockData = createMockResumeData({
-        skills: [{ title: 'Frameworks', skills: [] }],
-      })
-
-      renderWithContext(<Skill title="Frameworks" />, {
-        contextValue: { resumeData: mockData },
-      })
-
-      const addButton = screen.getByText(/Add Frameworks/i)
-      expect(addButton).toBeInTheDocument()
+      // The only input should be the add input
+      const inputs = container.querySelectorAll('input')
+      expect(inputs.length).toBe(1)
+      expect(inputs[0]).toHaveAttribute('placeholder', 'Add languages...')
     })
   })
 
   describe('Add Functionality', () => {
-    it('should add new skill when add button is clicked', () => {
+    it('should add new skill when pressing Enter in input', () => {
       const mockSetResumeData = jest.fn()
       const mockData = createMockResumeData({
         skills: [
@@ -82,20 +88,150 @@ describe('Skill Component', () => {
         },
       })
 
-      const addButton = screen.getByText(/Add Skills/i).closest('button')
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.change(input, { target: { value: 'New Skill' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
 
-      if (addButton) {
-        fireEvent.click(addButton)
+      expect(mockSetResumeData).toHaveBeenCalled()
+      const callback = mockSetResumeData.mock.calls[0][0]
+      const newState = callback(mockData)
 
-        expect(mockSetResumeData).toHaveBeenCalled()
-        const callback = mockSetResumeData.mock.calls[0][0]
-        const newState = callback(mockData)
+      expect(newState.skills[0].skills.length).toBe(2)
+      expect(newState.skills[0].skills[1]).toEqual({
+        text: 'New Skill',
+      })
+    })
 
-        expect(newState.skills[0].skills.length).toBe(2)
-        expect(newState.skills[0].skills[1]).toEqual({
-          text: '',
-        })
-      }
+    it('should add new skill on blur when input has value', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Skills" />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.change(input, { target: { value: 'Blurred Skill' } })
+      fireEvent.blur(input)
+
+      expect(mockSetResumeData).toHaveBeenCalled()
+      const callback = mockSetResumeData.mock.calls[0][0]
+      const newState = callback(mockData)
+
+      expect(newState.skills[0].skills.length).toBe(1)
+      expect(newState.skills[0].skills[0].text).toBe('Blurred Skill')
+    })
+
+    it('should not add skill if input is empty', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Skills" />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.keyDown(input, { key: 'Enter' })
+
+      expect(mockSetResumeData).not.toHaveBeenCalled()
+    })
+
+    it('should not add skill if input is only whitespace', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Skills" />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.change(input, { target: { value: '   ' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+
+      expect(mockSetResumeData).not.toHaveBeenCalled()
+    })
+
+    it('should clear input after adding skill', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Skills" />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.change(input, { target: { value: 'New Skill' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+
+      expect(input).toHaveValue('')
+    })
+
+    it('should trim whitespace from skill text', () => {
+      const mockSetResumeData = jest.fn()
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Skills" />, {
+        contextValue: {
+          resumeData: mockData,
+          setResumeData: mockSetResumeData,
+        },
+      })
+
+      const input = screen.getByPlaceholderText('Add skills...')
+      fireEvent.change(input, { target: { value: '  JavaScript  ' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+
+      const callback = mockSetResumeData.mock.calls[0][0]
+      const newState = callback(mockData)
+
+      expect(newState.skills[0].skills[0].text).toBe('JavaScript')
     })
   })
 
@@ -213,6 +349,24 @@ describe('Skill Component', () => {
       const skillTag = container.querySelector('.rounded-full')
       expect(skillTag).toBeInTheDocument()
     })
+
+    it('should render add input with dashed border', () => {
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Skills',
+            skills: [],
+          },
+        ],
+      })
+
+      const { container } = renderWithContext(<Skill title="Skills" />, {
+        contextValue: { resumeData: mockData },
+      })
+
+      const input = container.querySelector('input.border-dashed')
+      expect(input).toBeInTheDocument()
+    })
   })
 
   describe('Accessibility', () => {
@@ -254,6 +408,24 @@ describe('Skill Component', () => {
       )
 
       expect(removeButton).toHaveAttribute('title', 'Remove skill')
+    })
+
+    it('should have descriptive placeholder on add input', () => {
+      const mockData = createMockResumeData({
+        skills: [
+          {
+            title: 'Frameworks',
+            skills: [],
+          },
+        ],
+      })
+
+      renderWithContext(<Skill title="Frameworks" />, {
+        contextValue: { resumeData: mockData },
+      })
+
+      const input = screen.getByPlaceholderText('Add frameworks...')
+      expect(input).toBeInTheDocument()
     })
   })
 
@@ -332,8 +504,9 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      // Should still render the add button
-      expect(screen.getByText(/Add Skills/i)).toBeInTheDocument()
+      // Should still render the add input
+      const input = screen.getByPlaceholderText('Add skills...')
+      expect(input).toBeInTheDocument()
     })
 
     it('should handle special characters in skill text', () => {

@@ -120,13 +120,13 @@ describe('useSkillsForm', () => {
     expect(databaseSkills.skills[0].text).toBe('PostgreSQL')
   })
 
-  it('should add new skill to the group', () => {
+  it('should add new skill to the group with specified text', () => {
     const { result } = renderHook(() => useSkillsForm('Programming'), {
       wrapper,
     })
 
     act(() => {
-      result.current.add()
+      result.current.add('Rust')
     })
 
     const updater = setResumeData.mock.calls[0][0]
@@ -136,7 +136,49 @@ describe('useSkillsForm', () => {
       (s: SkillGroup) => s.title === 'Programming'
     )
     expect(programmingSkills.skills).toHaveLength(4)
-    expect(programmingSkills.skills[3]).toEqual({ text: '' })
+    expect(programmingSkills.skills[3]).toEqual({ text: 'Rust' })
+  })
+
+  it('should not add skill if text is empty', () => {
+    const { result } = renderHook(() => useSkillsForm('Programming'), {
+      wrapper,
+    })
+
+    act(() => {
+      result.current.add('')
+    })
+
+    expect(setResumeData).not.toHaveBeenCalled()
+  })
+
+  it('should not add skill if text is only whitespace', () => {
+    const { result } = renderHook(() => useSkillsForm('Programming'), {
+      wrapper,
+    })
+
+    act(() => {
+      result.current.add('   ')
+    })
+
+    expect(setResumeData).not.toHaveBeenCalled()
+  })
+
+  it('should trim whitespace from skill text when adding', () => {
+    const { result } = renderHook(() => useSkillsForm('Programming'), {
+      wrapper,
+    })
+
+    act(() => {
+      result.current.add('  Go  ')
+    })
+
+    const updater = setResumeData.mock.calls[0][0]
+    const newData = updater(mockResumeData)
+
+    const programmingSkills = newData.skills.find(
+      (s: SkillGroup) => s.title === 'Programming'
+    )
+    expect(programmingSkills.skills[3]).toEqual({ text: 'Go' })
   })
 
   it('should remove skill by index', () => {
@@ -228,7 +270,7 @@ describe('useSkillsForm', () => {
     expect(result.current.skills[0].text).toBe('PostgreSQL')
 
     act(() => {
-      result.current.add()
+      result.current.add('MySQL')
     })
 
     const updater = setResumeData.mock.calls[0][0]
@@ -238,5 +280,6 @@ describe('useSkillsForm', () => {
       (s: SkillGroup) => s.title === 'Databases'
     )
     expect(databaseSkills.skills).toHaveLength(2)
+    expect(databaseSkills.skills[1].text).toBe('MySQL')
   })
 })
