@@ -438,3 +438,18 @@ export async function testConnection(config: OpenAIConfig): Promise<boolean> {
     return false
   }
 }
+
+/**
+ * Validates if the provided text is a valid job description
+ * Returns true if text is non-empty and has reasonable length
+ */
+export function validateJobDescription(text: string): boolean {
+  const MIN_JD_LENGTH = 100 // Minimum characters for a valid job description
+
+  if (!text) {
+    return false
+  }
+
+  const trimmed = text.trim()
+  return trimmed.length >= MIN_JD_LENGTH
+}

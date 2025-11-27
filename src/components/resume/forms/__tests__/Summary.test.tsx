@@ -1,54 +1,32 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import Summary from '@/components/resume/forms/Summary'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
+import { AISettingsContext } from '@/lib/contexts/AISettingsContext'
 import type { ResumeData } from '@/types'
 
-// Mock the AI modal components
-jest.mock('@/components/resume/forms/AIGenerateSummaryModal', () => {
-  return function MockAIGenerateSummaryModal({
-    isOpen,
-    onClose,
-    onGenerate,
-  }: any) {
-    if (!isOpen) return null
-    return (
-      <div data-testid="ai-summary-modal">
-        <button onClick={onClose}>Close Modal</button>
-        <button onClick={() => onGenerate('AI generated summary')}>
-          Generate Summary
-        </button>
-      </div>
-    )
-  }
-})
-
-jest.mock(
-  '@/components/document-builder/shared-forms/AITextAreaWithButton',
-  () => {
-    return function MockAITextAreaWithButton({
-      value,
-      onChange,
-      onGenerateClick,
-      placeholder,
-      name,
-    }: any) {
-      return (
-        <div>
-          <textarea
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            name={name}
-            data-testid="summary-textarea"
-          />
-          <button onClick={onGenerateClick} data-testid="generate-ai-button">
-            Generate with AI
-          </button>
-        </div>
-      )
+// Mock the openai-client module
+jest.mock('@/lib/ai/openai-client', () => ({
+  generateCoverLetter: jest.fn(),
+  generateSummary: jest.fn(),
+  OpenAIAPIError: class OpenAIAPIError extends Error {
+    constructor(
+      message: string,
+      public code?: string,
+      public type?: string
+    ) {
+      super(message)
+      this.name = 'OpenAIAPIError'
     }
-  }
-)
+  },
+}))
+
+// Mock sonner toast
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}))
 
 const mockResumeData: ResumeData = {
   name: 'John Doe',
@@ -60,34 +38,65 @@ const mockResumeData: ResumeData = {
   website: 'https://example.com',
   workExperience: [],
   education: [],
-  skillGroups: [],
-  projects: [],
+  skills: [],
   certifications: [],
   languages: [],
-  socialMedia: {
-    linkedin: '',
-    github: '',
-    twitter: '',
-  },
+  linkedin: '',
+  github: '',
+  twitter: '',
+  profilePicture: '',
+  showProfilePicture: false,
+  showSummary: true,
+  role: 'Developer',
 }
 
 const mockSetResumeData = jest.fn()
 const mockHandleChange = jest.fn()
 
+const mockAISettings = {
+  settings: {
+    apiUrl: 'https://api.openai.com',
+    apiKey: '',
+    model: 'gpt-4o-mini',
+    jobDescription: '',
+    rememberCredentials: false,
+  },
+  updateSettings: jest.fn(),
+  isConfigured: false,
+  connectionStatus: 'idle' as const,
+  jobDescriptionStatus: 'idle' as const,
+  validateAll: jest.fn(),
+}
+
+const mockConfiguredAISettings = {
+  ...mockAISettings,
+  settings: {
+    ...mockAISettings.settings,
+    apiKey: 'sk-test-key',
+    jobDescription: 'Test job description with enough characters to be valid',
+  },
+  isConfigured: true,
+  connectionStatus: 'valid' as const,
+  jobDescriptionStatus: 'valid' as const,
+}
+
 const renderWithContext = (
   resumeData: ResumeData = mockResumeData,
-  handleChange = mockHandleChange
+  handleChange = mockHandleChange,
+  aiSettings = mockAISettings
 ) => {
   return render(
-    <ResumeContext.Provider
-      value={{
-        resumeData,
-        setResumeData: mockSetResumeData,
-        handleChange,
-      }}
-    >
-      <Summary />
-    </ResumeContext.Provider>
+    <AISettingsContext.Provider value={aiSettings}>
+      <ResumeContext.Provider
+        value={{
+          resumeData,
+          setResumeData: mockSetResumeData,
+          handleChange,
+        }}
+      >
+        <Summary />
+      </ResumeContext.Provider>
+    </AISettingsContext.Provider>
   )
 }
 
@@ -97,25 +106,33 @@ describe('Summary Component', () => {
   })
 
   describe('Rendering', () => {
-    // Note: Section header is now rendered by CollapsibleSection wrapper
-
     it('renders summary textarea', () => {
       renderWithContext()
-      const textarea = screen.getByTestId('summary-textarea')
+      const textarea = screen.getByPlaceholderText(
+        /write a compelling professional summary/i
+      )
       expect(textarea).toBeInTheDocument()
       expect(textarea).toHaveValue('Test summary')
     })
 
-    it('renders AI generate button', () => {
+    it('renders floating AI button', () => {
       renderWithContext()
-      expect(screen.getByTestId('generate-ai-button')).toBeInTheDocument()
+      const button = screen.getByRole('button')
+      expect(button).toBeInTheDocument()
+    })
+
+    it('displays character counter', () => {
+      renderWithContext()
+      expect(screen.getByText('12/1200')).toBeInTheDocument()
     })
   })
 
   describe('Summary Text Editing', () => {
     it('calls handleChange when summary is edited', () => {
       renderWithContext()
-      const textarea = screen.getByTestId('summary-textarea')
+      const textarea = screen.getByPlaceholderText(
+        /write a compelling professional summary/i
+      )
 
       fireEvent.change(textarea, {
         target: { value: 'Updated summary', name: 'summary' },
@@ -127,87 +144,52 @@ describe('Summary Component', () => {
     it('displays empty summary when not provided', () => {
       const dataWithoutSummary = { ...mockResumeData, summary: '' }
       renderWithContext(dataWithoutSummary)
-      const textarea = screen.getByTestId('summary-textarea')
+      const textarea = screen.getByPlaceholderText(
+        /write a compelling professional summary/i
+      )
       expect(textarea).toHaveValue('')
     })
   })
 
-  describe('AI Modal Integration', () => {
-    it('does not show modal initially', () => {
+  describe('AI Button State', () => {
+    it('shows disabled button when AI is not configured', () => {
       renderWithContext()
-      expect(screen.queryByTestId('ai-summary-modal')).not.toBeInTheDocument()
+      const button = screen.getByRole('button')
+      expect(button).toBeDisabled()
+      expect(button).toHaveAttribute('title', 'Configure AI settings first')
     })
 
-    it('opens modal when AI generate button is clicked', () => {
-      renderWithContext()
-      const generateButton = screen.getByTestId('generate-ai-button')
-
-      fireEvent.click(generateButton)
-
-      expect(screen.getByTestId('ai-summary-modal')).toBeInTheDocument()
-    })
-
-    it('closes modal when close button is clicked', () => {
-      renderWithContext()
-      const generateButton = screen.getByTestId('generate-ai-button')
-
-      fireEvent.click(generateButton)
-      expect(screen.getByTestId('ai-summary-modal')).toBeInTheDocument()
-
-      const closeButton = screen.getByText('Close Modal')
-      fireEvent.click(closeButton)
-
-      expect(screen.queryByTestId('ai-summary-modal')).not.toBeInTheDocument()
-    })
-
-    it('updates summary when AI generates content', () => {
-      renderWithContext()
-      const generateButton = screen.getByTestId('generate-ai-button')
-
-      fireEvent.click(generateButton)
-
-      const aiGenerateButton = screen.getByText('Generate Summary')
-      fireEvent.click(aiGenerateButton)
-
-      expect(mockSetResumeData).toHaveBeenCalledWith({
-        ...mockResumeData,
-        summary: 'AI generated summary',
-      })
-    })
-
-    it('closes modal after generating summary', () => {
-      renderWithContext()
-      const generateButton = screen.getByTestId('generate-ai-button')
-
-      fireEvent.click(generateButton)
-      expect(screen.getByTestId('ai-summary-modal')).toBeInTheDocument()
-
-      const aiGenerateButton = screen.getByText('Generate Summary')
-      fireEvent.click(aiGenerateButton)
-
-      // Modal should still be shown (parent component controls this)
-      // But onGenerate was called with the generated content
-      expect(mockSetResumeData).toHaveBeenCalled()
+    it('shows enabled button when AI is configured', () => {
+      renderWithContext(mockResumeData, mockHandleChange, mockConfiguredAISettings)
+      const button = screen.getByRole('button')
+      expect(button).not.toBeDisabled()
+      expect(button).toHaveAttribute('title', 'Generate with AI')
     })
   })
 
   describe('Props Propagation', () => {
-    it('passes resumeData to AI modal', () => {
-      renderWithContext()
-      const generateButton = screen.getByTestId('generate-ai-button')
-
-      fireEvent.click(generateButton)
-
-      // Modal is rendered (which means resumeData was passed)
-      expect(screen.getByTestId('ai-summary-modal')).toBeInTheDocument()
-    })
-
     it('passes correct placeholder to textarea', () => {
       renderWithContext()
       const textarea = screen.getByPlaceholderText(
         /write a compelling professional summary/i
       )
       expect(textarea).toBeInTheDocument()
+    })
+
+    it('passes correct maxLength to textarea', () => {
+      renderWithContext()
+      const textarea = screen.getByPlaceholderText(
+        /write a compelling professional summary/i
+      )
+      expect(textarea).toHaveAttribute('maxLength', '1200')
+    })
+
+    it('passes correct rows to textarea', () => {
+      renderWithContext()
+      const textarea = screen.getByPlaceholderText(
+        /write a compelling professional summary/i
+      )
+      expect(textarea).toHaveAttribute('rows', '8')
     })
   })
 })
