@@ -1,7 +1,18 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { loadCredentials, saveCredentials } from '@/lib/ai/openai-client'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from 'react'
+import {
+  loadCredentials,
+  saveCredentials,
+  testConnection,
+} from '@/lib/ai/openai-client'
 
 const DEFAULT_API_URL = 'http://localhost:1234'
 const DEFAULT_API_KEY = 'DUMMYTOKEN'
@@ -61,10 +72,14 @@ export interface AISettings {
   rememberCredentials: boolean
 }
 
+export type ConnectionStatus = 'idle' | 'testing' | 'valid' | 'invalid'
+
 export interface AISettingsContextType {
   settings: AISettings
   updateSettings: (updates: Partial<AISettings>) => void
   isConfigured: boolean
+  connectionStatus: ConnectionStatus
+  validateConnection: () => Promise<boolean>
 }
 
 const defaultSettings: AISettings = {
@@ -79,11 +94,39 @@ export const AISettingsContext = createContext<AISettingsContextType>({
   settings: defaultSettings,
   updateSettings: () => {},
   isConfigured: false,
+  connectionStatus: 'idle',
+  validateConnection: async () => false,
 })
 
 export function AISettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<AISettings>(defaultSettings)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [connectionStatus, setConnectionStatus] =
+    useState<ConnectionStatus>('idle')
+
+  // Validate connection with debounce
+  const validateConnection = useCallback(async () => {
+    if (!settings.apiUrl.trim() || !settings.apiKey.trim()) {
+      setConnectionStatus('invalid')
+      return false
+    }
+
+    setConnectionStatus('testing')
+
+    try {
+      const isValid = await testConnection({
+        baseURL: settings.apiUrl,
+        apiKey: settings.apiKey,
+        model: settings.model,
+      })
+
+      setConnectionStatus(isValid ? 'valid' : 'invalid')
+      return isValid
+    } catch {
+      setConnectionStatus('invalid')
+      return false
+    }
+  }, [settings.apiUrl, settings.apiKey, settings.model])
 
   // Load saved credentials on mount
   useEffect(() => {
@@ -99,6 +142,17 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     }
     setIsInitialized(true)
   }, [])
+
+  // Validate connection when credentials change (with debounce)
+  useEffect(() => {
+    if (!isInitialized) return
+
+    const timeoutId = setTimeout(() => {
+      validateConnection()
+    }, 500) // Debounce 500ms
+
+    return () => clearTimeout(timeoutId)
+  }, [settings.apiUrl, settings.apiKey, settings.model, isInitialized, validateConnection])
 
   // Save credentials when they change
   useEffect(() => {
@@ -116,13 +170,20 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     setSettings((prev) => ({ ...prev, ...updates }))
   }
 
+  // isConfigured requires valid connection AND job description
   const isConfigured =
-    settings.apiUrl.trim() !== '' &&
-    settings.apiKey.trim() !== '' &&
-    settings.jobDescription.trim() !== ''
+    connectionStatus === 'valid' && settings.jobDescription.trim() !== ''
 
   return (
-    <AISettingsContext.Provider value={{ settings, updateSettings, isConfigured }}>
+    <AISettingsContext.Provider
+      value={{
+        settings,
+        updateSettings,
+        isConfigured,
+        connectionStatus,
+        validateConnection,
+      }}
+    >
       {children}
     </AISettingsContext.Provider>
   )
