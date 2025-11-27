@@ -21,6 +21,9 @@ interface CollapsibleSectionProps {
   onRename?: (newTitle: string) => void
   onDelete?: () => void
   dragHandleProps?: DraggableProvidedDragHandleProps | null
+  // Controlled state props for accordion behavior
+  isExpanded?: boolean
+  onToggle?: () => void
 }
 
 const CollapsibleSection = ({
@@ -33,8 +36,20 @@ const CollapsibleSection = ({
   onRename,
   onDelete,
   dragHandleProps,
+  isExpanded: controlledIsExpanded,
+  onToggle,
 }: CollapsibleSectionProps) => {
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded)
+  const [internalIsExpanded, setInternalIsExpanded] = useState(defaultExpanded)
+
+  // Use controlled state if provided, otherwise use internal state
+  const isExpanded = controlledIsExpanded ?? internalIsExpanded
+  const handleToggle = () => {
+    if (onToggle) {
+      onToggle()
+    } else {
+      setInternalIsExpanded(!internalIsExpanded)
+    }
+  }
   const [isEditing, setIsEditing] = useState(false)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -81,7 +96,7 @@ const CollapsibleSection = ({
       {/* Header - Clickable */}
       <button
         type="button"
-        onClick={() => !isEditing && setIsExpanded(!isExpanded)}
+        onClick={() => !isEditing && handleToggle()}
         className="flex w-full items-center justify-between p-6 text-left transition-colors hover:bg-white/5"
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -162,12 +177,15 @@ const CollapsibleSection = ({
             </div>
           )}
 
-          {!isEditing &&
-            (isExpanded ? (
-              <ChevronUp className="h-5 w-5 transition-transform" />
-            ) : (
-              <ChevronDown className="h-5 w-5 transition-transform" />
-            ))}
+          {!isEditing && (
+            <div className="rounded-lg p-1 transition-all hover:bg-white/10 hover:text-white">
+              {isExpanded ? (
+                <ChevronUp className="h-5 w-5 transition-transform hover:scale-110" />
+              ) : (
+                <ChevronDown className="h-5 w-5 transition-transform hover:scale-110" />
+              )}
+            </div>
+          )}
         </div>
       </button>
 

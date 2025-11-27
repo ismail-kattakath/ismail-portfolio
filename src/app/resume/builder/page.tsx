@@ -197,7 +197,7 @@ function SkillGroupHeader({
 
 /**
  * Skills Section Component
- * Single collapsible section containing all skill groups
+ * Contains all skill groups (now rendered inside external CollapsibleSection)
  */
 function SkillsSection() {
   const context = useContext(ResumeContext)
@@ -239,108 +239,111 @@ function SkillsSection() {
   }
 
   return (
-    <CollapsibleSection
-      title="Skills"
-      icon={<Code className="h-5 w-5 text-blue-400" />}
-    >
-      <div className="space-y-6">
-        <DnDContext onDragEnd={handleDragEnd}>
-          <DnDDroppable droppableId="skill-groups">
-            {(provided) => (
-              <div
-                className="space-y-5"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {resumeData.skills.map((skillGroup, index) => (
-                  <DnDDraggable
-                    key={`skill-group-${skillGroup.title}`}
-                    draggableId={`skill-group-${skillGroup.title}`}
-                    index={index}
-                  >
-                    {(dragProvided, snapshot) => (
-                      <AccordionCard
-                        isDragging={snapshot.isDragging}
-                        isExpanded={isExpanded(index)}
-                        theme="pink"
-                        innerRef={dragProvided.innerRef}
-                        draggableProps={dragProvided.draggableProps}
-                        header={
-                          <SkillGroupHeader
-                            title={skillGroup.title}
-                            isExpanded={isExpanded(index)}
-                            onToggle={() => toggleExpanded(index)}
-                            onRename={(newTitle) =>
-                              renameGroup(skillGroup.title, newTitle)
-                            }
-                            onDelete={() => removeGroup(skillGroup.title)}
-                            dragHandleProps={dragProvided.dragHandleProps}
-                          />
-                        }
-                      >
-                        <Skill title={skillGroup.title} />
-                      </AccordionCard>
-                    )}
-                  </DnDDraggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </DnDDroppable>
-        </DnDContext>
+    <div className="space-y-6">
+      <DnDContext onDragEnd={handleDragEnd}>
+        <DnDDroppable droppableId="skill-groups">
+          {(provided) => (
+            <div
+              className="space-y-5"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {resumeData.skills.map((skillGroup, index) => (
+                <DnDDraggable
+                  key={`skill-group-${skillGroup.title}`}
+                  draggableId={`skill-group-${skillGroup.title}`}
+                  index={index}
+                >
+                  {(dragProvided, snapshot) => (
+                    <AccordionCard
+                      isDragging={snapshot.isDragging}
+                      isExpanded={isExpanded(index)}
+                      theme="pink"
+                      innerRef={dragProvided.innerRef}
+                      draggableProps={dragProvided.draggableProps}
+                      header={
+                        <SkillGroupHeader
+                          title={skillGroup.title}
+                          isExpanded={isExpanded(index)}
+                          onToggle={() => toggleExpanded(index)}
+                          onRename={(newTitle) =>
+                            renameGroup(skillGroup.title, newTitle)
+                          }
+                          onDelete={() => removeGroup(skillGroup.title)}
+                          dragHandleProps={dragProvided.dragHandleProps}
+                        />
+                      }
+                    >
+                      <Skill title={skillGroup.title} />
+                    </AccordionCard>
+                  )}
+                </DnDDraggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </DnDDroppable>
+      </DnDContext>
 
-        {/* Add Skill Group */}
-        {isAdding ? (
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              placeholder="e.g., Frontend, Backend, DevOps..."
-              value={newGroupName}
-              onChange={(e) => setNewGroupName(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onBlur={() => {
-                if (!newGroupName.trim()) setIsAdding(false)
-              }}
-              autoFocus
-              className="flex-1 rounded border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none placeholder:text-white/40 focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20"
-            />
-            <button
-              type="button"
-              onClick={handleAddGroup}
-              className="inline-flex cursor-pointer items-center gap-2 rounded bg-red-800 px-3 py-1.5 text-sm text-white transition-colors hover:opacity-90"
-            >
-              Create
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setNewGroupName('')
-                setIsAdding(false)
-              }}
-              className="rounded px-2 py-1.5 text-sm text-white/40 transition-all hover:bg-white/10 hover:text-white/60"
-            >
-              Cancel
-            </button>
-          </div>
-        ) : (
+      {/* Add Skill Group */}
+      {isAdding ? (
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="e.g., Frontend, Backend, DevOps..."
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onBlur={() => {
+              if (!newGroupName.trim()) setIsAdding(false)
+            }}
+            autoFocus
+            className="flex-1 rounded border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white outline-none placeholder:text-white/40 focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20"
+          />
           <button
             type="button"
-            onClick={() => setIsAdding(true)}
-            aria-label="Add Skill Group"
+            onClick={handleAddGroup}
             className="inline-flex cursor-pointer items-center gap-2 rounded bg-red-800 px-3 py-1.5 text-sm text-white transition-colors hover:opacity-90"
           >
-            <MdAddCircle className="text-lg" />
-            <span>Add Skill Group</span>
+            Create
           </button>
-        )}
-      </div>
-    </CollapsibleSection>
+          <button
+            type="button"
+            onClick={() => {
+              setNewGroupName('')
+              setIsAdding(false)
+            }}
+            className="rounded px-2 py-1.5 text-sm text-white/40 transition-all hover:bg-white/10 hover:text-white/60"
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setIsAdding(true)}
+          aria-label="Add Skill Group"
+          className="inline-flex cursor-pointer items-center gap-2 rounded bg-red-800 px-3 py-1.5 text-sm text-white transition-colors hover:opacity-90"
+        >
+          <MdAddCircle className="text-lg" />
+          <span>Add Skill Group</span>
+        </button>
+      )}
+    </div>
   )
 }
 
 function UnifiedEditor() {
   // Editor mode state
   const [mode, setMode] = useState<EditorMode>('resume')
+
+  // Accordion state - track which section is expanded
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+
+  // Helper function to create accordion toggle handler
+  const createToggleHandler = (sectionId: string) => () => {
+    setExpandedSection((prev) => (prev === sectionId ? null : sectionId))
+  }
 
   // Resume data
   const [resumeData, setResumeData] = useState(defaultResumeData)
@@ -504,6 +507,8 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Personal Information"
                 icon={<User className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'personal-info'}
+                onToggle={createToggleHandler('personal-info')}
               >
                 <PersonalInformation />
               </CollapsibleSection>
@@ -511,6 +516,8 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Social Media"
                 icon={<Share2 className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'social-media'}
+                onToggle={createToggleHandler('social-media')}
               >
                 <SocialMedia />
               </CollapsibleSection>
@@ -518,6 +525,8 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Professional Summary"
                 icon={<FileText className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'summary'}
+                onToggle={createToggleHandler('summary')}
               >
                 <Summary />
               </CollapsibleSection>
@@ -525,6 +534,8 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Cover Letter"
                 icon={<Mail className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'cover-letter'}
+                onToggle={createToggleHandler('cover-letter')}
               >
                 <ResumeContext.Provider
                   value={{
@@ -544,6 +555,8 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Education"
                 icon={<GraduationCap className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'education'}
+                onToggle={createToggleHandler('education')}
               >
                 <Education />
               </CollapsibleSection>
@@ -551,16 +564,27 @@ function UnifiedEditor() {
               <CollapsibleSection
                 title="Work Experience"
                 icon={<Briefcase className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'work-experience'}
+                onToggle={createToggleHandler('work-experience')}
               >
                 <WorkExperience />
               </CollapsibleSection>
 
               {/* Skills Section - All groups in single collapsible */}
-              <SkillsSection />
+              <CollapsibleSection
+                title="Skills"
+                icon={<Code className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'skills'}
+                onToggle={createToggleHandler('skills')}
+              >
+                <SkillsSection />
+              </CollapsibleSection>
 
               <CollapsibleSection
                 title="Additional Info"
                 icon={<Layers className="h-5 w-5 text-blue-400" />}
+                isExpanded={expandedSection === 'additional-info'}
+                onToggle={createToggleHandler('additional-info')}
               >
                 <AdditionalSections />
               </CollapsibleSection>
