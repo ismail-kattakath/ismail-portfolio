@@ -43,9 +43,7 @@ const mockResumeData: ResumeData = {
   calendarLink: '',
   socialMedia: [],
   summary: 'Experienced software engineer',
-  showSummary: true,
   education: [],
-  showEducationDates: true,
   workExperience: [
     {
       company: 'Tech Corp',
@@ -68,7 +66,6 @@ const mockResumeData: ResumeData = {
     },
   ],
   languages: ['English'],
-  showLanguages: true,
   certifications: [],
 }
 

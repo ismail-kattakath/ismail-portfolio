@@ -59,18 +59,6 @@ jest.mock('@hello-pangea/dnd', () => ({
 
 describe('Skill Component', () => {
   describe('Rendering', () => {
-    it('should render section heading with title prop', () => {
-      const mockData = createMockResumeData({
-        skills: [{ title: 'Programming Languages', skills: [] }],
-      })
-
-      renderWithContext(<Skill title="Programming Languages" />, {
-        contextValue: { resumeData: mockData },
-      })
-
-      expect(screen.getByText('Programming Languages')).toBeInTheDocument()
-    })
-
     it('should render skills with text and highlight checkbox', async () => {
       const mockData = createMockResumeData({
         skills: [
@@ -702,8 +690,8 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      // Should still render the section heading and add button
-      expect(screen.getByText('Skills')).toBeInTheDocument()
+      // Should still render the add button
+      expect(screen.getByText(/Add Skills/i)).toBeInTheDocument()
     })
 
     it('should handle special characters in skill text', () => {

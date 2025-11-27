@@ -18,7 +18,6 @@ jest.mock('@/lib/resumeAdapter', () => ({
     phone: '',
     location: '',
     website: '',
-    showSummary: true,
     workExperience: [],
     education: [],
     skillGroups: [],

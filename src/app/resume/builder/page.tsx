@@ -56,8 +56,6 @@ function UnifiedEditor() {
   const [coverLetterData, setCoverLetterData] = useState<CoverLetterData>({
     ...defaultResumeData,
     content: DEFAULT_COVER_LETTER_CONTENT,
-    showSummary: false,
-    showLanguages: false,
   })
   const coverLetterHandlers = useDocumentHandlers(
     coverLetterData as ResumeData,
@@ -128,8 +126,6 @@ function UnifiedEditor() {
         setCoverLetterData({
           ...defaultResumeData,
           content: DEFAULT_COVER_LETTER_CONTENT,
-          showSummary: false,
-          showLanguages: false,
           ...parsedData,
           // Ensure content is never empty - use default if saved content is empty
           content:

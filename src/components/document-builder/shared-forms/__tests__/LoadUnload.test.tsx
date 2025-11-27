@@ -30,7 +30,6 @@ const mockResumeData: ResumeData = {
   location: 'Test City',
   summary: 'Test summary',
   website: 'https://example.com',
-  showSummary: true,
   workExperience: [],
   education: [],
   skillGroups: [],

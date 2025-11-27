@@ -67,13 +67,10 @@ export interface ResumeData {
   calendarLink?: string
   socialMedia: SocialMediaLink[]
   summary: string
-  showSummary: boolean
   education: Education[]
-  showEducationDates: boolean
   workExperience: WorkExperience[]
   skills: SkillGroup[]
   languages: string[]
-  showLanguages: boolean
   certifications: Certification[]
   projects?: Project[]
   content?: string // Cover letter content

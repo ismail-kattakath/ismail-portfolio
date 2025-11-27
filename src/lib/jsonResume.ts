@@ -227,13 +227,10 @@ export function convertFromJSONResume(
       profilePicture: basics.image || '',
       socialMedia,
       summary: basics.summary || '',
-      showSummary: true,
       education,
-      showEducationDates: true,
       workExperience,
       skills: skills.length > 0 ? skills : [{ title: 'Skills', skills: [] }],
       languages,
-      showLanguages: true,
       certifications,
     }
   } catch (error) {

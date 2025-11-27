@@ -8,6 +8,7 @@ interface CollapsibleSectionProps {
   icon?: React.ReactNode
   children: React.ReactNode
   defaultExpanded?: boolean
+  action?: React.ReactNode
 }
 
 const CollapsibleSection = ({
@@ -15,6 +16,7 @@ const CollapsibleSection = ({
   icon,
   children,
   defaultExpanded = false,
+  action,
 }: CollapsibleSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
 
@@ -37,7 +39,15 @@ const CollapsibleSection = ({
             <h2 className="text-lg font-semibold text-white">{title}</h2>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-white/60">
+        <div className="flex items-center gap-3 text-white/60">
+          {action && (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2"
+            >
+              {action}
+            </div>
+          )}
           {isExpanded ? (
             <ChevronUp className="h-5 w-5 transition-transform" />
           ) : (

@@ -19,7 +19,6 @@ describe('JSON Resume Conversion', () => {
       ],
       summary:
         'Experienced software engineer with a passion for building great products.',
-      showSummary: true,
       education: [
         {
           school: 'University of Toronto',
@@ -29,7 +28,6 @@ describe('JSON Resume Conversion', () => {
           endYear: '2019-06-01',
         },
       ],
-      showEducationDates: true,
       workExperience: [
         {
           company: 'Tech Corp',
@@ -52,7 +50,6 @@ describe('JSON Resume Conversion', () => {
         },
       ],
       languages: ['English', 'French'],
-      showLanguages: true,
       certifications: [
         {
           name: 'AWS Certified',

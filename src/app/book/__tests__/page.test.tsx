@@ -12,7 +12,6 @@ jest.mock('@/lib/resumeAdapter', () => ({
     location: 'Test City',
     summary: 'Test summary',
     website: 'test.com',
-    showSummary: true,
     workExperience: [],
     education: [],
     skillGroups: [],

@@ -403,36 +403,6 @@ describe('Integration: Form → Preview Synchronization', () => {
         })
       }
     })
-
-    it('should hide summary in preview when showSummary is toggled off', async () => {
-      const { container } = render(<ResumeEditPage />)
-
-      // Find the "Show Summary" checkbox
-      const showSummaryCheckbox = container.querySelector(
-        'input[name="showSummary"]'
-      ) as HTMLInputElement
-
-      if (showSummaryCheckbox) {
-        const initialCheckedState = showSummaryCheckbox.checked
-
-        // Toggle the checkbox
-        fireEvent.click(showSummaryCheckbox)
-
-        // Verify the preview reflects the change
-        await waitFor(() => {
-          const preview = container.querySelector('.preview')
-          const summarySection = preview?.querySelector('.section-title')
-
-          if (initialCheckedState) {
-            // If it was checked, after clicking it should be hidden
-            expect(summarySection).not.toHaveTextContent('Summary')
-          } else {
-            // If it was unchecked, after clicking it should be shown
-            expect(summarySection).toHaveTextContent('Summary')
-          }
-        })
-      }
-    })
   })
 
   describe('Social Media Sync', () => {

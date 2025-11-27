@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import dynamic from 'next/dynamic'
 import FormButton from '@/components/ui/FormButton'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'
 import { useSimpleArrayForm } from '@/hooks/useSimpleArrayForm'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
@@ -53,29 +52,8 @@ const Language = () => {
     setResumeData({ ...resumeData, languages: newLanguages })
   }
 
-  const handleToggleLanguages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setResumeData({ ...resumeData, showLanguages: e.target.checked })
-  }
-
   return (
     <div className="flex flex-col gap-4">
-      <SectionHeader
-        title="Languages"
-        variant="emerald"
-        action={
-          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 transition-colors hover:bg-white/10">
-            <input
-              type="checkbox"
-              id="showLanguages"
-              checked={resumeData.showLanguages}
-              onChange={handleToggleLanguages}
-              className="h-4 w-4 cursor-pointer rounded accent-emerald-500"
-            />
-            <span className="text-sm text-white/90">Display Section</span>
-          </label>
-        }
-      />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="languages">
           {(provided) => (

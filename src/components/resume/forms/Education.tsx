@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import dynamic from 'next/dynamic'
 import FormButton from '@/components/ui/FormButton'
 import { FormInput } from '@/components/ui/FormInput'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'
 import { useArrayForm } from '@/hooks/useArrayForm'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
@@ -64,31 +63,8 @@ const Education = () => {
     setResumeData({ ...resumeData, education: newEducation })
   }
 
-  const handleToggleEducationDates = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setResumeData({ ...resumeData, showEducationDates: e.target.checked })
-  }
-
   return (
     <div className="flex flex-col gap-4">
-      <SectionHeader
-        title="Education"
-        variant="indigo"
-        action={
-          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 transition-colors hover:bg-white/10">
-            <input
-              type="checkbox"
-              id="showEducationDates"
-              checked={resumeData.showEducationDates}
-              onChange={handleToggleEducationDates}
-              className="h-4 w-4 cursor-pointer rounded accent-indigo-500"
-            />
-            <span className="text-sm text-white/90">Show Dates</span>
-          </label>
-        }
-      />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="education">
           {(provided) => (

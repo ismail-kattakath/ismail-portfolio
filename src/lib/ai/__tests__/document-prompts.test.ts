@@ -16,9 +16,7 @@ const mockResumeData: ResumeData = {
   socialMedia: [],
   summary:
     'Experienced full-stack developer with 8 years of building web applications',
-  showSummary: true,
   education: [],
-  showEducationDates: true,
   workExperience: [
     {
       company: 'Tech Corp',
@@ -60,7 +58,6 @@ const mockResumeData: ResumeData = {
     },
   ],
   languages: ['English'],
-  showLanguages: true,
   certifications: [],
 }
 

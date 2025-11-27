@@ -190,9 +190,8 @@ describe('Preview Component', () => {
   })
 
   describe('Summary Section', () => {
-    it('should render summary when showSummary is true and summary exists', () => {
+    it('should render summary when summary exists', () => {
       const mockData = createMockResumeData({
-        showSummary: true,
         summary: 'Experienced software engineer with 5 years of expertise',
       })
       renderWithContext(<Preview />, {
@@ -207,21 +206,8 @@ describe('Preview Component', () => {
       ).toBeInTheDocument()
     })
 
-    it('should not render summary when showSummary is false', () => {
-      const mockData = createMockResumeData({
-        showSummary: false,
-        summary: 'Experienced software engineer',
-      })
-      renderWithContext(<Preview />, {
-        contextValue: { resumeData: mockData },
-      })
-
-      expect(screen.queryByText('Summary')).not.toBeInTheDocument()
-    })
-
     it('should not render summary when summary is empty', () => {
       const mockData = createMockResumeData({
-        showSummary: true,
         summary: '',
       })
       renderWithContext(<Preview />, {
@@ -411,9 +397,8 @@ describe('Preview Component', () => {
   })
 
   describe('Languages Section', () => {
-    it('should render languages when showLanguages is true', () => {
+    it('should render languages when languages exist', () => {
       const mockData = createMockResumeData({
-        showLanguages: true,
         languages: ['English', 'Spanish'],
       })
       renderWithContext(<Preview />, {
@@ -421,18 +406,6 @@ describe('Preview Component', () => {
       })
 
       expect(screen.getByText('Languages')).toBeInTheDocument()
-    })
-
-    it('should not render languages when showLanguages is false', () => {
-      const mockData = createMockResumeData({
-        showLanguages: false,
-        languages: ['English', 'Spanish'],
-      })
-      renderWithContext(<Preview />, {
-        contextValue: { resumeData: mockData },
-      })
-
-      expect(screen.queryByText('Languages')).not.toBeInTheDocument()
     })
   })
 

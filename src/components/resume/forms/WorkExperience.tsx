@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import FormButton from '@/components/ui/FormButton'
 import { FormInput } from '@/components/ui/FormInput'
 import { FormTextarea } from '@/components/ui/FormTextarea'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'
 import { useArrayForm } from '@/hooks/useArrayForm'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
@@ -47,6 +46,7 @@ const WorkExperience = () => {
       keyAchievements: '',
       startYear: '',
       endYear: '',
+      technologies: [],
     },
     { urlFields: ['url'] }
   )
@@ -70,8 +70,6 @@ const WorkExperience = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <SectionHeader title="Work Experience" variant="teal" />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="work-experience">
           {(provided) => (

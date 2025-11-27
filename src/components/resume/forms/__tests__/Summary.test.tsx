@@ -58,7 +58,6 @@ const mockResumeData: ResumeData = {
   location: 'Test City',
   summary: 'Test summary',
   website: 'https://example.com',
-  showSummary: true,
   workExperience: [],
   education: [],
   skillGroups: [],
@@ -100,13 +99,6 @@ describe('Summary Component', () => {
   describe('Rendering', () => {
     // Note: Section header is now rendered by CollapsibleSection wrapper
 
-    it('renders display section toggle', () => {
-      renderWithContext()
-      const checkbox = screen.getByRole('checkbox')
-      expect(checkbox).toBeInTheDocument()
-      expect(screen.getByText('Display Section')).toBeInTheDocument()
-    })
-
     it('renders summary textarea', () => {
       renderWithContext()
       const textarea = screen.getByTestId('summary-textarea')
@@ -117,46 +109,6 @@ describe('Summary Component', () => {
     it('renders AI generate button', () => {
       renderWithContext()
       expect(screen.getByTestId('generate-ai-button')).toBeInTheDocument()
-    })
-
-    it('checkbox reflects showSummary state', () => {
-      renderWithContext()
-      const checkbox = screen.getByRole('checkbox') as HTMLInputElement
-      expect(checkbox.checked).toBe(true)
-    })
-
-    it('checkbox is unchecked when showSummary is false', () => {
-      const dataWithHiddenSummary = { ...mockResumeData, showSummary: false }
-      renderWithContext(dataWithHiddenSummary)
-      const checkbox = screen.getByRole('checkbox') as HTMLInputElement
-      expect(checkbox.checked).toBe(false)
-    })
-  })
-
-  describe('Toggle Summary Display', () => {
-    it('toggles showSummary to false when checked', () => {
-      renderWithContext()
-      const checkbox = screen.getByRole('checkbox')
-
-      fireEvent.click(checkbox)
-
-      expect(mockSetResumeData).toHaveBeenCalledWith({
-        ...mockResumeData,
-        showSummary: false,
-      })
-    })
-
-    it('toggles showSummary to true when unchecked', () => {
-      const dataWithHiddenSummary = { ...mockResumeData, showSummary: false }
-      renderWithContext(dataWithHiddenSummary)
-      const checkbox = screen.getByRole('checkbox')
-
-      fireEvent.click(checkbox)
-
-      expect(mockSetResumeData).toHaveBeenCalledWith({
-        ...dataWithHiddenSummary,
-        showSummary: true,
-      })
     })
   })
 

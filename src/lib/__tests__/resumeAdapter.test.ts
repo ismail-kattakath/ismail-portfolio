@@ -107,12 +107,6 @@ describe('Resume Adapter', () => {
     expect(Array.isArray(resumeData.certifications)).toBe(true)
   })
 
-  it('should have boolean flags with correct default values', () => {
-    expect(resumeData.showSummary).toBe(true)
-    expect(resumeData.showEducationDates).toBe(true)
-    expect(resumeData.showLanguages).toBe(true)
-  })
-
   it('should reconstruct address from location fields', () => {
     expect(typeof resumeData.address).toBe('string')
     expect(resumeData.address.length).toBeGreaterThan(0)
@@ -525,26 +519,6 @@ describe('convertFromJSONResume - Edge Cases', () => {
 
       const result = convertFromJSONResume(resume)
       expect(result.address).toBe('')
-    })
-  })
-
-  describe('Default Values', () => {
-    it('should set showSummary to true by default', () => {
-      const resume: JSONResume = {} as JSONResume
-      const result = convertFromJSONResume(resume)
-      expect(result.showSummary).toBe(true)
-    })
-
-    it('should set showEducationDates to true by default', () => {
-      const resume: JSONResume = {} as JSONResume
-      const result = convertFromJSONResume(resume)
-      expect(result.showEducationDates).toBe(true)
-    })
-
-    it('should set showLanguages to true by default', () => {
-      const resume: JSONResume = {} as JSONResume
-      const result = convertFromJSONResume(resume)
-      expect(result.showLanguages).toBe(true)
     })
   })
 })

@@ -1,6 +1,5 @@
 import React from 'react'
 import FormButton from '@/components/ui/FormButton'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'
 import {
   DnDContext,
@@ -35,8 +34,6 @@ const Skill = ({ title }: SkillProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <SectionHeader title={title} variant="pink" />
-
       <DnDContext onDragEnd={onDragEnd}>
         <DnDDroppable droppableId={`skills-${title}`}>
           {(provided) => (

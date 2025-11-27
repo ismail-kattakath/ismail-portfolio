@@ -42,11 +42,6 @@ jest.mock('@hello-pangea/dnd', () => ({
 
 describe('Certification Component', () => {
   describe('Rendering', () => {
-    it('should render section heading', () => {
-      renderWithContext(<Certification />)
-      expect(screen.getByText('Certifications')).toBeInTheDocument()
-    })
-
     it('should render all certification inputs', async () => {
       const mockData = createMockResumeData({
         certifications: [
@@ -404,13 +399,7 @@ describe('Certification Component', () => {
       expect(certificationContainer).toBeInTheDocument()
     })
 
-    it('should have gradient accent on section heading with violet colors', () => {
-      const { container } = renderWithContext(<Certification />)
-      const gradient = container.querySelector(
-        '.bg-gradient-to-b.from-violet-500.to-purple-500'
-      )
-      expect(gradient).toBeInTheDocument()
-    })
+    // Note: Section heading is now rendered by CollapsibleSection wrapper in page.tsx
 
     it('should have proper delete button styling', () => {
       const mockData = createMockResumeData({
@@ -438,13 +427,6 @@ describe('Certification Component', () => {
   })
 
   describe('Accessibility', () => {
-    it('should use semantic heading structure', () => {
-      renderWithContext(<Certification />)
-      const heading = screen.getByRole('heading', { name: 'Certifications' })
-      expect(heading).toBeInTheDocument()
-      expect(heading.tagName).toBe('H2')
-    })
-
     it('should have title attribute on delete buttons', () => {
       const mockData = createMockResumeData({
         certifications: ['AWS Solutions Architect'],
@@ -489,7 +471,7 @@ describe('Certification Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      expect(screen.getByText('Certifications')).toBeInTheDocument()
+      expect(screen.getByText('Add Certification')).toBeInTheDocument()
       expect(
         screen.queryByPlaceholderText('Enter certification name')
       ).not.toBeInTheDocument()

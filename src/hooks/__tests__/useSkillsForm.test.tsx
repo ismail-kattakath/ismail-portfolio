@@ -14,9 +14,7 @@ const mockResumeData: ResumeData = {
   calendarLink: '',
   socialMedia: [],
   summary: 'Test summary',
-  showSummary: true,
   education: [],
-  showEducationDates: true,
   workExperience: [],
   skills: [
     {
@@ -33,7 +31,6 @@ const mockResumeData: ResumeData = {
     },
   ],
   languages: [],
-  showLanguages: true,
   certifications: [],
 }
 

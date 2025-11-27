@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import dynamic from 'next/dynamic'
 import FormButton from '@/components/ui/FormButton'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import { DeleteButton } from '@/components/ui/DeleteButton'
 import { useSimpleArrayForm } from '@/hooks/useSimpleArrayForm'
 import { ResumeContext } from '@/lib/contexts/DocumentContext'
@@ -56,8 +55,6 @@ const Certification = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <SectionHeader title="Certifications" variant="violet" />
-
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="certifications">
           {(provided) => (

@@ -17,19 +17,6 @@ const Summary = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-end">
-        <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 transition-colors hover:bg-white/10">
-          <input
-            type="checkbox"
-            id="showSummary"
-            checked={resumeData.showSummary}
-            onChange={handleToggleSummary}
-            className="h-4 w-4 cursor-pointer rounded accent-amber-500"
-          />
-          <span className="text-sm text-white/90">Display Section</span>
-        </label>
-      </div>
-
       <AITextAreaWithButton
         value={resumeData.summary}
         onChange={handleChange}

@@ -54,15 +54,6 @@ describe('Hero', () => {
     expect(screen.getByText(resumeData.position)).toBeInTheDocument()
   })
 
-  it('displays user summary if showSummary is true', () => {
-    render(<Hero />)
-    if (resumeData.showSummary && resumeData.summary) {
-      // Summary might be split across elements, check for partial text
-      const firstWords = resumeData.summary.split(' ').slice(0, 5).join(' ')
-      expect(screen.getByText(new RegExp(firstWords, 'i'))).toBeInTheDocument()
-    }
-  })
-
   it('renders profile picture', () => {
     render(<Hero />)
     const images = screen.getAllByRole('img')

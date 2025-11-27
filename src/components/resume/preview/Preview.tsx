@@ -287,7 +287,7 @@ const Preview = () => {
           {/* two column start */}
           <div className="grid grid-cols-3 gap-6">
             <div className="col-span-1 space-y-2">
-              {resumeData.showSummary && resumeData.summary.length > 0 && (
+              {resumeData.summary.length > 0 && (
                 <div className="mb-1">
                   <h2
                     className="section-title editable mb-1 border-b-2 border-dashed border-gray-300"
@@ -336,14 +336,12 @@ const Preview = () => {
                         ) : (
                           <p className="content">{item.school}</p>
                         )}
-                        {resumeData.showEducationDates && (
-                          <DateRange
-                            startYear={item.startYear}
-                            endYear={item.endYear}
-                            id={`education-start-end-date-${index}`}
-                            showOnlyEndDate={true}
-                          />
-                        )}
+                        <DateRange
+                          startYear={item.startYear}
+                          endYear={item.endYear}
+                          id={`education-start-end-date-${index}`}
+                          showOnlyEndDate={true}
+                        />
                       </div>
                     ))}
                   </div>
@@ -377,9 +375,7 @@ const Preview = () => {
                   </div>
                 )}
               </Droppable>
-              {resumeData.showLanguages && (
-                <Language title="Languages" languages={resumeData.languages} />
-              )}
+              <Language title="Languages" languages={resumeData.languages} />
               <Certification
                 title="Certifications"
                 certifications={resumeData.certifications}
