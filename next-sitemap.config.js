@@ -8,14 +8,8 @@ module.exports = {
   generateIndexSitemap: false, // Single sitemap (not index + multiple)
   outDir: 'out', // Output to 'out' directory for static export
 
-  // Exclude builder pages, API endpoints, and image routes
-  exclude: [
-    '/resume/builder',
-    '/resume/builder/*',
-    '/resume.json',
-    '/opengraph-image',
-    '/twitter-image',
-  ],
+  // Exclude API endpoints and image routes (keep /resume/builder INCLUDED for SEO)
+  exclude: ['/resume.json', '/opengraph-image', '/twitter-image'],
 
   // Robots.txt configuration
   robotsTxtOptions: {
@@ -23,7 +17,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/resume/builder/', '/resume.json/'],
+        disallow: ['/resume.json/'],
       },
     ],
   },
@@ -40,8 +34,13 @@ module.exports = {
 
     if (path === '/') {
       priority = 1.0
+      changefreq = 'weekly'
+    } else if (path === '/resume/builder' || path === '/resume/builder/') {
+      priority = 0.9
+      changefreq = 'weekly'
     } else if (path === '/resume' || path === '/resume/') {
       priority = 0.8
+      changefreq = 'monthly'
     } else if (path === '/book' || path === '/book/') {
       priority = 0.5
       changefreq = 'yearly'

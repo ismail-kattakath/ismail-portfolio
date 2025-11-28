@@ -1,0 +1,16 @@
+import { generateResumeBuilderOgImage } from '@/lib/utils/generateResumeBuilderOgImage'
+import { TWITTER_IMAGE_CONFIG } from '@/lib/utils/ogImageConfigs'
+
+export const dynamic = 'force-static'
+
+export const alt = 'AI Resume Builder - Build Professional Resumes with AI'
+export const size = {
+  width: TWITTER_IMAGE_CONFIG.width,
+  height: TWITTER_IMAGE_CONFIG.height,
+}
+
+export const contentType = 'image/png'
+
+export default async function Image() {
+  return generateResumeBuilderOgImage(TWITTER_IMAGE_CONFIG)
+}

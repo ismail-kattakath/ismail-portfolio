@@ -53,6 +53,7 @@ Choose one of the following options:
    - Extensions install automatically
 
 5. **Start developing:**
+
    ```bash
    npm run dev
    ```
@@ -74,6 +75,7 @@ Choose one of the following options:
    - Opens VS Code in your browser
 
 3. **Start developing:**
+
    ```bash
    npm run dev
    ```
