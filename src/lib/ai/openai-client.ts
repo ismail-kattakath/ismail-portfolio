@@ -373,13 +373,14 @@ export function saveCredentials(credentials: StoredCredentials): void {
   if (credentials.rememberCredentials) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials))
   } else {
-    // Clear credentials but keep job description if it was provided
-    if (credentials.lastJobDescription) {
+    // Clear credentials but keep job description and model if provided
+    if (credentials.lastJobDescription || credentials.model) {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
           apiUrl: '',
           apiKey: '',
+          model: credentials.model,
           rememberCredentials: false,
           lastJobDescription: credentials.lastJobDescription,
         })

@@ -170,6 +170,7 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
         ...prev,
         apiUrl: saved.apiUrl || DEFAULT_API_URL,
         apiKey: saved.apiKey || DEFAULT_API_KEY,
+        model: saved.model || DEFAULT_MODEL,
         rememberCredentials: true,
         jobDescription: saved.lastJobDescription || DEFAULT_JOB_DESCRIPTION,
       }))
@@ -219,6 +220,7 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     saveCredentials({
       apiUrl: settings.apiUrl,
       apiKey: settings.apiKey,
+      model: settings.model,
       rememberCredentials: settings.rememberCredentials,
       lastJobDescription: settings.jobDescription,
     })
