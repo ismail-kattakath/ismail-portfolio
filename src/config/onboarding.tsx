@@ -75,7 +75,7 @@ export const onboardingTours: Tour[] = [
             </p>
           </div>
         ),
-        selector: '#builder-header',
+        selector: '#editor-header',
         side: 'bottom',
         showControls: true,
         pointerPadding: 10,
@@ -281,7 +281,7 @@ export const onboardingTours: Tour[] = [
             </p>
           </div>
         ),
-        selector: '#preview-panel',
+        selector: '#preview-pane',
         side: 'left',
         showControls: true,
         pointerPadding: 20,
@@ -308,7 +308,7 @@ export const onboardingTours: Tour[] = [
             </p>
           </div>
         ),
-        selector: '#action-buttons',
+        selector: '#print-button',
         side: 'bottom-left',
         showControls: true,
         pointerPadding: 12,
@@ -333,7 +333,7 @@ export const onboardingTours: Tour[] = [
             </p>
           </div>
         ),
-        selector: '#builder-header',
+        selector: '#editor-header',
         side: 'bottom',
         showControls: true,
         pointerPadding: 10,

@@ -30,6 +30,8 @@ interface CollapsibleSectionProps {
   onToggle?: () => void
   // HTML id attribute for targeting (e.g., onboarding tour)
   id?: string
+  // Tooltip text for the section header
+  tooltip?: string
 }
 
 const CollapsibleSection = ({
@@ -46,6 +48,7 @@ const CollapsibleSection = ({
   isExpanded: controlledIsExpanded,
   onToggle,
   id,
+  tooltip,
 }: CollapsibleSectionProps) => {
   const [internalIsExpanded, setInternalIsExpanded] = useState(defaultExpanded)
 
@@ -114,6 +117,8 @@ const CollapsibleSection = ({
         type="button"
         onClick={() => !isEditing && handleToggle()}
         className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-white/5"
+        data-tooltip-id={tooltip ? 'app-tooltip' : undefined}
+        data-tooltip-content={tooltip}
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
           {/* Drag Handle - Only for editable sections */}

@@ -60,6 +60,11 @@ jest.mock('@/components/ui/DragAndDrop', () => ({
   DraggableCard: ({ children }) => <div>{children}</div>,
 }))
 
+// Mock react-tooltip to avoid ESM issues in tests
+jest.mock('react-tooltip', () => ({
+  Tooltip: () => null,
+}))
+
 // Suppress React act() warnings and intentional test console.errors
 const originalError = console.error
 beforeAll(() => {
@@ -80,10 +85,6 @@ beforeAll(() => {
     if (message.includes('viewport')) return
     originalError.call(console, ...args)
   }
-})
-
-afterAll(() => {
-  console.error = originalError
 })
 
 afterAll(() => {

@@ -28,13 +28,12 @@ import {
   useAISettings,
 } from '@/lib/contexts/AISettingsContext'
 import { CheckCircle, XCircle } from 'lucide-react'
-import { Toaster } from 'sonner'
+import { Toaster, toast } from 'sonner'
 import { useDocumentHandlers } from '@/hooks/useDocumentHandlers'
 import { useSkillGroupsManagement } from '@/hooks/useSkillGroupsManagement'
 import { useAccordion } from '@/hooks/useAccordion'
 import PasswordProtection from '@/components/auth/PasswordProtection'
 import MainLayout from '@/components/layout/MainLayout'
-import { OnboardingTour } from '@/components/onboarding'
 import type { CoverLetterData, ResumeData } from '@/types'
 import {
   User,
@@ -60,6 +59,16 @@ import {
   DnDDraggable,
 } from '@/components/ui/DragAndDrop'
 import type { DropResult } from '@hello-pangea/dnd'
+import { Tooltip } from '@/components/ui/Tooltip'
+import { tooltips } from '@/config/tooltips'
+import { OnboardingTour } from '@/components/onboarding'
+import AISortButton from '@/components/ui/AISortButton'
+import { requestAISort } from '@/lib/ai/openai-client'
+import {
+  buildSkillsSortPrompt,
+  parseSkillsSortResponse,
+  applySortedSkills,
+} from '@/lib/ai/sorting-prompts'
 
 // Default cover letter content
 const DEFAULT_COVER_LETTER_CONTENT =
@@ -75,9 +84,17 @@ function AISettingsStatusIndicator() {
   const { isConfigured } = useAISettings()
 
   return isConfigured ? (
-    <CheckCircle className="mr-1 h-4 w-4 text-green-400" />
+    <CheckCircle
+      className="mr-1 h-4 w-4 text-green-400"
+      data-tooltip-id="app-tooltip"
+      data-tooltip-content={tooltips.aiSettings.validStatus}
+    />
   ) : (
-    <XCircle className="mr-1 h-4 w-4 text-red-400" />
+    <XCircle
+      className="mr-1 h-4 w-4 text-red-400"
+      data-tooltip-id="app-tooltip"
+      data-tooltip-content={tooltips.aiSettings.invalidStatus}
+    />
   )
 }
 
@@ -145,6 +162,8 @@ function SkillGroupHeader({
           <div
             {...dragHandleProps}
             className="cursor-grab text-white/40 hover:text-white/60 active:cursor-grabbing"
+            data-tooltip-id="app-tooltip"
+            data-tooltip-content={tooltips.skills.dragGroup}
           >
             <GripVertical className="h-4 w-4" />
           </div>
@@ -183,7 +202,8 @@ function SkillGroupHeader({
                 }
               }}
               className="rounded p-0.5 text-white/30 transition-all hover:bg-white/10 hover:text-blue-400"
-              title="Rename group"
+              data-tooltip-id="app-tooltip"
+              data-tooltip-content={tooltips.skills.renameGroup}
             >
               <Pencil className="h-3 w-3" />
             </span>
@@ -197,7 +217,10 @@ function SkillGroupHeader({
             type="button"
             onClick={onToggle}
             className="rounded p-1.5 text-white/40 transition-all hover:bg-white/10 hover:text-white/60"
-            title={isExpanded ? 'Collapse' : 'Expand'}
+            data-tooltip-id="app-tooltip"
+            data-tooltip-content={
+              isExpanded ? tooltips.actions.collapse : tooltips.actions.expand
+            }
           >
             {isExpanded ? (
               <ChevronUp className="h-4 w-4" />
@@ -209,7 +232,8 @@ function SkillGroupHeader({
             type="button"
             onClick={handleDeleteClick}
             className="rounded p-1.5 text-white/40 transition-all hover:bg-white/10 hover:text-red-400"
-            title="Delete group"
+            data-tooltip-id="app-tooltip"
+            data-tooltip-content={tooltips.skills.deleteGroup}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </button>
@@ -225,9 +249,12 @@ function SkillGroupHeader({
  */
 function SkillsSection() {
   const context = useContext(ResumeContext)
+  const { settings, isConfigured } = useAISettings()
+  const [isSorting, setIsSorting] = useState(false)
+
   if (!context) return null
 
-  const { resumeData } = context
+  const { resumeData, setResumeData } = context
   const { addGroup, removeGroup, renameGroup, reorderGroups } =
     useSkillGroupsManagement()
   const [isAdding, setIsAdding] = useState(false)
@@ -262,8 +289,57 @@ function SkillsSection() {
     }
   }
 
+  const handleAISort = async () => {
+    if (!isConfigured || isSorting) return
+
+    setIsSorting(true)
+    try {
+      const prompt = buildSkillsSortPrompt(
+        resumeData.skills,
+        settings.jobDescription
+      )
+
+      const response = await requestAISort(
+        {
+          baseURL: settings.apiUrl,
+          apiKey: settings.apiKey,
+          model: settings.model,
+        },
+        prompt
+      )
+
+      const sortResult = parseSkillsSortResponse(response, resumeData.skills)
+
+      if (sortResult) {
+        const sortedSkills = applySortedSkills(resumeData.skills, sortResult)
+        setResumeData({ ...resumeData, skills: sortedSkills })
+        toast.success('Skills sorted by job relevance')
+      } else {
+        toast.error('Failed to parse AI response. Please try again.')
+      }
+    } catch (error) {
+      console.error('AI Skills sort error:', error)
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to sort skills'
+      )
+    } finally {
+      setIsSorting(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
+      {/* AI Sort Button */}
+      <div className="flex justify-end">
+        <AISortButton
+          isConfigured={isConfigured}
+          isLoading={isSorting}
+          onClick={handleAISort}
+          label="Sort Skills by JD"
+          size="sm"
+        />
+      </div>
+
       <DnDContext onDragEnd={handleDragEnd}>
         <DnDDroppable droppableId="skill-groups">
           {(provided) => (
@@ -348,6 +424,8 @@ function SkillsSection() {
           onClick={() => setIsAdding(true)}
           aria-label="Add Skill Group"
           className="inline-flex cursor-pointer items-center gap-2 rounded bg-red-800 px-3 py-1.5 text-sm text-white transition-colors hover:opacity-90"
+          data-tooltip-id="app-tooltip"
+          data-tooltip-content={tooltips.skills.addGroup}
         >
           <MdAddCircle className="text-lg" />
           <span>Add Skill Group</span>
@@ -463,6 +541,7 @@ function UnifiedEditor() {
   return (
     <>
       <Toaster position="top-right" richColors closeButton />
+      <Tooltip />
       <AISettingsProvider>
         <ResumeContext.Provider value={currentContext}>
           <MainLayout
@@ -472,7 +551,7 @@ function UnifiedEditor() {
             <div className="relative flex flex-1 flex-col md:grid md:grid-cols-[1fr_auto]">
               {/* Floating Action Buttons (Capsule) - Hidden on print */}
               <div
-                id="action-buttons"
+                id="print-button"
                 className="exclude-print fixed top-8 right-8 z-50 flex animate-pulse flex-row items-center overflow-hidden rounded-full shadow-2xl hover:animate-none"
               >
                 {mode === 'resume' && (
@@ -502,7 +581,7 @@ function UnifiedEditor() {
               >
                 {/* Header */}
                 <div
-                  id="builder-header"
+                  id="editor-header"
                   className="space-y-3 border-b border-white/10 pb-4"
                 >
                   <div className="flex items-center gap-3">
@@ -523,6 +602,8 @@ function UnifiedEditor() {
                   <div
                     id="mode-switcher"
                     className="flex overflow-hidden rounded-lg bg-white/5"
+                    data-tooltip-id="app-tooltip"
+                    data-tooltip-content={tooltips.navigation.modeSwitcher}
                   >
                     <button
                       type="button"
@@ -552,45 +633,51 @@ function UnifiedEditor() {
                 </div>
 
                 {/* Form Sections - Conditionally rendered based on mode */}
-                <CollapsibleSection
-                  id="section-import-export"
-                  title="Import / Export"
-                  icon={<ArrowDownUp className="h-4 w-4 text-amber-400" />}
-                  isExpanded={expandedSection === 'import-export'}
-                  onToggle={createToggleHandler('import-export')}
-                  variant="utility"
-                >
-                  <ImportExport preserveContent={mode === 'coverLetter'} />
-                </CollapsibleSection>
+                <div id="section-import-export">
+                  <CollapsibleSection
+                    title="Import / Export"
+                    icon={<ArrowDownUp className="h-4 w-4 text-amber-400" />}
+                    isExpanded={expandedSection === 'import-export'}
+                    onToggle={createToggleHandler('import-export')}
+                    variant="utility"
+                    tooltip={tooltips.sections.importExport}
+                  >
+                    <ImportExport preserveContent={mode === 'coverLetter'} />
+                  </CollapsibleSection>
+                </div>
+
+                <div id="section-ai-settings">
+                  <CollapsibleSection
+                    title="Generative AI Settings"
+                    icon={<Sparkles className="h-4 w-4 text-amber-400" />}
+                    isExpanded={expandedSection === 'ai-settings'}
+                    onToggle={createToggleHandler('ai-settings')}
+                    action={<AISettingsStatusIndicator />}
+                    variant="utility"
+                    tooltip={tooltips.sections.aiSettings}
+                  >
+                    <AISettings />
+                  </CollapsibleSection>
+                </div>
+
+                <div id="section-personal-info">
+                  <CollapsibleSection
+                    title="Personal Information"
+                    icon={<User className="h-4 w-4 text-blue-400" />}
+                    isExpanded={expandedSection === 'personal-info'}
+                    onToggle={createToggleHandler('personal-info')}
+                    tooltip={tooltips.sections.personalInfo}
+                  >
+                    <PersonalInformation />
+                  </CollapsibleSection>
+                </div>
 
                 <CollapsibleSection
-                  id="section-ai-settings"
-                  title="Generative AI Settings"
-                  icon={<Sparkles className="h-4 w-4 text-amber-400" />}
-                  isExpanded={expandedSection === 'ai-settings'}
-                  onToggle={createToggleHandler('ai-settings')}
-                  action={<AISettingsStatusIndicator />}
-                  variant="utility"
-                >
-                  <AISettings />
-                </CollapsibleSection>
-
-                <CollapsibleSection
-                  id="section-personal-info"
-                  title="Personal Information"
-                  icon={<User className="h-4 w-4 text-blue-400" />}
-                  isExpanded={expandedSection === 'personal-info'}
-                  onToggle={createToggleHandler('personal-info')}
-                >
-                  <PersonalInformation />
-                </CollapsibleSection>
-
-                <CollapsibleSection
-                  id="section-social-media"
                   title="Social Media"
                   icon={<Share2 className="h-4 w-4 text-blue-400" />}
                   isExpanded={expandedSection === 'social-media'}
                   onToggle={createToggleHandler('social-media')}
+                  tooltip={tooltips.sections.socialMedia}
                 >
                   <SocialMedia />
                 </CollapsibleSection>
@@ -599,52 +686,56 @@ function UnifiedEditor() {
                 {mode === 'resume' && (
                   <>
                     <CollapsibleSection
-                      id="section-summary"
                       title="Summary"
                       icon={<FileText className="h-4 w-4 text-blue-400" />}
                       isExpanded={expandedSection === 'summary'}
                       onToggle={createToggleHandler('summary')}
+                      tooltip={tooltips.sections.summary}
                     >
                       <Summary />
                     </CollapsibleSection>
 
                     <CollapsibleSection
-                      id="section-education"
                       title="Education"
                       icon={<GraduationCap className="h-4 w-4 text-blue-400" />}
                       isExpanded={expandedSection === 'education'}
                       onToggle={createToggleHandler('education')}
+                      tooltip={tooltips.sections.education}
                     >
                       <Education />
                     </CollapsibleSection>
 
-                    <CollapsibleSection
-                      id="section-work-experience"
-                      title="Experience"
-                      icon={<Briefcase className="h-4 w-4 text-blue-400" />}
-                      isExpanded={expandedSection === 'work-experience'}
-                      onToggle={createToggleHandler('work-experience')}
-                    >
-                      <WorkExperience />
-                    </CollapsibleSection>
+                    <div id="section-work-experience">
+                      <CollapsibleSection
+                        title="Experience"
+                        icon={<Briefcase className="h-4 w-4 text-blue-400" />}
+                        isExpanded={expandedSection === 'work-experience'}
+                        onToggle={createToggleHandler('work-experience')}
+                        tooltip={tooltips.sections.workExperience}
+                      >
+                        <WorkExperience />
+                      </CollapsibleSection>
+                    </div>
 
                     {/* Skills Section - All groups in single collapsible */}
-                    <CollapsibleSection
-                      id="section-skills"
-                      title="Skills"
-                      icon={<Code className="h-4 w-4 text-blue-400" />}
-                      isExpanded={expandedSection === 'skills'}
-                      onToggle={createToggleHandler('skills')}
-                    >
-                      <SkillsSection />
-                    </CollapsibleSection>
+                    <div id="section-skills">
+                      <CollapsibleSection
+                        title="Skills"
+                        icon={<Code className="h-4 w-4 text-blue-400" />}
+                        isExpanded={expandedSection === 'skills'}
+                        onToggle={createToggleHandler('skills')}
+                        tooltip={tooltips.sections.skills}
+                      >
+                        <SkillsSection />
+                      </CollapsibleSection>
+                    </div>
 
                     <CollapsibleSection
-                      id="section-additional-info"
                       title="Additional Info"
                       icon={<Layers className="h-4 w-4 text-blue-400" />}
                       isExpanded={expandedSection === 'additional-info'}
                       onToggle={createToggleHandler('additional-info')}
+                      tooltip={tooltips.sections.additionalInfo}
                     >
                       <AdditionalSections />
                     </CollapsibleSection>
@@ -658,6 +749,7 @@ function UnifiedEditor() {
                     icon={<Mail className="h-4 w-4 text-blue-400" />}
                     isExpanded={expandedSection === 'cover-letter'}
                     onToggle={createToggleHandler('cover-letter')}
+                    tooltip={tooltips.sections.coverLetterContent}
                   >
                     <ResumeContext.Provider
                       value={{
@@ -677,7 +769,7 @@ function UnifiedEditor() {
               </form>
 
               {/* Preview Section */}
-              <div id="preview-panel" className="flex flex-col md:w-[8.5in]">
+              <div id="preview-pane" className="flex flex-col md:w-[8.5in]">
                 {/* Both Previews - Toggle visibility with CSS */}
                 <ResumeContext.Provider
                   value={{
