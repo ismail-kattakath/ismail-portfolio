@@ -13,7 +13,7 @@ const mockResumeData: ResumeData = {
   profiles: [],
   workExperience: [
     {
-      company: 'Test Company',
+      organization: 'Test Company',
       url: 'https://example.com',
       position: 'Developer',
       description: 'Test',
@@ -51,7 +51,7 @@ describe('useArrayForm', () => {
   describe('transformValue option', () => {
     it('applies custom transformValue function when provided', () => {
       const transformValue = jest.fn((fieldName, value) => {
-        if (fieldName === 'company') {
+        if (fieldName === 'organization') {
           return value.toUpperCase()
         }
         return value
@@ -62,7 +62,7 @@ describe('useArrayForm', () => {
           useArrayForm(
             'workExperience',
             {
-              company: '',
+              organization: '',
               url: '',
               position: '',
               description: '',
@@ -81,14 +81,14 @@ describe('useArrayForm', () => {
       act(() => {
         result.current.handleChange(
           {
-            target: { name: 'company', value: 'test company' },
+            target: { name: 'organization', value: 'test company' },
           } as React.ChangeEvent<HTMLInputElement>,
           0
         )
       })
 
       expect(transformValue).toHaveBeenCalledWith(
-        'company',
+        'organization',
         'test company',
         mockResumeData.workExperience[0],
         0
@@ -96,7 +96,7 @@ describe('useArrayForm', () => {
       expect(mockSetResumeData).toHaveBeenCalled()
 
       const newData = mockSetResumeData.mock.calls[0][0]
-      expect(newData.workExperience[0].company).toBe('TEST COMPANY')
+      expect(newData.workExperience[0].organization).toBe('TEST COMPANY')
     })
 
     it('chains transformValue with URL sanitization', () => {
@@ -110,7 +110,7 @@ describe('useArrayForm', () => {
           useArrayForm(
             'workExperience',
             {
-              company: '',
+              organization: '',
               url: '',
               position: '',
               description: '',
@@ -153,7 +153,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -168,20 +168,20 @@ describe('useArrayForm', () => {
       )
 
       act(() => {
-        result.current.updateField(0, 'company', 'New Company Name')
+        result.current.updateField(0, 'organization', 'New Company Name')
       })
 
       expect(mockSetResumeData).toHaveBeenCalledTimes(1)
       const newData = mockSetResumeData.mock.calls[0][0]
 
-      expect(newData.workExperience[0].company).toBe('New Company Name')
+      expect(newData.workExperience[0].organization).toBe('New Company Name')
     })
 
     it('preserves other fields when using updateField', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -203,7 +203,7 @@ describe('useArrayForm', () => {
 
       expect(newData.workExperience[0].position).toBe('Senior Developer')
       // Other fields should remain unchanged
-      expect(newData.workExperience[0].company).toBe('Test Company')
+      expect(newData.workExperience[0].organization).toBe('Test Company')
       expect(newData.workExperience[0].startYear).toBe('2020')
     })
 
@@ -211,7 +211,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -243,7 +243,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -264,7 +264,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -281,7 +281,7 @@ describe('useArrayForm', () => {
       act(() => {
         result.current.handleChange(
           {
-            target: { name: 'company', value: 'Updated Company' },
+            target: { name: 'organization', value: 'Updated Company' },
           } as React.ChangeEvent<HTMLInputElement>,
           0
         )
@@ -291,7 +291,7 @@ describe('useArrayForm', () => {
         expect.objectContaining({
           workExperience: expect.arrayContaining([
             expect.objectContaining({
-              company: 'Updated Company',
+              organization: 'Updated Company',
             }),
           ]),
         })
@@ -302,7 +302,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',
@@ -337,7 +337,7 @@ describe('useArrayForm', () => {
       const { result } = renderHook(
         () =>
           useArrayForm('workExperience', {
-            company: '',
+            organization: '',
             url: '',
             position: '',
             description: '',

@@ -395,7 +395,7 @@ const Preview = () => {
                       </h2>
                       {resumeData.workExperience.map((item, index) => (
                         <Draggable
-                          key={`${item.company}-${index}`}
+                          key={`${item.organization}-${index}`}
                           draggableId={`WORK_EXPERIENCE-${index}`}
                           index={index}
                         >
@@ -418,7 +418,7 @@ const Preview = () => {
                                   contentEditable={editable}
                                   suppressContentEditableWarning
                                 >
-                                  {item.company}
+                                  {item.organization}
                                 </a>
                                 <DateRange
                                   startYear={item.startYear}
@@ -454,7 +454,7 @@ const Preview = () => {
                                       item.keyAchievements.map(
                                         (achievement, subIndex) => (
                                           <Draggable
-                                            key={`${item.company}-${index}-${subIndex}`}
+                                            key={`${item.organization}-${index}-${subIndex}`}
                                             draggableId={`WORK_EXPERIENCE_KEY_ACHIEVEMENT-${index}-${subIndex}`}
                                             index={subIndex}
                                           >

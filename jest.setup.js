@@ -14,6 +14,31 @@ global.IntersectionObserver = class IntersectionObserver {
   unobserve() {}
 }
 
+// Mock DragAndDrop wrapper components for testing
+jest.mock('@/components/ui/DragAndDrop', () => ({
+  DnDContext: ({ children, onDragEnd }) => (
+    <div data-ondragend={onDragEnd}>{children}</div>
+  ),
+  DnDDroppable: ({ children }) =>
+    children({
+      draggableProps: {},
+      dragHandleProps: {},
+      innerRef: jest.fn(),
+      droppableProps: {},
+      placeholder: null,
+    }),
+  DnDDraggable: ({ children }) =>
+    children(
+      {
+        draggableProps: {},
+        dragHandleProps: {},
+        innerRef: jest.fn(),
+      },
+      { isDragging: false }
+    ),
+  DraggableCard: ({ children }) => <div>{children}</div>,
+}))
+
 // Suppress React act() warnings and intentional test console.errors
 const originalError = console.error
 beforeAll(() => {

@@ -1,9 +1,9 @@
 export interface Experience {
   title: string
-  company: string
+  organization: string
   location: string
   duration: string
-  summary?: string // Company/role description
+  summary?: string // Organization/role description
   description: string[]
   technologies: string[]
 }
