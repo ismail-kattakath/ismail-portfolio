@@ -459,6 +459,14 @@ export async function fetchAvailableModels(
       ? `${config.baseURL}/models`
       : `${config.baseURL}/v1/models`
 
+    console.log('[fetchAvailableModels] Debug:', {
+      baseURL: config.baseURL,
+      isOpenRouter,
+      endpoint,
+      hasApiKey: !!config.apiKey,
+      apiKeyPrefix: config.apiKey.substring(0, 10),
+    })
+
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
 
@@ -479,17 +487,27 @@ export async function fetchAvailableModels(
     clearTimeout(timeoutId)
 
     if (!response.ok) {
-      console.warn(
-        `Failed to fetch models from ${endpoint}: ${response.status}`
+      const errorText = await response.text()
+      console.error(
+        `Failed to fetch models from ${endpoint}: ${response.status}`,
+        errorText
       )
       return []
     }
 
     const data = await response.json()
+    console.log('[fetchAvailableModels] Response data:', {
+      hasData: !!data.data,
+      isArray: Array.isArray(data.data),
+      sampleModel: data.data?.[0],
+      totalModels: data.data?.length,
+    })
 
     // OpenAI/most providers format: { data: [{ id: "model-name" }, ...] }
     if (data.data && Array.isArray(data.data)) {
-      return data.data.map((model: { id: string }) => model.id).sort()
+      const models = data.data.map((model: { id: string }) => model.id).sort()
+      console.log('[fetchAvailableModels] Returning', models.length, 'models')
+      return models
     }
 
     // Fallback for other formats
