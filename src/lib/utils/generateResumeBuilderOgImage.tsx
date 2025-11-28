@@ -93,22 +93,10 @@ export async function generateResumeBuilderOgImage(
             maxWidth: '1100px',
           }}
         >
-          {/* Hero Icon - Large with brand-colored glow */}
-          <div
-            style={{
-              fontSize: '160px',
-              marginBottom: '56px',
-              filter:
-                'drop-shadow(0 16px 48px rgba(102, 126, 234, 0.6)) drop-shadow(0 8px 24px rgba(118, 75, 162, 0.4))',
-            }}
-          >
-            🎯
-          </div>
-
           {/* Main Title - Bold, high-impact typography */}
           <div
             style={{
-              fontSize: '92px',
+              fontSize: '96px',
               fontWeight: 900,
               color: '#ffffff',
               marginBottom: '32px',

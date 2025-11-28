@@ -101,17 +101,6 @@ describe('generateResumeBuilderOgImage', () => {
       expect(elementString).toContain('JD-tailored ATS resumes')
     })
 
-    it('should include emoji icon', async () => {
-      const config = { width: 1200, height: 630 }
-
-      await generateResumeBuilderOgImage(config)
-
-      const [[element]] = (ImageResponse as unknown as jest.Mock).mock.calls
-      const elementString = JSON.stringify(element)
-
-      expect(elementString).toContain('🎯')
-    })
-
     it('should include feature pills', async () => {
       const config = { width: 1200, height: 630 }
 
