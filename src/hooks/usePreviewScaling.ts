@@ -20,9 +20,9 @@ export function usePreviewScaling() {
 
       // Only scale on mobile (below md breakpoint: 768px)
       if (viewportWidth < 768) {
-        // Calculate scale factor with padding (leave 32px total horizontal padding)
-        const availableWidth = viewportWidth - 32
-        const scaleFactor = Math.min(availableWidth / PREVIEW_BASE_WIDTH, 1)
+        // Calculate scale factor using full viewport width (no padding)
+        // This maximizes screen real estate on mobile
+        const scaleFactor = Math.min(viewportWidth / PREVIEW_BASE_WIDTH, 1)
 
         setScale(scaleFactor)
         setIsScaling(true)

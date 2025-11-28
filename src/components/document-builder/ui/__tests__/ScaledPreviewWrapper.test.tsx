@@ -53,8 +53,7 @@ describe('ScaledPreviewWrapper', () => {
       'flex',
       'w-full',
       'justify-center',
-      'overflow-x-hidden',
-      'p-4'
+      'overflow-x-hidden'
     )
   })
 
@@ -79,7 +78,7 @@ describe('ScaledPreviewWrapper', () => {
     // Check that style attribute contains the expected values
     const styleAttr = innerWrapper.getAttribute('style') || ''
     expect(styleAttr).toContain(`transform: scale(${testScale})`)
-    expect(styleAttr).toContain('transform-origin: top center')
+    expect(styleAttr).toContain('transform-origin: top left')
     expect(styleAttr).toContain('width: 816px')
   })
 

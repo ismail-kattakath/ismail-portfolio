@@ -40,9 +40,9 @@ describe('usePreviewScaling', () => {
 
     const { result } = renderHook(() => usePreviewScaling())
 
-    // Available width = 320 - 32 (padding) = 288
-    // Scale = 288 / 816 ≈ 0.353
-    expect(result.current.scale).toBeCloseTo(0.353, 2)
+    // Full viewport width used (no padding)
+    // Scale = 320 / 816 ≈ 0.392
+    expect(result.current.scale).toBeCloseTo(0.392, 2)
     expect(result.current.isScaling).toBe(true)
   })
 
@@ -55,9 +55,9 @@ describe('usePreviewScaling', () => {
 
     const { result } = renderHook(() => usePreviewScaling())
 
-    // Available width = 375 - 32 = 343
-    // Scale = 343 / 816 ≈ 0.420
-    expect(result.current.scale).toBeCloseTo(0.42, 2)
+    // Full viewport width used (no padding)
+    // Scale = 375 / 816 ≈ 0.460
+    expect(result.current.scale).toBeCloseTo(0.46, 2)
     expect(result.current.isScaling).toBe(true)
   })
 
@@ -70,9 +70,9 @@ describe('usePreviewScaling', () => {
 
     const { result } = renderHook(() => usePreviewScaling())
 
-    // Available width = 414 - 32 = 382
-    // Scale = 382 / 816 ≈ 0.468
-    expect(result.current.scale).toBeCloseTo(0.468, 2)
+    // Full viewport width used (no padding)
+    // Scale = 414 / 816 ≈ 0.507
+    expect(result.current.scale).toBeCloseTo(0.507, 2)
     expect(result.current.isScaling).toBe(true)
   })
 
@@ -98,7 +98,7 @@ describe('usePreviewScaling', () => {
       window.dispatchEvent(new Event('resize'))
     })
 
-    expect(result.current.scale).toBeCloseTo(0.42, 2)
+    expect(result.current.scale).toBeCloseTo(0.46, 2)
     expect(result.current.isScaling).toBe(true)
   })
 
@@ -126,7 +126,8 @@ describe('usePreviewScaling', () => {
     const { result } = renderHook(() => usePreviewScaling())
 
     // Should still scale since < 768
-    const expectedScale = (767 - 32) / PREVIEW_BASE_WIDTH
+    // Full viewport width used (no padding)
+    const expectedScale = 767 / PREVIEW_BASE_WIDTH
     expect(result.current.scale).toBeCloseTo(expectedScale, 2)
     expect(result.current.isScaling).toBe(true)
   })
