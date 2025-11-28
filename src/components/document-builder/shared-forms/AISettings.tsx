@@ -247,6 +247,15 @@ const AISettings: React.FC = () => {
         </div>
         <div className="space-y-1">
           <div className="flex items-center gap-2">
+            <span className="text-white/40">Provider:</span>
+            <span className="text-white/80">{selectedProvider}</span>
+            {selectedProvider !== 'Custom' && (
+              <span className="text-white/40">
+                ({getProviderByURL(settings.apiUrl)?.name || 'Not synced'})
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
             <span className="text-white/40">API:</span>
             <span className={connectionStatusMsg.color}>
               {connectionStatusMsg.text}
@@ -262,7 +271,7 @@ const AISettings: React.FC = () => {
           )}
           {settings.model && (
             <div className="flex items-center gap-2">
-              <span className="text-white/40">Selected:</span>
+              <span className="text-white/40">Active:</span>
               <span className="text-white/60">{settings.model}</span>
             </div>
           )}
