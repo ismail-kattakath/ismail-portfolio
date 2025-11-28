@@ -190,7 +190,13 @@ export function AISettingsProvider({ children }: { children: ReactNode }) {
     }, 500)
 
     return () => clearTimeout(timeoutId)
-  }, [settings.apiUrl, settings.apiKey, settings.model, isInitialized, validateConnection])
+  }, [
+    settings.apiUrl,
+    settings.apiKey,
+    settings.model,
+    isInitialized,
+    validateConnection,
+  ])
 
   // Validate JD when it changes (with debounce)
   useEffect(() => {

@@ -47,4 +47,9 @@ export type {
 } from './openai'
 
 // Portfolio/display types
-export type { Experience, Skill as PortfolioSkill, Project as PortfolioProject, ContactInfo } from './portfolio'
+export type {
+  Experience,
+  Skill as PortfolioSkill,
+  Project as PortfolioProject,
+  ContactInfo,
+} from './portfolio'
