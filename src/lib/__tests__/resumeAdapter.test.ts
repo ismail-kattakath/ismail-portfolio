@@ -48,7 +48,7 @@ describe('Resume Adapter', () => {
   it('should convert work experience with all fields', () => {
     if (resumeData.workExperience.length > 0) {
       const firstJob = resumeData.workExperience[0]
-      expect(firstJob).toHaveProperty('company')
+      expect(firstJob).toHaveProperty('organization')
       expect(firstJob).toHaveProperty('position')
       expect(firstJob).toHaveProperty('description')
       expect(firstJob).toHaveProperty('keyAchievements')

@@ -21,7 +21,7 @@ export default function Experience() {
         <div className="mx-auto max-w-5xl">
           {experience.map((exp, index) => (
             <motion.div
-              key={`${exp.company}-${index}`}
+              key={`${exp.organization}-${index}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -69,7 +69,7 @@ export default function Experience() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
                         <h3 className="md3-headline-small mb-1.5 font-semibold break-words text-[var(--md-sys-color-primary)]">
-                          {exp.company}
+                          {exp.organization}
                         </h3>
                         <h4 className="md3-title-large mb-3 font-normal break-words text-[var(--md-sys-color-on-surface)]">
                           {exp.title}

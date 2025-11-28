@@ -8,6 +8,9 @@ import {
   fireEvent,
 } from '@/lib/__tests__/test-utils'
 
+// Unmock DragAndDrop wrapper to allow this test to use the real components
+jest.unmock('@/components/ui/DragAndDrop')
+
 // Store the onDragEnd callback for testing
 let capturedOnDragEnd: ((result: unknown) => void) | null = null
 

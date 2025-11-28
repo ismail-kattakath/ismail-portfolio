@@ -8,6 +8,9 @@ import {
   fireEvent,
 } from '@/lib/__tests__/test-utils'
 
+// Unmock DragAndDrop wrapper to allow this test to use the real components
+jest.unmock('@/components/ui/DragAndDrop')
+
 // Store the onDragEnd callback for testing
 let capturedOnDragEnd: ((result: unknown) => void) | null = null
 
@@ -119,7 +122,7 @@ describe('WorkExperience Component', () => {
       })
 
       const companyInput = container.querySelector(
-        'input[name="company"]'
+        'input[name="organization"]'
       ) as HTMLInputElement
       const urlInput = container.querySelector(
         'input[name="url"]'
@@ -168,8 +171,10 @@ describe('WorkExperience Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      const companyInputs = container.querySelectorAll('input[name="company"]')
-      expect(companyInputs.length).toBe(2)
+      const organizationInputs = container.querySelectorAll(
+        'input[name="organization"]'
+      )
+      expect(organizationInputs.length).toBe(2)
     })
   })
 
@@ -358,7 +363,7 @@ describe('WorkExperience Component', () => {
         },
       })
 
-      const companyInput = container.querySelector('input[name="company"]')
+      const companyInput = container.querySelector('input[name="organization"]')
 
       if (companyInput) {
         fireEvent.change(companyInput, {
@@ -880,7 +885,7 @@ describe('WorkExperience Component', () => {
       })
 
       const companyInput = container.querySelector(
-        'input[name="company"]'
+        'input[name="organization"]'
       ) as HTMLInputElement
       const positionInput = container.querySelector(
         'input[name="position"]'

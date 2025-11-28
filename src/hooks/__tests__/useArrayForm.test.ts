@@ -51,7 +51,7 @@ describe('useArrayForm', () => {
   describe('transformValue option', () => {
     it('applies custom transformValue function when provided', () => {
       const transformValue = jest.fn((fieldName, value) => {
-        if (fieldName === 'company') {
+        if (fieldName === 'organization') {
           return value.toUpperCase()
         }
         return value
@@ -81,14 +81,14 @@ describe('useArrayForm', () => {
       act(() => {
         result.current.handleChange(
           {
-            target: { name: 'company', value: 'test company' },
+            target: { name: 'organization', value: 'test company' },
           } as React.ChangeEvent<HTMLInputElement>,
           0
         )
       })
 
       expect(transformValue).toHaveBeenCalledWith(
-        'company',
+        'organization',
         'test company',
         mockResumeData.workExperience[0],
         0
@@ -168,7 +168,7 @@ describe('useArrayForm', () => {
       )
 
       act(() => {
-        result.current.updateField(0, 'company', 'New Company Name')
+        result.current.updateField(0, 'organization', 'New Company Name')
       })
 
       expect(mockSetResumeData).toHaveBeenCalledTimes(1)
@@ -281,7 +281,7 @@ describe('useArrayForm', () => {
       act(() => {
         result.current.handleChange(
           {
-            target: { name: 'company', value: 'Updated Company' },
+            target: { name: 'organization', value: 'Updated Company' },
           } as React.ChangeEvent<HTMLInputElement>,
           0
         )

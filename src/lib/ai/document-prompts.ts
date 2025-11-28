@@ -36,7 +36,7 @@ export function buildSummaryPrompt(
           .filter(Boolean)
           .join('\n')
 
-        return `${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate || 'Present'}):\n${achievements}`
+        return `${exp.position} at ${exp.organization} (${exp.startDate} - ${exp.endDate || 'Present'}):\n${achievements}`
       })
       .filter(Boolean)
       .join('\n\n') || 'No work experience provided'
@@ -243,7 +243,7 @@ export function buildCoverLetterPrompt(
           .slice(0, 3) // Top 3 achievements per job
           .join('; ')
 
-        return `${exp.position} at ${exp.company}: ${achievements}`
+        return `${exp.position} at ${exp.organization}: ${achievements}`
       })
       .filter(Boolean)
       .join('\n\n') || 'No work experience provided'

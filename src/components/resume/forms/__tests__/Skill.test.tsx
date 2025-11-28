@@ -250,9 +250,7 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      const removeButton = container.querySelector(
-        'button[title="Remove skill"]'
-      )
+      const removeButton = container.querySelector('button[title="Remove"]')
 
       expect(removeButton).toBeInTheDocument()
       expect(removeButton?.textContent).toBe('✕')
@@ -403,11 +401,9 @@ describe('Skill Component', () => {
         contextValue: { resumeData: mockData },
       })
 
-      const removeButton = container.querySelector(
-        'button[title="Remove skill"]'
-      )
+      const removeButton = container.querySelector('button[title="Remove"]')
 
-      expect(removeButton).toHaveAttribute('title', 'Remove skill')
+      expect(removeButton).toHaveAttribute('title', 'Remove')
     })
 
     it('should have descriptive placeholder on add input', () => {

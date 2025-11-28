@@ -1,6 +1,10 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+
+// Unmock our DragAndDrop wrapper to test it directly
+jest.unmock('@/components/ui/DragAndDrop')
+
 import {
   DnDContext,
   DnDDroppable,

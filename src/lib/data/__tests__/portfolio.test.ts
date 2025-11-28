@@ -89,7 +89,7 @@ describe('Portfolio Data - Experience', () => {
   it('should have correct experience structure', () => {
     experience.forEach((job) => {
       expect(job).toHaveProperty('title')
-      expect(job).toHaveProperty('company')
+      expect(job).toHaveProperty('organization')
       expect(job).toHaveProperty('duration')
       expect(job).toHaveProperty('description')
       expect(typeof job.title).toBe('string')
