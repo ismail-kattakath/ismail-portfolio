@@ -26,11 +26,12 @@ export default function ScaledPreviewWrapper({
   // On mobile (<768px), apply transform scaling
   return (
     <div
-      className="w-full overflow-x-hidden"
+      className="w-full overflow-hidden"
       style={{
-        // Container height needs to match scaled content height
+        // Container height matches VISUAL height (scaled height)
         // Base height ~11in (1056px) × scale factor
-        minHeight: `${1056 * scale}px`,
+        // overflow: hidden clips the excess layout space from the scaled element
+        height: `${1056 * scale}px`,
       }}
     >
       <div

@@ -49,7 +49,7 @@ describe('ScaledPreviewWrapper', () => {
 
     // Should have wrapper divs
     const outerWrapper = container.firstChild as HTMLElement
-    expect(outerWrapper).toHaveClass('w-full', 'overflow-x-hidden')
+    expect(outerWrapper).toHaveClass('w-full', 'overflow-hidden')
   })
 
   it('should apply correct transform scale on mobile', () => {
@@ -77,9 +77,9 @@ describe('ScaledPreviewWrapper', () => {
     expect(styleAttr).toContain('width: 816px')
   })
 
-  it('should calculate correct minHeight based on scale factor', () => {
+  it('should calculate correct height based on scale factor', () => {
     const testScale = 0.468
-    const expectedMinHeight = 1056 * testScale // ~494px
+    const expectedHeight = 1056 * testScale // ~494px
 
     mockUsePreviewScaling.mockReturnValue({
       scale: testScale,
@@ -93,7 +93,7 @@ describe('ScaledPreviewWrapper', () => {
     )
 
     const outerWrapper = container.firstChild as HTMLElement
-    expect(outerWrapper.style.minHeight).toBe(`${expectedMinHeight}px`)
+    expect(outerWrapper.style.height).toBe(`${expectedHeight}px`)
   })
 
   it('should handle scale of 1 when isScaling is true (edge case)', () => {
