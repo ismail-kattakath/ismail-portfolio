@@ -49,6 +49,11 @@ const AISettings: React.FC = () => {
       updateSettings({ apiUrl: preset.baseURL })
       setCustomURL('')
       setAvailableModels([]) // Clear models when changing provider
+
+      // Auto-select first common model if available (will be updated when API models are fetched)
+      if (preset.commonModels && preset.commonModels.length > 0) {
+        updateSettings({ model: preset.commonModels[0] })
+      }
     }
   }
 
@@ -125,6 +130,20 @@ const AISettings: React.FC = () => {
     const timeoutId = setTimeout(fetchModels, 500)
     return () => clearTimeout(timeoutId)
   }, [settings.apiUrl, settings.apiKey])
+
+  // Auto-select first model when available models change
+  useEffect(() => {
+    if (availableModels.length > 0) {
+      // Check if current model is in the list, if not, select the first one
+      if (!availableModels.includes(settings.model)) {
+        console.log(
+          '[AISettings] Auto-selecting first model:',
+          availableModels[0]
+        )
+        updateSettings({ model: availableModels[0] })
+      }
+    }
+  }, [availableModels, settings.model, updateSettings])
 
   // Provider dropdown options
   const providerOptions = [
