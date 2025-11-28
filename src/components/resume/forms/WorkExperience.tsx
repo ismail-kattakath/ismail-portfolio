@@ -220,7 +220,7 @@ const WorkExperience = () => {
                       </div>
 
                       <div>
-                        <div className="mb-2 flex items-center justify-between">
+                        <div className="mb-2 flex items-center gap-2">
                           <label className="text-sm font-medium text-white">
                             Technologies
                           </label>
