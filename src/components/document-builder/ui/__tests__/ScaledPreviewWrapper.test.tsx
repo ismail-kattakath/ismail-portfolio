@@ -49,7 +49,7 @@ describe('ScaledPreviewWrapper', () => {
 
     // Should have wrapper divs
     const outerWrapper = container.firstChild as HTMLElement
-    expect(outerWrapper).toHaveClass('w-full', 'overflow-x-hidden')
+    expect(outerWrapper).toHaveClass('w-full', 'overflow-x-hidden', 'bg-white')
   })
 
   it('should apply correct transform scale on mobile', () => {
