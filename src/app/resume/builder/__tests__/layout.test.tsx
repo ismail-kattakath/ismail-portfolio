@@ -50,7 +50,7 @@ describe('Resume Builder Layout', () => {
     it('should have SEO-optimized title within character limits', () => {
       const title = metadata.title as string
       expect(title).toBe(
-        'AI Resume Builder - Create Professional Resumes Online'
+        'AI Resume Builder - Tailor Resumes to Any Job Description'
       )
       expect(title.length).toBeLessThanOrEqual(60)
     })
@@ -96,7 +96,9 @@ describe('Resume Builder Layout', () => {
 
     it('should have OpenGraph title within character limits', () => {
       const ogTitle = metadata.openGraph?.title as string
-      expect(ogTitle).toBe('AI Resume Builder - Create Professional Resumes')
+      expect(ogTitle).toBe(
+        'AI Resume Builder - Tailor Resumes to Any Job Description'
+      )
       expect(ogTitle.length).toBeLessThanOrEqual(60)
     })
 
