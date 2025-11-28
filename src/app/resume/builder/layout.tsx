@@ -16,9 +16,9 @@ import {
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'AI Resume Builder - Create Professional Resumes Online',
+  title: 'AI Resume Builder - Tailor Resumes to Any Job Description',
   description:
-    'Build ATS-friendly resumes and cover letters with AI assistance. Real-time preview, customizable templates, and export options. Free resume builder tool.',
+    'Build JD-tailored ATS resumes with AI - from JSON Resume or start fresh. Real-time preview, AI assistance, and export options. Free resume builder tool.',
   keywords: [
     'AI resume builder',
     'resume maker',
@@ -41,24 +41,24 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: `${SITE_URL}/resume/builder`,
     siteName: `${resumeData.name} - AI Resume Builder`,
-    title: 'AI Resume Builder - Create Professional Resumes',
+    title: 'AI Resume Builder - Tailor Resumes to Any Job Description',
     description:
-      'Build ATS-friendly resumes with AI assistance. Real-time preview, customizable templates, and easy export. Your perfect resume starts here.',
+      'Build JD-tailored ATS resumes with AI - from JSON Resume or start fresh. Real-time preview, AI assistance, and easy export.',
     images: [
       {
         url: `${SITE_URL}/resume/builder/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: 'AI Resume Builder - Build Professional Resumes with AI',
+        alt: 'AI Resume Builder - Build JD-Tailored ATS Resumes with AI',
         type: 'image/png',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Resume Builder - Professional Resumes Made Easy',
+    title: 'AI Resume Builder - Tailor Resumes to Any Job Description',
     description:
-      'Create ATS-friendly resumes with AI-powered suggestions. Real-time preview, templates, and export options. Build your perfect resume today!',
+      'Build JD-tailored ATS resumes with AI - from JSON Resume or start fresh. Real-time preview and export options.',
     images: [`${SITE_URL}/resume/builder/twitter-image`],
     creator:
       '@' +
