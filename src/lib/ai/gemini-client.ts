@@ -20,12 +20,19 @@ const REQUEST_TIMEOUT = 120000 // 120 seconds
  * Gemini-specific types
  */
 interface GeminiPart {
-  text: string
+  text?: string
+  thought?: boolean // True if this part is a thought summary
 }
 
 interface GeminiContent {
   role?: 'user' | 'model'
   parts: GeminiPart[]
+}
+
+interface GeminiThinkingConfig {
+  thinkingBudget?: number // For Gemini 2.5 models (-1 for dynamic)
+  thinkingLevel?: 'low' | 'high' // For Gemini 3 models
+  includeThoughts?: boolean // Whether to include thought summaries in response
 }
 
 interface GeminiRequest {
@@ -34,6 +41,7 @@ interface GeminiRequest {
     temperature?: number
     topP?: number
     maxOutputTokens?: number
+    thinkingConfig?: GeminiThinkingConfig
   }
   systemInstruction?: {
     parts: GeminiPart[]
@@ -143,6 +151,9 @@ export class GeminiClient implements IAIProvider {
           temperature: request.temperature,
           topP: request.topP,
           maxOutputTokens: request.maxTokens,
+          thinkingConfig: {
+            includeThoughts: true, // Enable thought summaries for thinking models
+          },
         },
       }
 
@@ -181,10 +192,11 @@ export class GeminiClient implements IAIProvider {
 
       const data: GeminiResponse = await response.json()
 
-      // Extract content from first candidate
+      // Extract content from first candidate, filtering out thoughts
       const parts = data.candidates[0]?.content?.parts
       const content =
         parts
+          ?.filter((p) => !p.thought) // Only include non-thought parts
           ?.map((p) => p.text)
           .join('')
           .trim() || ''
@@ -263,6 +275,9 @@ export class GeminiClient implements IAIProvider {
           temperature: request.temperature,
           topP: request.topP,
           maxOutputTokens: request.maxTokens,
+          thinkingConfig: {
+            includeThoughts: true, // Enable thought summaries for thinking models
+          },
         },
       }
 
@@ -324,10 +339,14 @@ export class GeminiClient implements IAIProvider {
           const jsonStr = trimmed.slice(6) // Remove 'data: ' prefix
           try {
             const chunk: GeminiResponse = JSON.parse(jsonStr)
-            const text =
-              chunk.candidates[0]?.content?.parts
-                ?.map((p) => p.text)
-                .join('') || ''
+
+            // Separate thoughts from actual content
+            const parts = chunk.candidates[0]?.content?.parts || []
+            const thoughtParts = parts.filter((p) => p.thought && p.text)
+            const contentParts = parts.filter((p) => !p.thought && p.text)
+
+            const text = contentParts.map((p) => p.text).join('')
+            const thoughts = thoughtParts.map((p) => p.text).join('')
 
             if (text) {
               fullContent += text
@@ -337,6 +356,11 @@ export class GeminiClient implements IAIProvider {
                 content: text,
                 done: false,
               })
+            }
+
+            // Log thoughts if present (for debugging - we can expose this later)
+            if (thoughts) {
+              console.log('[Gemini Thinking]:', thoughts)
             }
           } catch {
             console.warn('Failed to parse SSE chunk:', jsonStr)
