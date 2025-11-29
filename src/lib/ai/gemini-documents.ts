@@ -49,7 +49,7 @@ export async function generateCoverLetterWithGemini(
   const request: AIRequest = {
     messages,
     temperature: 0.7,
-    maxTokens: 800,
+    maxTokens: 2000, // Increased for Gemini 2.5 thinking mode (uses ~1200 tokens for thinking)
     topP: 0.9,
   }
 
@@ -118,7 +118,7 @@ export async function generateSummaryWithGemini(
   const request: AIRequest = {
     messages,
     temperature: 0.7,
-    maxTokens: 300,
+    maxTokens: 1500, // Increased for Gemini 2.5 thinking mode (uses ~1200 tokens for thinking)
     topP: 0.9,
   }
 
