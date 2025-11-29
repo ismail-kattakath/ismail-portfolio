@@ -119,8 +119,10 @@ export class GeminiClient implements IAIProvider {
    */
   private buildEndpoint(streaming: boolean = false): string {
     const method = streaming ? 'streamGenerateContent' : 'generateContent'
-    const streamParam = streaming ? '?alt=sse' : ''
-    return `${this.baseURL}/models/${this.config.model}:${method}${streamParam}&key=${this.config.apiKey}`
+    if (streaming) {
+      return `${this.baseURL}/models/${this.config.model}:${method}?alt=sse&key=${this.config.apiKey}`
+    }
+    return `${this.baseURL}/models/${this.config.model}:${method}?key=${this.config.apiKey}`
   }
 
   /**
@@ -180,13 +182,23 @@ export class GeminiClient implements IAIProvider {
       const data: GeminiResponse = await response.json()
 
       // Extract content from first candidate
+      const parts = data.candidates[0]?.content?.parts
       const content =
-        data.candidates[0]?.content?.parts
+        parts
           ?.map((p) => p.text)
           .join('')
           .trim() || ''
 
       if (!content) {
+        // Check if it's due to max tokens in thinking mode
+        const finishReason = data.candidates[0]?.finishReason
+        if (finishReason === 'MAX_TOKENS') {
+          throw new GeminiAPIError(
+            'Response exceeded max tokens (likely due to thinking mode). Try increasing maxTokens or using a simpler prompt.',
+            'max_tokens_exceeded'
+          )
+        }
+
         throw new GeminiAPIError(
           'Gemini generated an empty response. Please try again.',
           'empty_response'
@@ -361,7 +373,7 @@ export class GeminiClient implements IAIProvider {
       const testRequest: AIRequest = {
         messages: [{ role: 'user', content: 'Hi' }],
         temperature: 0.1,
-        maxTokens: 10,
+        maxTokens: 100, // Gemini 2.5 needs more tokens for thinking mode
       }
 
       await this.generateContent(testRequest)
