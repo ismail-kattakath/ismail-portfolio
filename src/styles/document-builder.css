@@ -49,10 +49,10 @@ input:focus {
   position: absolute;
   right: 0.5rem;
   top: -0.5rem;
-  background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
+  background: var(--md-sys-color-surface-container-high);
   padding: 0.125rem 0.5rem;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--md-sys-color-on-surface-variant);
   pointer-events: none;
   transition: all 0.2s ease;
   z-index: 10;
@@ -65,7 +65,7 @@ input:focus {
 .floating-label-group textarea:focus ~ .floating-label,
 .floating-label-group input:not(:placeholder-shown) ~ .floating-label,
 .floating-label-group textarea:not(:placeholder-shown) ~ .floating-label {
-  color: rgba(96, 165, 250, 0.9);
+  color: var(--md-sys-color-primary);
   font-weight: 500;
 }
 

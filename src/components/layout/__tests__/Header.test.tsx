@@ -71,8 +71,9 @@ describe('Header', () => {
 
     it('renders mobile menu toggle button', () => {
       const { container } = render(<Header />)
-      const menuButtons = container.querySelectorAll('button.md\\:hidden')
-      expect(menuButtons.length).toBeGreaterThan(0)
+      // The mobile menu area contains both ThemeSwitcher and Menu button
+      const mobileArea = container.querySelector('.md\\:hidden')
+      expect(mobileArea).toBeInTheDocument()
     })
 
     it('renders logo', () => {
@@ -106,7 +107,9 @@ describe('Header', () => {
 
     it('opens mobile menu when toggle button is clicked', () => {
       const { container } = render(<Header />)
-      const menuButton = container.querySelector('button.md\\:hidden')
+      // Find the menu toggle button (has Menu/X icon, not theme switcher)
+      const mobileArea = container.querySelector('.md\\:hidden')
+      const menuButton = mobileArea?.querySelector('button:last-child')
 
       fireEvent.click(menuButton!)
 
@@ -116,7 +119,9 @@ describe('Header', () => {
 
     it('closes mobile menu when toggle button is clicked again', () => {
       const { container } = render(<Header />)
-      const menuButton = container.querySelector('button.md\\:hidden')
+      // Find the menu toggle button (has Menu/X icon, not theme switcher)
+      const mobileArea = container.querySelector('.md\\:hidden')
+      const menuButton = mobileArea?.querySelector('button:last-child')
 
       // Open menu
       fireEvent.click(menuButton!)
@@ -176,7 +181,9 @@ describe('Header', () => {
 
     it('closes mobile menu after navigation', () => {
       const { container } = render(<Header />)
-      const menuButton = container.querySelector('button.md\\:hidden')
+      // Find the menu toggle button (has Menu/X icon, not theme switcher)
+      const mobileArea = container.querySelector('.md\\:hidden')
+      const menuButton = mobileArea?.querySelector('button:last-child')
 
       // Open mobile menu
       fireEvent.click(menuButton!)
@@ -194,7 +201,9 @@ describe('Header', () => {
       ;(document.querySelector as jest.Mock).mockReturnValue(mockElement)
 
       const { container } = render(<Header />)
-      const menuButton = container.querySelector('button.md\\:hidden')
+      // Find the menu toggle button (has Menu/X icon, not theme switcher)
+      const mobileArea = container.querySelector('.md\\:hidden')
+      const menuButton = mobileArea?.querySelector('button:last-child')
 
       // Open mobile menu
       fireEvent.click(menuButton!)

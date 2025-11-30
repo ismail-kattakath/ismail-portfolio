@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import { navItems } from '@/config/navigation'
 import { Logo } from '@/components/Logo'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -105,6 +106,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-1 md:flex">
+            <ThemeSwitcher />
             {navItems.map((item, index) => (
               <div
                 key={item.name}
@@ -179,13 +181,16 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <motion.button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-[var(--md-sys-color-on-surface)] md:hidden"
-            whileTap={{ scale: 0.95 }}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeSwitcher />
+            <motion.button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-[var(--md-sys-color-on-surface)]"
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
