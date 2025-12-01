@@ -45,7 +45,7 @@ export function convertToJSONResume(customData?: ResumeData) {
   const education = data.education.map((edu: Education) => ({
     institution: edu.school,
     url: edu.url ? ensureProtocol(edu.url) : undefined,
-    area: 'Computer Science and Engineering',
+    area: "Bachelor's Degree in Computer Science and Engineering",
     studyType: "Bachelor's Degree",
     startDate: edu.startYear,
     endDate: edu.endYear,
