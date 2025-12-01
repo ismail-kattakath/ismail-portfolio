@@ -43,14 +43,20 @@ function convertFromJSONResume(jsonResume: JSONResume): ResumeData {
     showTechnologies: true, // Default to visible for imported data
   }))
 
-  // Convert education back
-  const education = (jsonResume.education || []).map((edu) => ({
-    school: edu.institution || '',
-    url: stripProtocol(edu.url || ''),
-    degree: edu.area || '',
-    startYear: edu.startDate || '',
-    endYear: edu.endDate || '',
-  }))
+  // Convert education back - combine studyType and area into single degree field
+  const education = (jsonResume.education || []).map((edu) => {
+    const studyType = edu.studyType || ''
+    const area = edu.area || ''
+    const degree =
+      studyType && area ? `${studyType} in ${area}` : studyType || area
+    return {
+      school: edu.institution || '',
+      url: stripProtocol(edu.url || ''),
+      degree,
+      startYear: edu.startDate || '',
+      endYear: edu.endDate || '',
+    }
+  })
 
   // Convert skills back
   const skills = (jsonResume.skills || []).map((skillGroup) => ({

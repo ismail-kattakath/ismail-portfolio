@@ -41,15 +41,30 @@ export function convertToJSONResume(customData?: ResumeData) {
     keywords: job.technologies || [],
   }))
 
-  // Convert education
-  const education = data.education.map((edu: Education) => ({
-    institution: edu.school,
-    url: edu.url ? ensureProtocol(edu.url) : undefined,
-    area: edu.degree,
-    studyType: edu.degree,
-    startDate: edu.startYear,
-    endDate: edu.endYear,
-  }))
+  // Convert education - split degree back into studyType and area
+  const education = data.education.map((edu: Education) => {
+    // Try to split "Bachelor's Degree in Computer Science" into parts
+    const inMatch = edu.degree.match(/^(.+?)\s+in\s+(.+)$/i)
+    let studyType = ''
+    let area = ''
+
+    if (inMatch) {
+      studyType = inMatch[1].trim()
+      area = inMatch[2].trim()
+    } else {
+      // If no " in " pattern, put everything in area
+      area = edu.degree
+    }
+
+    return {
+      institution: edu.school,
+      url: edu.url ? ensureProtocol(edu.url) : undefined,
+      area,
+      studyType,
+      startDate: edu.startYear,
+      endDate: edu.endYear,
+    }
+  })
 
   // Convert skills
   const skills = data.skills.map((skillGroup: SkillGroup) => ({
