@@ -42,29 +42,14 @@ export function convertToJSONResume(customData?: ResumeData) {
   }))
 
   // Convert education - split degree back into studyType and area
-  const education = data.education.map((edu: Education) => {
-    // Try to split "Bachelor's Degree in Computer Science" into parts
-    const inMatch = edu.degree.match(/^(.+?)\s+in\s+(.+)$/i)
-    let studyType = ''
-    let area = ''
-
-    if (inMatch) {
-      studyType = inMatch[1].trim()
-      area = inMatch[2].trim()
-    } else {
-      // If no " in " pattern, put everything in area
-      area = edu.degree
-    }
-
-    return {
-      institution: edu.school,
-      url: edu.url ? ensureProtocol(edu.url) : undefined,
-      area,
-      studyType,
-      startDate: edu.startYear,
-      endDate: edu.endYear,
-    }
-  })
+  const education = data.education.map((edu: Education) => ({
+    institution: edu.school,
+    url: edu.url ? ensureProtocol(edu.url) : undefined,
+    area: edu.area,
+    studyType: edu.studyType,
+    startDate: edu.startYear,
+    endDate: edu.endYear,
+  }))
 
   // Convert skills
   const skills = data.skills.map((skillGroup: SkillGroup) => ({
@@ -203,7 +188,8 @@ export function convertFromJSONResume(
     const education = (jsonResume.education || []).map((edu) => ({
       school: edu.institution || '',
       url: edu.url?.replace(/^https?:\/\//, '') || '',
-      degree: edu.studyType || '',
+      studyType: edu.studyType || '',
+      area: edu.area || '',
       startYear: edu.startDate || '',
       endYear: edu.endDate || '',
     }))

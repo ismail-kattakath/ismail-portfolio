@@ -23,7 +23,8 @@ describe('JSON Resume Conversion', () => {
         {
           school: 'University of Toronto',
           url: 'utoronto.ca',
-          degree: "Bachelor's Degree in Computer Science",
+          studyType: "Bachelor's Degree",
+          area: 'Computer Science',
           startYear: '2015-09-01',
           endYear: '2019-06-01',
         },
@@ -519,7 +520,8 @@ describe('JSON Resume Conversion', () => {
       expect(result.education).toHaveLength(1)
       expect(result.education[0].school).toBe('University of British Columbia')
       expect(result.education[0].url).toBe('ubc.ca')
-      expect(result.education[0].degree).toBe('MBA')
+      expect(result.education[0].studyType).toBe('MBA')
+      expect(result.education[0].area).toBe('Business Administration')
       expect(result.education[0].startYear).toBe('2015-09-01')
       expect(result.education[0].endYear).toBe('2017-06-01')
     })
