@@ -488,7 +488,7 @@ const Preview = () => {
                               {item.showTechnologies !== false &&
                                 item.technologies &&
                                 item.technologies.length > 0 && (
-                                  <div className="mt-1 flex flex-wrap items-center gap-1">
+                                  <div className="exclude-print mt-1 flex flex-wrap items-center gap-1">
                                     <span className="sub-content i-bold">
                                       Technologies:
                                     </span>

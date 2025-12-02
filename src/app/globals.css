@@ -420,4 +420,9 @@ body {
   * {
     font-family: Arial, Helvetica, sans-serif !important;
   }
+
+  /* Hide technology pills/badges in print to prevent font embedding issues - Issue #74 */
+  .exclude-print {
+    display: none !important;
+  }
 }
